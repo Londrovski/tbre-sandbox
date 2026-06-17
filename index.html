@@ -6,22 +6,23 @@
 <title>TBRe AI Team — Role Map</title>
 <style>
   :root{
-    --bg:#0d1017; --panel:#161b25; --panel2:#1c2330; --line:#2a3342;
-    --txt:#e8edf5; --muted:#94a3b8; --accent:#3b82f6; --tbd:#f59e0b;
-    --d-lead:#22c55e; --d-soft:#3b82f6; --d-elec:#f59e0b;
-    --d-mech:#a855f7; --d-ops:#14b8a6; --d-out:#64748b;
+    --brand:#105BAB; --brand-d:#0c4a8c; --gold:#FFC423;
+    --ink:#0f1722; --bg:#eef2f7; --surface:#ffffff; --line:#d4dbe6; --muted:#5b6675;
+    --d-lead:#105BAB; --d-soft:#1f7fce; --d-elec:#d99100; --d-mech:#7a52cc; --d-ops:#1f9d6b; --d-out:#64748b;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
-  header{padding:18px 24px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  header h1{font-size:19px;margin:0;font-weight:700}
-  header .sub{color:var(--muted);font-size:13px}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{background:var(--brand);color:#fff;padding:16px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{font-size:18px;margin:0;font-weight:800;letter-spacing:.2px}
+  header h1 b{color:var(--gold)}
+  header .sub{color:#cfe0f3;font-size:13px}
   .search{margin-left:auto}
-  .search input{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:7px 11px;border-radius:8px;font-size:13px;width:200px}
-  .wrap{display:flex;height:calc(100vh - 63px)}
+  .search input{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;padding:7px 11px;border-radius:8px;font-size:13px;width:210px}
+  .search input::placeholder{color:#d6e4f5}
+  .wrap{display:flex;height:calc(100vh - 58px)}
   .chart{flex:1;overflow:auto;padding:34px 24px 70px;text-align:center}
-  .panel{width:380px;border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:24px;flex-shrink:0}
-  .panel.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:40px}
+  .panel{flex:0 0 34%;min-width:360px;border-left:1px solid var(--line);background:var(--surface);overflow:auto;padding:26px 28px}
+  .panel.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center}
 
   .tree, .tree ul{ list-style:none; margin:0; padding:0; display:flex; }
   .tree{ justify-content:center; }
@@ -38,41 +39,56 @@
   .tree ul::before{ content:''; position:absolute; top:0; left:50%; border-left:2px solid var(--line); width:0; height:22px; }
   .tree li>ul{ position:relative; }
 
-  .blk{ position:relative; background:var(--panel2); border:1px solid var(--line);
-    border-top:3px solid var(--c,var(--accent)); border-radius:9px; padding:9px 12px;
-    min-width:138px; max-width:172px; cursor:pointer; transition:.12s; text-align:left; }
-  .blk:hover{ transform:translateY(-2px); border-color:var(--c,var(--accent)); }
-  .blk.sel{ box-shadow:0 0 0 2px var(--c,var(--accent)); }
-  .blk .nm{ font-size:13px; font-weight:600; line-height:1.25; }
+  .blk{ position:relative; background:var(--surface); border:1px solid var(--line);
+    border-top:3px solid var(--c,var(--brand)); border-radius:10px; padding:9px 12px;
+    min-width:144px; max-width:178px; cursor:pointer; transition:.12s; text-align:left;
+    box-shadow:0 1px 2px rgba(15,23,34,.06); }
+  .blk:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(16,91,171,.16); border-color:var(--c,var(--brand)); }
+  .blk.sel{ box-shadow:0 0 0 3px var(--gold); }
+  .blk .nm{ font-size:13px; font-weight:700; line-height:1.25; }
   .blk .mt{ font-size:11px; color:var(--muted); margin-top:3px; display:flex; gap:6px; align-items:center; }
   .odot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
-  .odot.open{ background:var(--tbd); } .odot.filled{ background:var(--d-lead); }
+  .odot.open{ background:var(--gold); } .odot.filled{ background:var(--d-ops); }
 
-  .legend{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin:0 0 6px; font-size:11px; color:var(--muted); }
+  .legend{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin:0 0 10px; font-size:11px; color:var(--muted); }
   .legend span{ display:flex; align-items:center; gap:5px; }
   .sw{ width:10px;height:10px;border-radius:3px;display:inline-block; }
-  .hint{ color:var(--muted); font-size:12px; margin:18px 0 0; }
-  .spare-wrap{ margin:46px auto 0; padding-top:24px; border-top:1px dashed var(--line); max-width:780px; }
+  .hint{ color:var(--muted); font-size:12px; margin:20px 0 0; }
+  .spare-wrap{ margin:46px auto 0; padding-top:24px; border-top:1px dashed var(--line); max-width:820px; }
   .spare-label{ font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
   .loading{ color:var(--muted); padding:60px 0; }
 
-  .panel h2{margin:0 0 2px;font-size:18px}
-  .panel .pdomain{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
-  .panel h3{font-size:15px;margin:16px 0 4px}
-  .panel h4{margin:18px 0 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
-  .panel ul{margin:0;padding-left:18px} .panel li{margin:3px 0}
-  .panel p{color:#cbd5e1;margin:6px 0}
+  .panel h2{margin:0 0 2px;font-size:20px;color:var(--brand)}
+  .panel .pdomain{display:inline-block;background:var(--c,var(--brand));color:#fff;font-size:11px;
+    text-transform:uppercase;letter-spacing:.05em;padding:2px 9px;border-radius:20px;margin-bottom:14px}
+  .panel .sect{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);font-weight:700;margin:22px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px}
+  .panel p.purpose{color:#33414f;margin:6px 0 0}
   .kv{display:flex;gap:8px;font-size:13px;margin:3px 0}
   .kv b{color:var(--muted);font-weight:500;min-width:96px}
-  .apply{margin-top:22px;display:block;text-align:center;background:var(--accent);color:#fff;padding:10px;border-radius:8px;text-decoration:none;font-weight:600}
-  .filebadge{font-size:11px;color:var(--muted);margin-top:14px;word-break:break-all}
+
+  details.resp{ background:#f7f9fc; border:1px solid var(--line); border-left:3px solid var(--c,var(--brand));
+    border-radius:8px; margin:7px 0; overflow:hidden; }
+  details.resp>summary{ cursor:pointer; list-style:none; padding:9px 12px; font-size:13px; font-weight:600;
+    display:flex; align-items:center; gap:8px; }
+  details.resp>summary::-webkit-details-marker{ display:none; }
+  details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; width:12px; }
+  details.resp[open]>summary::before{ content:'–'; }
+  details.resp .resp-d{ padding:0 12px 11px 32px; font-size:13px; color:#33414f; }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{ font-size:12px; padding:6px 10px; border-radius:8px; background:#f1f4f9; border:1px dashed var(--line); color:#33414f; }
+  .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:3px 0; font-size:13px; color:#33414f; }
+
+  .apply{margin-top:24px;display:block;text-align:center;background:var(--brand);color:#fff;padding:11px;border-radius:8px;text-decoration:none;font-weight:700}
+  .apply:hover{background:var(--brand-d)}
+  .filebadge{font-size:11px;color:var(--muted);margin-top:16px}
   .row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 </style>
 </head>
 <body>
 <header>
-  <h1>TBRe AI Team</h1>
-  <span class="sub">Org chart · auto-built from the cards in /seats · click a role for details</span>
+  <h1>TBRe <b>AI</b> Team</h1>
+  <span class="sub">Org chart · auto-built from /seats · click a role for details</span>
   <span class="search"><input id="q" placeholder="Search roles…" oninput="render()"/></span>
 </header>
 <div class="wrap">
@@ -80,66 +96,62 @@
   <div class="panel empty" id="panel">Select a role to view its responsibilities and context.</div>
 </div>
 <script>
-var REPO = "Londrovski/tbre-sandbox", DIR = "seats", BRANCH = "main";
-var NL = String.fromCharCode(10);
-var SEATS = [], byId = {}, selected = null;
+var REPO="Londrovski/tbre-sandbox", DIR="seats", BRANCH="main";
+var NL=String.fromCharCode(10);
+var SEATS=[], byId={}, selected=null;
 function childrenOf(id){ return SEATS.filter(function(s){return s.reports_to===id;}); }
 
-var DCOL = {
-  "Leadership":"var(--d-lead)", "Technology – Software":"var(--d-soft)",
-  "Technology – Electrical":"var(--d-elec)", "Technology – Mechanical":"var(--d-mech)",
-  "Operations":"var(--d-ops)", "Outside AI (interface)":"var(--d-out)"
-};
-function colorOf(s){ return DCOL[s.domain] || "var(--accent)"; }
+var DCOL={ "Leadership":"var(--d-lead)","Technology – Software":"var(--d-soft)",
+  "Technology – Electrical":"var(--d-elec)","Technology – Mechanical":"var(--d-mech)",
+  "Operations":"var(--d-ops)","Outside AI (interface)":"var(--d-out)" };
+function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
 function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
-function inline(t){ var p=t.split('**'), r=''; for(var i=0;i<p.length;i++){ r += (i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
+function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
+function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
 
 function parseCard(md){
   var fm={}, body=md;
   if(md.indexOf('---')===0){
-    var end=md.indexOf(NL+'---', 3);
+    var end=md.indexOf(NL+'---',3);
     if(end>0){
       md.slice(3,end).trim().split(NL).forEach(function(line){
         var i=line.indexOf(':'); if(i<0) return;
-        var k=line.slice(0,i).trim(), v=line.slice(i+1).trim();
-        fm[k]= v==='' ? null : v;
+        fm[line.slice(0,i).trim()]= (line.slice(i+1).trim()||null);
       });
       body=md.slice(end+4).trimStart();
     }
   }
-  return { id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD',
-    reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null, body:body };
-}
-
-function mdToHtml(md){
-  var out=[], inList=false;
-  function closeList(){ if(inList){ out.push('</ul>'); inList=false; } }
-  md.split(NL).forEach(function(raw){
+  var sec={}, cur='_intro'; sec[cur]=[];
+  body.split(NL).forEach(function(raw){
     var line=raw.replace(/ +$/,'');
-    if(line.charAt(0)==='#'){
-      closeList();
-      var lvl=0; while(line.charAt(lvl)==='#') lvl++;
-      var tag = lvl<=1 ? 'h3' : 'h4';
-      out.push('<'+tag+'>'+inline(esc(line.slice(lvl).trim()))+'</'+tag+'>');
-    } else if((line.charAt(0)==='-'||line.charAt(0)==='*') && line.charAt(1)===' '){
-      if(!inList){ out.push('<ul>'); inList=true; }
-      out.push('<li>'+inline(esc(line.slice(2)))+'</li>');
-    } else if(line===''){ closeList(); }
-    else { closeList(); out.push('<p>'+inline(esc(line))+'</p>'); }
+    if(line.slice(0,2)==='##'){ cur=line.replace(/^#+/,'').trim().toLowerCase(); sec[cur]=[]; }
+    else if(line.charAt(0)==='#'){ /* title */ }
+    else sec[cur].push(line);
   });
-  closeList();
-  return out.join('');
+  function items(name){ return (sec[name]||[]).filter(function(l){return l.slice(0,2)==='- ';}).map(function(l){return l.slice(2);}); }
+  return {
+    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD',
+    reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null,
+    purpose:(sec['_intro']||[]).join(' ').trim(),
+    resp:items('responsibilities').map(function(t){
+      var a=t.indexOf('**');
+      if(a>=0){ var b=t.indexOf('**',a+2); if(b>a) return {title:t.slice(a+2,b), desc:trimSep(t.slice(b+2))}; }
+      return {title:t, desc:''};
+    }),
+    interfaces:items('key interfaces'),
+    goals:items('goals'),
+    context:items('context & control')
+  };
 }
 
 function block(s){
-  var open = !s.owner || s.owner==='TBD';
+  var open=!s.owner||s.owner==='TBD';
   return '<div class="blk '+(selected===s.id?'sel':'')+'" data-id="'+esc(s.id)+'" style="--c:'+colorOf(s)+'">'
-    + '<div class="nm">'+esc(s.seat)+'</div>'
-    + '<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div>'
-    + '</div>';
+    +'<div class="nm">'+esc(s.seat)+'</div>'
+    +'<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div></div>';
 }
 function treeNode(id){
-  var kids = childrenOf(id).sort(function(a,b){return a.seat.localeCompare(b.seat);});
+  var kids=childrenOf(id).sort(function(a,b){return a.seat.localeCompare(b.seat);});
   var h='<li>'+block(byId[id]);
   if(kids.length) h+='<ul>'+kids.map(function(k){return treeNode(k.id);}).join('')+'</ul>';
   return h+'</li>';
@@ -149,44 +161,52 @@ function legend(){
     return '<span><span class="sw" style="background:'+DCOL[d]+'"></span>'+d.replace('Technology – ','').replace(' (interface)','')+'</span>';
   }).join('')+'</div>';
 }
+function ulist(arr){ return arr.length? '<ul class="ilist">'+arr.map(function(x){return '<li>'+inline(esc(x))+'</li>';}).join('')+'</ul>' : '<p style="color:var(--muted);font-size:13px">TBD</p>'; }
+
 function select(id){
   selected=id; var s=byId[id]; if(!s) return;
   var p=document.getElementById('panel'); p.className='panel';
-  var rep = s.reports_to && byId[s.reports_to] ? byId[s.reports_to].seat : '—';
-  var open = !s.owner || s.owner==='TBD';
-  var ownerLine = open ? '<span style="color:var(--tbd)">Open · recruiting</span>' : esc(s.owner);
-  p.innerHTML =
+  var rep=s.reports_to&&byId[s.reports_to]?byId[s.reports_to].seat:'—';
+  var open=!s.owner||s.owner==='TBD';
+  var ownerLine=open?'<span style="color:#b8860b;font-weight:600">Open · recruiting</span>':esc(s.owner);
+  var resp=s.resp.map(function(r){
+    return '<details class="resp" style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'
+      +(r.desc?'<div class="resp-d">'+inline(esc(r.desc))+'</div>':'')+'</details>';
+  }).join('');
+  var chips=s.context.length? '<div class="chips">'+s.context.map(function(c){return '<span class="chip">'+esc(c)+'</span>';}).join('')+'</div>'
+    : '<div class="chips"><span class="chip">TBD</span></div>';
+  p.innerHTML=
     '<h2>'+esc(s.seat)+'</h2>'
-    + '<div class="pdomain">'+esc(s.domain)+'</div>'
-    + '<div class="kv"><b>Owner</b><span>'+ownerLine+'</span></div>'
-    + '<div class="kv"><b>Reports to</b><span>'+esc(rep)+'</span></div>'
-    + '<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
-    + mdToHtml(s.body||'')
-    + (open ? '<a class="apply" href="#" onclick="return false;">Apply for this seat</a>' : '')
-    + '<div class="filebadge">'+esc(s.id)+'.md</div>';
+    +'<div class="pdomain" style="--c:'+colorOf(s)+'">'+esc(s.domain)+'</div>'
+    +'<div class="kv"><b>Owner</b><span>'+ownerLine+'</span></div>'
+    +'<div class="kv"><b>Reports to</b><span>'+esc(rep)+'</span></div>'
+    +'<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
+    +(s.purpose?'<p class="purpose">'+inline(esc(s.purpose))+'</p>':'')
+    +'<div class="sect">Responsibilities</div>'+(resp||'<p style="color:var(--muted);font-size:13px">TBD</p>')
+    +'<div class="sect">Context &amp; control</div>'+chips
+    +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
+    +'<div class="sect">Goals</div>'+ulist(s.goals)
+    +(open?'<a class="apply" href="#" onclick="return false;">Apply for this seat</a>':'')
+    +'<div class="filebadge">seats/'+esc(s.id)+'.md</div>';
   render();
 }
 function render(){
   var q=(document.getElementById('q').value||'').toLowerCase();
   var chart=document.getElementById('chart');
   if(q){
-    var hits=SEATS.filter(function(s){return ((s.seat||'')+(s.domain||'')+(s.owner||'')+(s.body||'')).toLowerCase().indexOf(q)>=0;});
+    var hits=SEATS.filter(function(s){return ((s.seat||'')+(s.domain||'')+(s.owner||'')+(s.purpose||'')).toLowerCase().indexOf(q)>=0;});
     chart.innerHTML='<div class="row">'+hits.map(block).join('')+'</div>'; return;
   }
   var roots=SEATS.filter(function(s){return !s.reports_to && s.group!=='spare';});
   var spares=SEATS.filter(function(s){return s.group==='spare';});
   var html=legend()+'<ul class="tree">'+roots.map(function(r){return treeNode(r.id);}).join('')+'</ul>';
   if(spares.length){
-    html+='<div class="spare-wrap"><div class="spare-label">Outside the AI team (spare)</div>'
-      +'<div class="row">'+spares.map(block).join('')+'</div></div>';
+    html+='<div class="spare-wrap"><div class="spare-label">Outside the AI team (spare)</div><div class="row">'+spares.map(block).join('')+'</div></div>';
   }
   html+='<p class="hint">Add a card: drop a markdown file with key info at the top into /seats — it shows up here automatically.</p>';
   chart.innerHTML=html;
 }
-
-document.getElementById('chart').addEventListener('click', function(e){
-  var b=e.target.closest('.blk'); if(b) select(b.getAttribute('data-id'));
-});
+document.getElementById('chart').addEventListener('click',function(e){ var b=e.target.closest('.blk'); if(b) select(b.getAttribute('data-id')); });
 
 function load(){
   fetch('https://api.github.com/repos/'+REPO+'/contents/'+DIR+'?ref='+BRANCH)
@@ -201,8 +221,7 @@ function load(){
      render();
    })
    .catch(function(e){
-     document.getElementById('chart').innerHTML=
-       "<p class='loading'>Couldn't load cards ("+esc(e.message)+"). This view reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
+     document.getElementById('chart').innerHTML="<p class='loading'>Couldn't load cards ("+esc(e.message)+"). This view reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
    });
 }
 load();
