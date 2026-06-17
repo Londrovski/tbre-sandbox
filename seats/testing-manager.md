@@ -2,21 +2,41 @@
 id: testing-manager
 seat: Testing Manager
 domain: Operations
-owner: TBD
+owner: James Morris
+tag: jm3339
 reports_to: ai-team-lead
 hrs: 2-3
 ---
 
 # Testing Manager
 
-Organises testing events. Testing runs over the summer break (just after exams, and just before the next year starts). To date this has been the ASD-DV car – next year adds TBRe27 components then full implementation.
+Owns AI testing events. Testing runs over the summer break — just after exams and just before the next year starts. So far only the ASD-DV car; 26-27 adds TBRe27 components, then the full car.
 
 ## Responsibilities
-- **Plan events** — Organise the space and time for testing events.
-- **Secure space** — Obtain access to a large testing space (car parks usually) and arrange power/gazebos/setup with Estates.
-- **Run sessions** — Organise enough members for testing windows; run setup and shutdown; car back to shelter at end.
-- **Comms network** — Set up the network for sessions to connect to cars for data logging and control.
-- **Get the car** — Obtain the ASD-DV vehicle when available (from IMechE).
+- **Plan & book testing windows** — Lock in space, time and enough people for each session.
+  - context: How Wenzel ran testing this year (doc — TBD)
+  - context: POC — Wenzel
+  - owns: Testing schedule
+  - owns: Attendee rota
+  - delivers: Confirmed dates each window
+  - delivers: Booked space each window
+- **Secure the space & facilities** — Get a large test area and what's needed to run it.
+  - context: Estates booking process — TBD
+  - owns: Estates relationship (power, gazebos, setup)
+  - delivers: Booked car park + facilities per window
+- **Source the vehicle** — Get the ASD-DV car on site when it's available.
+  - context: IMechE loan process — TBD
+  - context: POC — IMechE
+  - owns: The IMechE loan relationship
+  - delivers: ASD-DV on site for each window
+- **Run sessions safely** — Set up, run and shut down each test; car back to shelter.
+  - owns: Test-day checklist + setup/shutdown process
+  - delivers: Completed sessions
+  - delivers: Car returned safely
+- **Stand up the comms/logging network** — Connect to the car for data logging and control.
+  - owns: Session network config
+  - delivers: Working logging + control link
+  - delivers: Logged run data
 
 ## Key interfaces
 - Estates team (power, gazebos, setup)
@@ -24,8 +44,5 @@ Organises testing events. Testing runs over the summer break (just after exams, 
 - AI Team Lead
 
 ## Goals
-- More testing sessions across 26-27 for components and full cars
-
-## Context & control
-- Areas of control — TBD
-- Context docs — TBD
+- Run more testing sessions across 26-27 (components first, then the full car)
+- Build a proper, less-scrappy test kit (like IMechE's) for safe component testing
