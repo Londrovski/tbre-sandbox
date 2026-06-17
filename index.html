@@ -62,17 +62,21 @@
   .spare-label{ font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
   .loading{ color:var(--muted); padding:60px 0; }
 
-  .panel h2{margin:0 0 2px;font-size:20px;color:var(--brand)}
+  .phead{display:flex;gap:14px;align-items:flex-start}
+  .phead .ptext{flex:1;min-width:0}
+  .avatar{width:66px;height:66px;border-radius:50%;flex:none;object-fit:cover;border:2px solid var(--c,var(--brand));box-shadow:0 2px 8px rgba(15,23,34,.12)}
+  .avatar.ph{display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px}
+  .panel h2{margin:0 0 4px;font-size:20px;color:var(--brand)}
   .panel .pdomain{display:inline-block;background:var(--c,var(--brand));color:#fff;font-size:11px;
-    text-transform:uppercase;letter-spacing:.05em;padding:2px 9px;border-radius:20px;margin-bottom:14px}
+    text-transform:uppercase;letter-spacing:.05em;padding:2px 9px;border-radius:20px;margin-bottom:12px}
   .panel .sect{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);font-weight:700;margin:22px 0 8px;border-bottom:1px solid var(--line);padding-bottom:5px}
-  .panel p.purpose{color:#33414f;margin:6px 0 0}
+  .panel p.purpose{color:#33414f;margin:6px 0 0;font-size:13px}
   .kv{display:flex;gap:8px;font-size:13px;margin:3px 0}
   .kv b{color:var(--muted);font-weight:500;min-width:96px}
 
   details.resp{ background:#f7f9fc; border:1px solid var(--line); border-left:3px solid var(--c,var(--brand));
     border-radius:8px; margin:7px 0; overflow:hidden; }
-  details.resp>summary{ cursor:pointer; list-style:none; padding:9px 12px; font-size:13px; font-weight:600;
+  details.resp>summary{ cursor:pointer; list-style:none; padding:9px 12px; font-size:13px; font-weight:700;
     display:flex; align-items:center; gap:8px; }
   details.resp>summary::-webkit-details-marker{ display:none; }
   details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; width:12px; }
@@ -85,7 +89,7 @@
   .chips{ display:flex; flex-wrap:wrap; gap:6px; }
   .chip{ font-size:12px; padding:5px 9px; border-radius:7px; background:#eef2f8; border:1px solid var(--line); color:#33414f; }
   .chip.tbd{ background:#fff; border-style:dashed; color:var(--muted); }
-  .rlist{ margin:2px 0 0; padding-left:16px; } .rlist li{ font-size:12.5px; color:#33414f; margin:2px 0; }
+  .rlist{ margin:2px 0 0; padding-left:16px; } .rlist li{ font-size:13px; color:#33414f; margin:2px 0; }
   .rtbd{ color:var(--muted); font-size:12px; margin:2px 0 0; }
   .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:3px 0; font-size:13px; color:#33414f; }
 
@@ -117,6 +121,7 @@ var DCOL={ "Leadership":"var(--d-lead)","Technology – Software":"var(--d-soft)
 function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
 function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
 function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
+function initials(n){ var p=(n||'').split(' ').filter(Boolean); return ((p[0]||'?').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase(); }
 function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
 
 function parseResp(lines){
@@ -160,7 +165,7 @@ function parseCard(md){
   });
   function items(name){ return (sec[name]||[]).filter(function(l){return l.slice(0,2)==='- ';}).map(function(l){return l.slice(2);}); }
   return {
-    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD', tag:fm.tag||null,
+    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD', tag:fm.tag||null, photo:fm.photo||null,
     reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null,
     purpose:(sec['_intro']||[]).join(' ').trim(),
     resp:parseResp(sec['responsibilities']||[]),
@@ -204,14 +209,19 @@ function select(id){
   var resp=s.resp.map(function(r){
     var inner=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
       + grp('context','Context',r.context) + grp('owns','Owns',r.owns) + grp('delivers','Delivers',r.delivers);
-    return '<details class="resp" style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div></details>';
+    return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div></details>';
   }).join('');
+  var av = s.photo
+    ? '<img class="avatar" style="--c:'+colorOf(s)+'" src="'+esc(s.photo)+'" alt="'+esc(s.owner)+'">'
+    : '<div class="avatar ph" style="border-color:'+(open?'var(--gold)':colorOf(s))+';background:'+(open?'var(--gold)':colorOf(s))+';color:'+(open?'#3a2c00':'#fff')+'">'+(open?'?':esc(initials(s.owner)))+'</div>';
   p.innerHTML=
-    '<h2>'+esc(s.seat)+'</h2>'
+    '<div class="phead"><div class="ptext">'
+    +'<h2>'+esc(s.seat)+'</h2>'
     +'<div class="pdomain" style="--c:'+colorOf(s)+'">'+esc(s.domain)+'</div>'
     +'<div class="kv"><b>Owner</b><span>'+who+'</span></div>'
     +'<div class="kv"><b>Reports to</b><span>'+esc(rep)+'</span></div>'
     +'<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
+    +'</div>'+av+'</div>'
     +(s.purpose?'<p class="purpose">'+inline(esc(s.purpose))+'</p>':'')
     +'<div class="sect">Responsibilities</div>'+(resp||'<p style="color:var(--muted);font-size:13px">TBD</p>')
     +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
