@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>TBRe AI Team — Role Map</title>
+<style>
+  :root{
+    --bg:#0d1017; --panel:#161b25; --panel2:#1c2330; --line:#2a3342;
+    --txt:#e8edf5; --muted:#94a3b8; --accent:#3b82f6; --accent2:#22c55e;
+    --tbd:#f59e0b;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font:15px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+  header{padding:22px 28px;border-bottom:1px solid var(--line);display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+  header h1{font-size:20px;margin:0;font-weight:700}
+  header .sub{color:var(--muted);font-size:13px}
+  .legend{margin-left:auto;display:flex;gap:14px;font-size:12px;color:var(--muted)}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .wrap{display:flex;height:calc(100vh - 67px)}
+  .chart{flex:1;overflow:auto;padding:28px 28px 60px}
+  .panel{width:380px;border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:24px}
+  .panel.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:40px}
+  .domain{margin:0 0 10px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  .domain-group{margin-bottom:26px}
+  .row{display:flex;flex-wrap:wrap;gap:12px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:200px;cursor:pointer;transition:.12s;border-left:3px solid var(--accent)}
+  .card:hover{transform:translateY(-2px);border-color:var(--accent)}
+  .card.lead{border-left-color:var(--accent2)}
+  .card.sel{outline:2px solid var(--accent)}
+  .card h3{margin:0 0 4px;font-size:14px}
+  .card .meta{font-size:12px;color:var(--muted)}
+  .pill{display:inline-block;font-size:11px;padding:1px 7px;border-radius:20px;margin-top:7px}
+  .pill.owner{background:rgba(34,197,94,.15);color:var(--accent2)}
+  .pill.tbd{background:rgba(245,158,11,.15);color:var(--tbd)}
+  .children{margin:12px 0 0 22px;padding-left:16px;border-left:1px dashed var(--line)}
+  .panel h2{margin:0 0 2px;font-size:18px}
+  .panel .pdomain{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+  .panel h4{margin:18px 0 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .panel ul{margin:0;padding-left:18px}
+  .panel li{margin:3px 0}
+  .panel .purpose{color:#cbd5e1}
+  .kv{display:flex;gap:8px;font-size:13px;margin:3px 0}
+  .kv b{color:var(--muted);font-weight:500;min-width:96px}
+  .apply{margin-top:22px;display:block;text-align:center;background:var(--accent);color:#fff;padding:10px;border-radius:8px;text-decoration:none;font-weight:600}
+  .filebadge{font-size:11px;color:var(--muted);margin-top:14px;word-break:break-all}
+  .search{margin-left:auto}
+  .search input{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:7px 11px;border-radius:8px;font-size:13px;width:200px}
+</style>
+</head>
+<body>
+<header>
+  <h1>TBRe AI Team</h1>
+  <span class="sub">Team role map · click a seat for its job description</span>
+  <span class="search"><input id="q" placeholder="Search seats…" oninput="render()"/></span>
+  <span class="legend">
+    <span><span class="dot" style="background:var(--accent2)"></span>Lead</span>
+    <span><span class="dot" style="background:var(--accent)"></span>Seat</span>
+    <span><span class="dot" style="background:var(--tbd)"></span>Open / TBD</span>
+  </span>
+</header>
+<div class="wrap">
+  <div class="chart" id="chart"></div>
+  <div class="panel empty" id="panel">Select a seat to view its role, responsibilities and context.</div>
+</div>
+<script>
+let SEATS = [];
+let byId = {};
+const childrenOf = id => SEATS.filter(s=>s.reports_to===id);
+function recomputeById(){byId=Object.fromEntries(SEATS.map(s=>[s.id,s]));}
+let selected = null;
+
+function card(s){
+  const isLead = /Lead|Team Lead/.test(s.seat) || s.id==='ai-team-lead';
+  const ownerPill = s.owner==='TBD'
+     ? '<span class="pill tbd">Open · recruiting</span>'
+     : '<span class="pill owner">'+s.owner+'</span>';
+  return `<div class="card ${isLead?'lead':''} ${selected===s.id?'sel':''}" onclick="select('${s.id}')">
+    <h3>${s.seat}</h3>
+    <div class="meta">~${s.hrs} hrs/wk</div>
+    ${ownerPill}
+  </div>`;
+}
+
+function node(id){
+  const kids = childrenOf(id);
+  let html = card(byId[id]);
+  if(kids.length){
+    html += '<div class="children">'+kids.map(k=>node(k.id)).join('')+'</div>';
+  }
+  return html;
+}
+
+function list(items){
+  if(!items||!items.length) return '<p style="color:var(--muted)">TBD</p>';
+  return '<ul>'+items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>';
+}
+function esc(t){return (t+'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));}
+function cleanLink(t){const i=t.indexOf('['),j=t.indexOf(']');return (i>=0&&j>i)?t.slice(i+1,j)+t.slice(t.indexOf(')')+1):t;}
+
+function select(id){
+  selected=id; const s=byId[id];
+  const p=document.getElementById('panel'); p.className='panel';
+  const rep = s.reports_to ? byId[s.reports_to].seat : '—';
+  const ownerLine = s.owner==='TBD' ? '<span style="color:var(--tbd)">Open · recruiting</span>' : s.owner;
+  p.innerHTML = `
+    <h2>${esc(s.seat)}</h2>
+    <div class="pdomain">${esc(s.domain)}</div>
+    <div class="kv"><b>Owner</b><span>${ownerLine}</span></div>
+    <div class="kv"><b>Reports to</b><span>${esc(rep)}</span></div>
+    <div class="kv"><b>Commitment</b><span>~${s.hrs} hrs/week</span></div>
+    <h4>Purpose</h4><p class="purpose">${esc(s.purpose)}</p>
+    <h4>Core responsibilities</h4>${list(s.responsibilities)}
+    <h4>Key interfaces</h4>${list(s.interfaces)}
+    <h4>Goals</h4>${list(s.goals)}
+    <h4>Context &amp; areas of control</h4>${list(s.context.map(cleanLink))}
+    ${s.owner==='TBD' ? '<a class="apply" href="#" onclick="return false;">Apply for this seat</a>' : ''}
+    <div class="filebadge">Doc: ${esc(s.file)}</div>`;
+  render();
+}
+
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const chart=document.getElementById('chart');
+  if(q){
+    const hits=SEATS.filter(s=>(s.seat+s.domain+s.owner+s.purpose).toLowerCase().includes(q));
+    chart.innerHTML='<div class="domain-group"><div class="domain">Search results</div><div class="row">'+
+      hits.map(s=>card(s)).join('')+'</div></div>';
+  } else {
+    chart.innerHTML='<div class="row" style="margin-bottom:26px">'+card(byId['ai-team-lead'])+'</div>'+
+      '<div class="children" style="margin-left:0;border:none;padding:0">'+
+      childrenOf('ai-team-lead').map(s=>node(s.id)).join('')+'</div>';
+  }
+}
+fetch('seats.json').then(r=>r.json()).then(d=>{SEATS=d;init();}).catch(()=>{document.getElementById('chart').innerHTML="<p style='color:var(--muted)'>Could not load seats.json. Serve this folder over http (e.g. GitHub Pages) so the fetch works.</p>";});
+function init(){recomputeById();render();}
+</script>
+</body>
+</html>
