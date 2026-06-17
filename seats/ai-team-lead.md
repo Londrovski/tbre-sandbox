@@ -2,7 +2,9 @@
 id: ai-team-lead
 seat: AI Team Lead
 domain: Leadership
-owner: James
+owner: James Morris
+tag: jm3339
+photo: seats/photos/jm3339.png
 reports_to: 
 hrs: 5+
 ---
@@ -13,10 +15,23 @@ Owns the AI sub-team end to end: direction, leadership team, and accountability.
 
 ## Responsibilities
 - **Vision & roadmap** — Set season vision, priorities and the competition roadmap for the AI sub-team.
+  - owns: Season plan & priorities
+  - delivers: Agreed season roadmap
 - **Team rhythm** — Run regular team check-ins and keep everyone aligned on priorities.
+  - owns: Weekly team meeting
+  - delivers: Aligned, unblocked seats
 - **Own the org chart** — Make sure every seat has the right owner.
-- **Represent the team** — Represent the AI team to the wider TBRe team and external partners (IMechE, dept).
+  - context: This repo (tbre-sandbox)
+  - owns: Org chart & seat assignments
+  - delivers: Every critical seat filled
+- **Represent the team** — Represent the AI team to the wider TBRe team and external partners.
+  - context: TBRe committee
+  - context: IMechE
+  - context: Department
+  - delivers: AI team's voice in committee
 - **Recruitment** — Recruitment strategy and final sign-off on new members and seat assignments.
+  - owns: Recruitment strategy
+  - delivers: New members onboarded into seats
 
 ## Key interfaces
 - TBRe Team Lead / main committee
@@ -24,10 +39,7 @@ Owns the AI sub-team end to end: direction, leadership team, and accountability.
 - Recruitment
 - Web Manager
 
-## Goals
-- Stand up this org chart and fill every critical seat before the new uni year
-- A clear, documented set of roles everyone can see
-
-## Context & control
-- Areas of control — TBD
-- Context docs — TBD
+## Requirements
+- Comfortable leading a multi-disciplinary team
+- Good organiser and communicator
+- Across the year, heavier at season start and recruitment

@@ -14,18 +14,25 @@ Sits outside the AI team. Oversees changes and updates to the website, fixes err
 
 ## Responsibilities
 - **Site coherence** — Oversee changes and updates to ensure coherence on the site; fix errors.
+  - context: tbre/tbre-website
+  - owns: The TBRe website
+  - delivers: An accurate, coherent site
 - **Help editors** — Assist subteam members updating their pages.
+  - delivers: Members able to update their own pages
 - **Recruitment routing** — Work with recruitment to help new members contact the right people.
-- **Handover & access** — Ensure handover of key login information and infrastructure; change over recovery emails/phone numbers.
+  - context: Recruitment
+  - delivers: New members routed to the right people
+- **Handover & access** — Ensure handover of key login info/infrastructure; change over recovery emails/phone numbers.
+  - owns: Website logins & infrastructure
+  - delivers: Documented handover
 - **Documentation** — Keep everything well documented.
+  - delivers: Up-to-date docs
 
 ## Key interfaces
 - Recruitment
 - Subteam page owners
 
-## Goals
-- Move the website to a more interactive setup so each team can easily update its own pages
-
-## Context & control
-- Areas of control — TBD
-- Context docs — TBD
+## Requirements
+- Comfortable with the website tooling / stack
+- Organised with access and handover
+- ~2 hrs/week

@@ -13,18 +13,21 @@ Delivers the mounted sensing plate and system on the ASD-DV car AND the TBRe27 c
 
 ## Responsibilities
 - **Deliver the mount** — Deliver the mounted sensing plate/system on ASD-DV and TBRe27; design for cross-compatibility.
+  - owns: Sensing-plate CAD (location — TBD)
+  - delivers: Mounted plate on both cars
 - **Make parts** — 3D print / laser cut / construct parts as required.
+  - context: Mech dept technicians
+  - delivers: Fabricated parts
 - **Agree placement** — Agree exact placement with Sim Dev and Chassis.
+  - context: GA / Chassis team
+  - delivers: Agreed sensor placement
 
 ## Key interfaces
 - Mech dept technicians (part making)
 - Simulation Developer
 - Chassis team
 
-## Goals
-- One plate that can move between cars
-- More adjustability so changing components is easier
-
-## Context & control
-- Areas of control — TBD
-- Context docs — TBD
+## Requirements
+- Comfortable with CAD and fabrication (3D print / laser cut)
+- Mechanical background
+- ~2-3 hrs/week, more around build
