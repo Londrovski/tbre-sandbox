@@ -95,6 +95,13 @@
   .rg.owns .rl{ color:var(--brand); } .rg.delivers .rl{ color:#b07d00; }
   .rlist{ margin:3px 0 0; padding-left:18px; } .rlist li{ font-size:15px; color:#374151; margin:4px 0; }
   .rtbd{ color:var(--muted); font-size:12px; margin:2px 0 0; font-style:italic; }
+  .covers{ color:var(--muted); font-size:14px; margin:14px 0 0; } .covers b{ color:var(--ink); font-weight:600; }
+  details.ctx{ margin:24px 0 12px; }
+  details.ctx>summary{ cursor:pointer; list-style:none; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--brand); font-weight:700; border-bottom:1px solid var(--line); padding-bottom:7px; display:flex; align-items:center; }
+  details.ctx>summary::-webkit-details-marker{ display:none; }
+  details.ctx>summary::after{ content:'+'; margin-left:auto; color:var(--muted); font-weight:800; font-size:16px; }
+  details.ctx[open]>summary::after{ content:'–'; }
+  details.ctx .ilist{ margin-top:10px; }
   .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:5px 0; font-size:15px; color:#374151; }
 
   .apply{ margin-top:26px; display:block; text-align:center; background:var(--gold); color:#3a2c00; padding:12px; border-radius:8px; text-decoration:none; font-weight:700; font-size:13.5px; }
@@ -127,6 +134,7 @@ function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
 function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
 function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
 function initials(n){ var p=(n||'').split(' ').filter(Boolean); return ((p[0]||'?').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase(); }
+function uniq(a){ var seen={},o=[]; a.forEach(function(x){ if(!seen[x]){ seen[x]=1; o.push(x); } }); return o; }
 function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
 
 function parseResp(lines){
@@ -198,11 +206,6 @@ function legend(){
   }).join('')+'</div>';
 }
 function ulist(arr){ return arr.length? '<ul class="ilist">'+arr.map(function(x){return '<li>'+inline(esc(x))+'</li>';}).join('')+'</ul>' : '<p class="rtbd">TBD</p>'; }
-function grp(cls,label,arr){
-  var body = arr.length ? '<ul class="rlist">'+arr.map(function(x){return '<li>'+inline(esc(x))+'</li>';}).join('')+'</ul>'
-                        : '<p class="rtbd">TBD</p>';
-  return '<div class="rg '+cls+'"><span class="rl">'+label+'</span>'+body+'</div>';
-}
 
 function select(id){
   selected=id; var s=byId[id]; if(!s) return;
@@ -214,11 +217,9 @@ function select(id){
   var photo = s.photo
     ? '<img src="'+esc(s.photo)+'" alt="'+esc(s.owner)+'">'
     : '<div class="ph" style="background:'+(open?'var(--gold)':colorOf(s))+';color:'+(open?'#3a2c00':'#fff')+'">'+(open?'?':esc(initials(s.owner)))+'</div>';
-  var resp=s.resp.map(function(r){
-    var inner=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
-      + grp('context','Context',r.context) + grp('owns','Owns',r.owns) + grp('delivers','Delivers',r.delivers);
-    return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div></details>';
-  }).join('');
+  var owns=[],deliv=[],ctx=[],titles=[];
+  s.resp.forEach(function(r){ titles.push(r.title); owns=owns.concat(r.owns); deliv=deliv.concat(r.delivers); ctx=ctx.concat(r.context); });
+  owns=uniq(owns); deliv=uniq(deliv); ctx=uniq(ctx);
   var pur=s.purpose||''; if(pur.length>250){ var cut=pur.slice(0,250); var sp=cut.lastIndexOf(' '); if(sp>200){ cut=cut.slice(0,sp); } pur=cut+'…'; }
   p.innerHTML=
     '<div class="phead"><div class="ptext">'
@@ -229,7 +230,10 @@ function select(id){
     +'<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
     +(pur?'<p class="purpose">'+inline(esc(pur))+'</p>':'')
     +'</div><div class="pphoto">'+photo+'</div></div>'
-    +'<div class="sect">Responsibilities</div>'+(resp||'<p class="rtbd">TBD</p>')
+    +(titles.length?'<p class="covers"><b>Covers:</b> '+titles.map(esc).join(' · ')+'</p>':'')
+    +'<div class="sect">Owns</div>'+ulist(owns)
+    +'<div class="sect">Delivers</div>'+ulist(deliv)
+    +(ctx.length?'<details class="ctx"><summary>Context</summary>'+ulist(ctx)+'</details>':'')
     +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
     +'<div class="sect">Requirements</div>'+ulist(s.requirements)
     +(open?'<a class="apply" href="#" onclick="return false;">Apply for this seat</a>':'')
