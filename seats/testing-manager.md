@@ -4,6 +4,7 @@ seat: Testing Manager
 domain: Operations
 owner: James Morris
 tag: jm3339
+photo: seats/photos/jm3339.png
 reports_to: ai-team-lead
 hrs: 2-3
 ---
