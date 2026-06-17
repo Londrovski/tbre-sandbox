@@ -23,15 +23,11 @@
   .panel{width:380px;border-left:1px solid var(--line);background:var(--panel);overflow:auto;padding:24px;flex-shrink:0}
   .panel.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center;padding:40px}
 
-  .tree, .tree ul{ list-style:none; margin:0; padding:0; }
-  .tree, .tree ul{ display:flex; }
+  .tree, .tree ul{ list-style:none; margin:0; padding:0; display:flex; }
   .tree{ justify-content:center; }
   .tree ul{ padding-top:22px; justify-content:center; }
   .tree li{ position:relative; padding:22px 10px 0; display:flex; flex-direction:column; align-items:center; }
-  .tree li::before, .tree li::after{
-    content:''; position:absolute; top:0; width:50%; height:22px;
-    border-top:2px solid var(--line);
-  }
+  .tree li::before, .tree li::after{ content:''; position:absolute; top:0; width:50%; height:22px; border-top:2px solid var(--line); }
   .tree li::before{ right:50%; }
   .tree li::after{ left:50%; border-left:2px solid var(--line); }
   .tree li:only-child::before, .tree li:only-child::after{ display:none; }
@@ -39,18 +35,12 @@
   .tree li:first-child::before, .tree li:last-child::after{ border:0 none; }
   .tree li:last-child::before{ border-right:2px solid var(--line); border-radius:0 6px 0 0; }
   .tree li:first-child::after{ border-radius:6px 0 0 0; }
-  .tree ul::before{
-    content:''; position:absolute; top:0; left:50%;
-    border-left:2px solid var(--line); width:0; height:22px;
-  }
+  .tree ul::before{ content:''; position:absolute; top:0; left:50%; border-left:2px solid var(--line); width:0; height:22px; }
   .tree li>ul{ position:relative; }
 
-  .blk{
-    position:relative; background:var(--panel2); border:1px solid var(--line);
-    border-top:3px solid var(--c,var(--accent)); border-radius:9px;
-    padding:9px 12px; min-width:138px; max-width:172px; cursor:pointer;
-    transition:.12s; text-align:left;
-  }
+  .blk{ position:relative; background:var(--panel2); border:1px solid var(--line);
+    border-top:3px solid var(--c,var(--accent)); border-radius:9px; padding:9px 12px;
+    min-width:138px; max-width:172px; cursor:pointer; transition:.12s; text-align:left; }
   .blk:hover{ transform:translateY(-2px); border-color:var(--c,var(--accent)); }
   .blk.sel{ box-shadow:0 0 0 2px var(--c,var(--accent)); }
   .blk .nm{ font-size:13px; font-weight:600; line-height:1.25; }
@@ -62,14 +52,16 @@
   .legend span{ display:flex; align-items:center; gap:5px; }
   .sw{ width:10px;height:10px;border-radius:3px;display:inline-block; }
   .hint{ color:var(--muted); font-size:12px; margin:18px 0 0; }
-  .spare-wrap{ margin:46px auto 0; padding-top:24px; border-top:1px dashed var(--line); max-width:760px; }
+  .spare-wrap{ margin:46px auto 0; padding-top:24px; border-top:1px dashed var(--line); max-width:780px; }
   .spare-label{ font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .loading{ color:var(--muted); padding:60px 0; }
 
   .panel h2{margin:0 0 2px;font-size:18px}
   .panel .pdomain{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px}
+  .panel h3{font-size:15px;margin:16px 0 4px}
   .panel h4{margin:18px 0 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
   .panel ul{margin:0;padding-left:18px} .panel li{margin:3px 0}
-  .panel .purpose{color:#cbd5e1}
+  .panel p{color:#cbd5e1;margin:6px 0}
   .kv{display:flex;gap:8px;font-size:13px;margin:3px 0}
   .kv b{color:var(--muted);font-weight:500;min-width:96px}
   .apply{margin-top:22px;display:block;text-align:center;background:var(--accent);color:#fff;padding:10px;border-radius:8px;text-decoration:none;font-weight:600}
@@ -80,95 +72,140 @@
 <body>
 <header>
   <h1>TBRe AI Team</h1>
-  <span class="sub">Org chart · click a role for its job description</span>
+  <span class="sub">Org chart · auto-built from the cards in /seats · click a role for details</span>
   <span class="search"><input id="q" placeholder="Search roles…" oninput="render()"/></span>
 </header>
 <div class="wrap">
-  <div class="chart" id="chart"></div>
+  <div class="chart" id="chart"><div class="loading">Loading roles…</div></div>
   <div class="panel empty" id="panel">Select a role to view its responsibilities and context.</div>
 </div>
 <script>
-let SEATS = [];
-let byId = {};
-let selected = null;
-const childrenOf = id => SEATS.filter(s=>s.reports_to===id);
-function recomputeById(){byId=Object.fromEntries(SEATS.map(s=>[s.id,s]));}
+var REPO = "Londrovski/tbre-sandbox", DIR = "seats", BRANCH = "main";
+var NL = String.fromCharCode(10);
+var SEATS = [], byId = {}, selected = null;
+function childrenOf(id){ return SEATS.filter(function(s){return s.reports_to===id;}); }
 
-const DCOL = {
+var DCOL = {
   "Leadership":"var(--d-lead)", "Technology – Software":"var(--d-soft)",
   "Technology – Electrical":"var(--d-elec)", "Technology – Mechanical":"var(--d-mech)",
   "Operations":"var(--d-ops)", "Outside AI (interface)":"var(--d-out)"
 };
 function colorOf(s){ return DCOL[s.domain] || "var(--accent)"; }
+function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
+function inline(t){ var p=t.split('**'), r=''; for(var i=0;i<p.length;i++){ r += (i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
 
-function esc(t){return (t+'').replace(/[<>&]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;'}[c]));}
-function cleanLink(t){const i=t.indexOf('['),j=t.indexOf(']');return (i>=0&&j>i)?t.slice(i+1,j)+t.slice(t.indexOf(')')+1):t;}
-function list(items){ if(!items||!items.length) return '<p style="color:var(--muted)">TBD</p>';
-  return '<ul>'+items.map(i=>'<li>'+esc(i)+'</li>').join('')+'</ul>'; }
+function parseCard(md){
+  var fm={}, body=md;
+  if(md.indexOf('---')===0){
+    var end=md.indexOf(NL+'---', 3);
+    if(end>0){
+      md.slice(3,end).trim().split(NL).forEach(function(line){
+        var i=line.indexOf(':'); if(i<0) return;
+        var k=line.slice(0,i).trim(), v=line.slice(i+1).trim();
+        fm[k]= v==='' ? null : v;
+      });
+      body=md.slice(end+4).trimStart();
+    }
+  }
+  return { id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD',
+    reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null, body:body };
+}
+
+function mdToHtml(md){
+  var out=[], inList=false;
+  function closeList(){ if(inList){ out.push('</ul>'); inList=false; } }
+  md.split(NL).forEach(function(raw){
+    var line=raw.replace(/ +$/,'');
+    if(line.charAt(0)==='#'){
+      closeList();
+      var lvl=0; while(line.charAt(lvl)==='#') lvl++;
+      var tag = lvl<=1 ? 'h3' : 'h4';
+      out.push('<'+tag+'>'+inline(esc(line.slice(lvl).trim()))+'</'+tag+'>');
+    } else if((line.charAt(0)==='-'||line.charAt(0)==='*') && line.charAt(1)===' '){
+      if(!inList){ out.push('<ul>'); inList=true; }
+      out.push('<li>'+inline(esc(line.slice(2)))+'</li>');
+    } else if(line===''){ closeList(); }
+    else { closeList(); out.push('<p>'+inline(esc(line))+'</p>'); }
+  });
+  closeList();
+  return out.join('');
+}
 
 function block(s){
-  const open = s.owner==='TBD';
-  return `<div class="blk ${selected===s.id?'sel':''}" style="--c:${colorOf(s)}" onclick="select('${s.id}')">
-    <div class="nm">${esc(s.seat)}</div>
-    <div class="mt"><span class="odot ${open?'open':'filled'}"></span>${open?'Open':esc(s.owner)} · ~${s.hrs}h</div>
-  </div>`;
+  var open = !s.owner || s.owner==='TBD';
+  return '<div class="blk '+(selected===s.id?'sel':'')+'" data-id="'+esc(s.id)+'" style="--c:'+colorOf(s)+'">'
+    + '<div class="nm">'+esc(s.seat)+'</div>'
+    + '<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div>'
+    + '</div>';
 }
-
 function treeNode(id){
-  const kids = childrenOf(id);
-  let h = '<li>' + block(byId[id]);
-  if(kids.length){ h += '<ul>' + kids.map(k=>treeNode(k.id)).join('') + '</ul>'; }
-  return h + '</li>';
+  var kids = childrenOf(id).sort(function(a,b){return a.seat.localeCompare(b.seat);});
+  var h='<li>'+block(byId[id]);
+  if(kids.length) h+='<ul>'+kids.map(function(k){return treeNode(k.id);}).join('')+'</ul>';
+  return h+'</li>';
 }
-
 function legend(){
-  return '<div class="legend">' + Object.keys(DCOL).map(d=>
-    `<span><span class="sw" style="background:${DCOL[d]}"></span>${d.replace('Technology – ','').replace(' (interface)','')}</span>`
-  ).join('') + '</div>';
+  return '<div class="legend">'+Object.keys(DCOL).map(function(d){
+    return '<span><span class="sw" style="background:'+DCOL[d]+'"></span>'+d.replace('Technology – ','').replace(' (interface)','')+'</span>';
+  }).join('')+'</div>';
 }
-
 function select(id){
-  selected=id; const s=byId[id];
-  const p=document.getElementById('panel'); p.className='panel';
-  const rep = s.reports_to ? byId[s.reports_to].seat : '—';
-  const ownerLine = s.owner==='TBD' ? '<span style="color:var(--tbd)">Open · recruiting</span>' : s.owner;
-  p.innerHTML = `
-    <h2>${esc(s.seat)}</h2>
-    <div class="pdomain">${esc(s.domain)}</div>
-    <div class="kv"><b>Owner</b><span>${ownerLine}</span></div>
-    <div class="kv"><b>Reports to</b><span>${esc(rep)}</span></div>
-    <div class="kv"><b>Commitment</b><span>~${s.hrs} hrs/week</span></div>
-    <h4>Purpose</h4><p class="purpose">${esc(s.purpose)}</p>
-    <h4>Core responsibilities</h4>${list(s.responsibilities)}
-    <h4>Key interfaces</h4>${list(s.interfaces)}
-    <h4>Goals</h4>${list(s.goals)}
-    <h4>Context &amp; areas of control</h4>${list(s.context.map(cleanLink))}
-    ${s.owner==='TBD' ? '<a class="apply" href="#" onclick="return false;">Apply for this seat</a>' : ''}
-    <div class="filebadge">Doc: ${esc(s.file)}</div>`;
+  selected=id; var s=byId[id]; if(!s) return;
+  var p=document.getElementById('panel'); p.className='panel';
+  var rep = s.reports_to && byId[s.reports_to] ? byId[s.reports_to].seat : '—';
+  var open = !s.owner || s.owner==='TBD';
+  var ownerLine = open ? '<span style="color:var(--tbd)">Open · recruiting</span>' : esc(s.owner);
+  p.innerHTML =
+    '<h2>'+esc(s.seat)+'</h2>'
+    + '<div class="pdomain">'+esc(s.domain)+'</div>'
+    + '<div class="kv"><b>Owner</b><span>'+ownerLine+'</span></div>'
+    + '<div class="kv"><b>Reports to</b><span>'+esc(rep)+'</span></div>'
+    + '<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
+    + mdToHtml(s.body||'')
+    + (open ? '<a class="apply" href="#" onclick="return false;">Apply for this seat</a>' : '')
+    + '<div class="filebadge">'+esc(s.id)+'.md</div>';
   render();
 }
-
 function render(){
-  const q=(document.getElementById('q').value||'').toLowerCase();
-  const chart=document.getElementById('chart');
+  var q=(document.getElementById('q').value||'').toLowerCase();
+  var chart=document.getElementById('chart');
   if(q){
-    const hits=SEATS.filter(s=>(s.seat+s.domain+s.owner+s.purpose).toLowerCase().includes(q));
-    chart.innerHTML = '<div class="row">'+hits.map(block).join('')+'</div>';
-    return;
+    var hits=SEATS.filter(function(s){return ((s.seat||'')+(s.domain||'')+(s.owner||'')+(s.body||'')).toLowerCase().indexOf(q)>=0;});
+    chart.innerHTML='<div class="row">'+hits.map(block).join('')+'</div>'; return;
   }
-  const roots = SEATS.filter(s=>!s.reports_to && s.group!=='spare');
-  const spares = SEATS.filter(s=>s.group==='spare');
-  let html = legend() + '<ul class="tree">' + roots.map(r=>treeNode(r.id)).join('') + '</ul>';
+  var roots=SEATS.filter(function(s){return !s.reports_to && s.group!=='spare';});
+  var spares=SEATS.filter(function(s){return s.group==='spare';});
+  var html=legend()+'<ul class="tree">'+roots.map(function(r){return treeNode(r.id);}).join('')+'</ul>';
   if(spares.length){
-    html += '<div class="spare-wrap"><div class="spare-label">Outside the AI team (spare)</div>'
-          + '<div class="row">' + spares.map(block).join('') + '</div></div>';
+    html+='<div class="spare-wrap"><div class="spare-label">Outside the AI team (spare)</div>'
+      +'<div class="row">'+spares.map(block).join('')+'</div></div>';
   }
-  html += '<p class="hint">Tip: click any block for the full role.</p>';
-  chart.innerHTML = html;
+  html+='<p class="hint">Add a card: drop a markdown file with key info at the top into /seats — it shows up here automatically.</p>';
+  chart.innerHTML=html;
 }
 
-fetch('seats.json').then(r=>r.json()).then(d=>{SEATS=d;recomputeById();render();})
-  .catch(()=>{document.getElementById('chart').innerHTML="<p style='color:var(--muted)'>Could not load seats.json. Serve over http (e.g. GitHub Pages) so the fetch works.</p>";});
+document.getElementById('chart').addEventListener('click', function(e){
+  var b=e.target.closest('.blk'); if(b) select(b.getAttribute('data-id'));
+});
+
+function load(){
+  fetch('https://api.github.com/repos/'+REPO+'/contents/'+DIR+'?ref='+BRANCH)
+   .then(function(r){ if(!r.ok) throw new Error('list '+r.status); return r.json(); })
+   .then(function(items){
+     var files=items.filter(function(i){return i.type==='file' && i.name.slice(-3)==='.md';});
+     return Promise.all(files.map(function(f){ return fetch(f.download_url).then(function(r){return r.text();}); }));
+   })
+   .then(function(cards){
+     SEATS=cards.map(parseCard).filter(function(s){return s.id;});
+     byId={}; SEATS.forEach(function(s){ byId[s.id]=s; });
+     render();
+   })
+   .catch(function(e){
+     document.getElementById('chart').innerHTML=
+       "<p class='loading'>Couldn't load cards ("+esc(e.message)+"). This view reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
+   });
+}
+load();
 </script>
 </body>
 </html>
