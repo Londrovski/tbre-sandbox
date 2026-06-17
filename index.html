@@ -163,7 +163,7 @@ function parseCard(md){
     purpose:(sec['_intro']||[]).join(' ').trim(),
     resp:parseResp(sec['responsibilities']||[]),
     interfaces:items('key interfaces'),
-    goals:items('goals')
+    requirements:items('requirements')
   };
 }
 
@@ -213,7 +213,7 @@ function select(id){
     +(s.purpose?'<p class="purpose">'+inline(esc(s.purpose))+'</p>':'')
     +'<div class="sect">Responsibilities</div>'+(resp||'<p style="color:var(--muted);font-size:13px">TBD</p>')
     +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
-    +'<div class="sect">Goals</div>'+ulist(s.goals)
+    +'<div class="sect">Requirements</div>'+ulist(s.requirements)
     +(open?'<a class="apply" href="#" onclick="return false;">Apply for this seat</a>':'')
     +'<div class="filebadge">seats/'+esc(s.id)+'.md</div>';
   render();
