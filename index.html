@@ -45,6 +45,10 @@
     box-shadow:0 1px 2px rgba(15,23,34,.06); }
   .blk:hover{ transform:translateY(-2px); box-shadow:0 4px 12px rgba(16,91,171,.16); border-color:var(--c,var(--brand)); }
   .blk.sel{ box-shadow:0 0 0 3px var(--gold); }
+  @keyframes openGlow{ 0%,100%{ box-shadow:0 0 0 1px var(--gold), 0 0 5px rgba(255,196,35,.30);} 50%{ box-shadow:0 0 0 1px var(--gold), 0 0 13px rgba(255,196,35,.6);} }
+  .blk.open{ border-color:var(--gold); animation:openGlow 2.6s ease-in-out infinite; }
+  .blk.open:hover{ animation:none; }
+  .blk.open.sel{ animation:none; box-shadow:0 0 0 3px var(--gold); }
   .blk .nm{ font-size:13px; font-weight:700; line-height:1.25; }
   .blk .mt{ font-size:11px; color:var(--muted); margin-top:3px; display:flex; gap:6px; align-items:center; }
   .odot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
@@ -146,7 +150,8 @@ function parseCard(md){
 
 function block(s){
   var open=!s.owner||s.owner==='TBD';
-  return '<div class="blk '+(selected===s.id?'sel':'')+'" data-id="'+esc(s.id)+'" style="--c:'+colorOf(s)+'">'
+  var cls='blk'+(open?' open':'')+(selected===s.id?' sel':'');
+  return '<div class="'+cls+'" data-id="'+esc(s.id)+'" style="--c:'+colorOf(s)+'">'
     +'<div class="nm">'+esc(s.seat)+'</div>'
     +'<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div></div>';
 }
