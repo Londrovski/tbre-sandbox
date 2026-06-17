@@ -10,7 +10,7 @@
     "responsibilities": [
       "Set season vision, priorities and the competition roadmap for the AI sub-team",
       "Run regular team check-ins and keep everyone aligned on priorities",
-      "Own the accountability chart – make sure every seat has the right owner",
+      "Own the org chart – make sure every seat has the right owner",
       "Represent the AI team to the wider TBRe team and external partners (IMechE, dept)",
       "Recruitment strategy and final sign-off on new members and seat assignments"
     ],
@@ -21,149 +21,18 @@
       "Web Manager"
     ],
     "goals": [
-      "Stand up this accountability chart and fill every critical seat before the new uni year",
+      "Stand up this org chart and fill every critical seat before the new uni year",
       "A clear, documented set of roles everyone can see"
     ],
-    "context": [
-      "[Start Here](00-Start-Here.md)",
-      "[Accountability Chart](01-Accountability-Chart.md)"
-    ],
+    "context": [],
     "file": "Seat - AI Team Lead.md"
-  },
-  {
-    "id": "software-lead",
-    "seat": "Software Lead",
-    "domain": "Technology – Software",
-    "owner": "TBD",
-    "reports_to": "ai-team-lead",
-    "hrs": "3-4",
-    "purpose": "Owns the software domain: technical direction across all software seats, plus onboarding, repo hygiene and recruitment for software.",
-    "responsibilities": [
-      "Set technical direction and standards across the software seats (SLAM, perception, control, path-planning, sim)",
-      "Recruitment for software roles",
-      "Onboard new members to GitLab and Teams",
-      "GitLab management – repository structure, access, merge/review standards",
-      "Unblock software seats and own cross-seat integration"
-    ],
-    "interfaces": [
-      "AI Team Lead",
-      "All software seats",
-      "Onboarding & Systems Manager",
-      "Electrical Lead",
-      "Mechanical Lead"
-    ],
-    "goals": [
-      "Every software seat owned and onboarded by start of season"
-    ],
-    "context": [
-      "Old AI sub-team org chart (for reference)"
-    ],
-    "file": "Seat - Software Lead.md"
-  },
-  {
-    "id": "slam-developer",
-    "seat": "SLAM Developer",
-    "domain": "Technology – Software",
-    "owner": "TBD",
-    "reports_to": "software-lead",
-    "hrs": "2-3",
-    "purpose": "Owns simultaneous localisation and mapping – the car knowing where it is and building the track map from sensor data.",
-    "responsibilities": [
-      "Develop and maintain the SLAM pipeline",
-      "Integrate SLAM output with perception (cone positions) and path-planning",
-      "Validate localisation accuracy in sim and on the test car"
-    ],
-    "interfaces": [
-      "Software Lead",
-      "Perception Developer",
-      "Path-Planning Developer",
-      "Simulation Developer"
-    ],
-    "goals": [
-      "Reliable mapping on TBRe27 sensor set"
-    ],
-    "context": [],
-    "file": "Seat - SLAM Developer.md"
-  },
-  {
-    "id": "perception-developer",
-    "seat": "Perception Developer (Camera + LiDAR)",
-    "domain": "Technology – Software",
-    "owner": "TBD",
-    "reports_to": "software-lead",
-    "hrs": "2-3",
-    "purpose": "Owns detection of cones/track features from camera and LiDAR. Can be split into separate Camera and LiDAR seats as the team grows.",
-    "responsibilities": [
-      "Camera-based cone detection and classification",
-      "LiDAR processing and sensor fusion with camera",
-      "Feed clean detections to SLAM / path-planning"
-    ],
-    "interfaces": [
-      "Software Lead",
-      "SLAM Developer",
-      "Mounting Engineer (sensor placement)",
-      "Finance (sensor purchase)"
-    ],
-    "goals": [
-      "Spec and integrate the new discounted LiDAR for next year's car"
-    ],
-    "context": [],
-    "file": "Seat - Perception Developer (Camera + LiDAR).md"
-  },
-  {
-    "id": "control-mpc-developer",
-    "seat": "Control / MPC Developer",
-    "domain": "Technology – Software",
-    "owner": "TBD",
-    "reports_to": "software-lead",
-    "hrs": "2-3",
-    "purpose": "Owns vehicle control – turning a planned path into steering/throttle/brake commands, including Model Predictive Control.",
-    "responsibilities": [
-      "Develop and tune the control stack (incl. MPC integration)",
-      "Validate control in the Unity simulation before vehicle testing",
-      "Tune for the TBRe27 vehicle dynamics (mass, tyres, geometry)"
-    ],
-    "interfaces": [
-      "Software Lead",
-      "Path-Planning Developer",
-      "Simulation Developer",
-      "Electrical Lead (actuation/EBS)"
-    ],
-    "goals": [
-      "MPC integrated and validated in sim"
-    ],
-    "context": [],
-    "file": "Seat - Control - MPC Developer.md"
-  },
-  {
-    "id": "path-planning-developer",
-    "seat": "Path-Planning Developer",
-    "domain": "Technology – Software",
-    "owner": "TBD",
-    "reports_to": "software-lead",
-    "hrs": "2-3",
-    "purpose": "Owns planning the racing line / trajectory from the mapped track for the controller to follow.",
-    "responsibilities": [
-      "Develop path/trajectory planning from SLAM map",
-      "Hand off planned paths to the control seat",
-      "Validate planning behaviour in simulation"
-    ],
-    "interfaces": [
-      "Software Lead",
-      "SLAM Developer",
-      "Control / MPC Developer",
-      "Simulation Developer"
-    ],
-    "goals": [],
-    "context": [],
-    "file": "Seat - Path-Planning Developer.md"
   },
   {
     "id": "simulation-developer",
     "seat": "Simulation Developer",
     "domain": "Technology – Software",
     "owner": "TBD",
-    "reports_to": "software-lead",
+    "reports_to": "ai-team-lead",
     "hrs": "2-3",
     "purpose": "Owns the Unity simulation used to test the control systems. Built by Ben Rall; currently models the ASD-DV car (the only car the AI team has run to date).",
     "responsibilities": [
@@ -172,7 +41,6 @@
       "Keep the sim representative of the real test vehicle"
     ],
     "interfaces": [
-      "Software Lead",
       "Mounting Engineer (sensor plate location in GA/sim)",
       "Control / MPC Developer"
     ],
@@ -185,59 +53,33 @@
     "file": "Seat - Simulation Developer.md"
   },
   {
-    "id": "electrical-lead",
-    "seat": "Electrical Lead",
-    "domain": "Technology – Electrical",
+    "id": "control-mpc-developer",
+    "seat": "Control / MPC Developer",
+    "domain": "Technology – Software",
     "owner": "TBD",
     "reports_to": "ai-team-lead",
     "hrs": "2-3",
-    "purpose": "Owns the electrical domain for AI – safety systems, power and wiring for the sensing/compute hardware on the cars.",
+    "purpose": "Owns vehicle control – turning a planned path into steering/throttle/brake commands, including Model Predictive Control.",
     "responsibilities": [
-      "Own AI safety systems – emergency stop, shutdown circuit, EBS trigger on electrical cut-out",
-      "Power and wiring for sensors and compute on ASD-DV and TBRe27",
-      "Interface with the main Electrical department for standards and integration"
+      "Develop and tune the control stack (incl. MPC integration)",
+      "Validate control in the Unity simulation before vehicle testing",
+      "Tune for the TBRe27 vehicle dynamics (mass, tyres, geometry)"
     ],
     "interfaces": [
-      "AI Team Lead",
-      "Main Elec dept",
-      "Testing Manager (safety for manual testing)",
-      "Mechanical Lead"
-    ],
-    "goals": [
-      "Safe, repeatable emergency-stop kit available before manual testing begins"
-    ],
-    "context": [],
-    "file": "Seat - Electrical Lead.md"
-  },
-  {
-    "id": "mechanical-lead",
-    "seat": "Mechanical Lead",
-    "domain": "Technology – Mechanical",
-    "owner": "TBD",
-    "reports_to": "ai-team-lead",
-    "hrs": "2-3",
-    "purpose": "Owns the mechanical domain for AI – mounting and packaging of the sensing system across cars.",
-    "responsibilities": [
-      "Own the mounting strategy across ASD-DV and TBRe27 (one seat may also hold Mounting Engineer)",
-      "Interface with Chassis and Mech dept technicians on part placement and fabrication",
-      "Drive cross-car compatibility of the sensing plate"
-    ],
-    "interfaces": [
-      "AI Team Lead",
-      "Mech dept technicians",
-      "Chassis team",
       "Simulation Developer"
     ],
-    "goals": [],
+    "goals": [
+      "MPC integrated and validated in sim"
+    ],
     "context": [],
-    "file": "Seat - Mechanical Lead.md"
+    "file": "Seat - Control - MPC Developer.md"
   },
   {
     "id": "mounting-engineer",
     "seat": "Mounting Engineer",
     "domain": "Technology – Mechanical",
     "owner": "TBD",
-    "reports_to": "mechanical-lead",
+    "reports_to": "ai-team-lead",
     "hrs": "2-3",
     "purpose": "Delivers the mounted sensing plate and system on the ASD-DV car AND the TBRe27 car, designed for cross-compatibility.",
     "responsibilities": [
@@ -246,7 +88,6 @@
       "Agree exact placement with Sim Dev and Chassis"
     ],
     "interfaces": [
-      "Mechanical Lead",
       "Mech dept technicians (part making)",
       "Simulation Developer",
       "Chassis team"
@@ -276,17 +117,14 @@
     "interfaces": [
       "New members",
       "Vault Access controller",
-      "Web Manager",
-      "Software Lead"
+      "Web Manager"
     ],
     "goals": [
       "Team context files in the right place to feed an AI tool / member-facing knowledge network",
       "A Start_Here file that routes users to every knowledge base",
       "Defined info packs per subteam"
     ],
-    "context": [
-      "[Start Here](00-Start-Here.md)"
-    ],
+    "context": [],
     "file": "Seat - Onboarding & Systems Manager.md"
   },
   {
@@ -307,7 +145,6 @@
     "interfaces": [
       "Estates team (power, gazebos, setup)",
       "IMechE (ASD-DV loans)",
-      "Electrical Lead (safety)",
       "AI Team Lead"
     ],
     "goals": [
@@ -333,7 +170,6 @@
     ],
     "interfaces": [
       "AI Team Lead",
-      "Perception Developer (sensor specs)",
       "Main team finance"
     ],
     "goals": [
@@ -344,26 +180,28 @@
   },
   {
     "id": "website-recruitment-liaison",
-    "seat": "Website / Recruitment Liaison",
+    "seat": "Website Management",
     "domain": "Outside AI (interface)",
     "owner": "TBD",
-    "reports_to": "ai-team-lead",
+    "reports_to": null,
     "hrs": "2",
-    "purpose": "Interface to the wider TBRe Website Management function. Keeps the AI team's public pages accurate and supports recruitment. (The full Website Management role sits outside the AI team.)",
+    "purpose": "Sits outside the AI team. Oversees changes and updates to the website, fixes errors, and helps subteam members update their pages.",
     "responsibilities": [
-      "Keep the AI team's website pages coherent and up to date; fix errors; help members update their pages",
-      "Work with recruitment so new members contact the right people",
-      "Ensure handover of key login info/infrastructure; keep everything documented"
+      "Oversee changes and updates to ensure coherence on the site; fix errors",
+      "Assist subteam members updating their pages",
+      "Work with recruitment to help new members contact the right people",
+      "Ensure handover of key login information and infrastructure; change over recovery emails/phone numbers",
+      "Keep everything well documented"
     ],
     "interfaces": [
-      "Web Manager (main team)",
       "Recruitment",
-      "Onboarding & Systems Manager"
+      "Subteam page owners"
     ],
     "goals": [
-      "Move the website to a more interactive setup so each team can update its own pages – supports this role map going public for recruitment"
+      "Move the website to a more interactive setup so each team can easily update its own pages"
     ],
     "context": [],
-    "file": "Seat - Website - Recruitment Liaison.md"
+    "file": "Seat - Website - Recruitment Liaison.md",
+    "group": "spare"
   }
 ]
