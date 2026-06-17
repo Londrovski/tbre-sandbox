@@ -13,11 +13,19 @@ group: spare
 Sits outside the AI team. Oversees changes and updates to the website, fixes errors, and helps subteam members update their pages.
 
 ## Responsibilities
-- Oversee changes and updates to ensure coherence on the site; fix errors
-- Assist subteam members updating their pages
-- Work with recruitment to help new members contact the right people
-- Ensure handover of key login information and infrastructure; change over recovery emails/phone numbers
-- Keep everything well documented
+- **Site coherence** — Oversee changes and updates to ensure coherence on the site; fix errors.
+- **Help editors** — Assist subteam members updating their pages.
+- **Recruitment routing** — Work with recruitment to help new members contact the right people.
+- **Handover & access** — Ensure handover of key login information and infrastructure; change over recovery emails/phone numbers.
+- **Documentation** — Keep everything well documented.
+
+## Key interfaces
+- Recruitment
+- Subteam page owners
 
 ## Goals
 - Move the website to a more interactive setup so each team can easily update its own pages
+
+## Context & control
+- Areas of control — TBD
+- Context docs — TBD

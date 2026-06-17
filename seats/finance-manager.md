@@ -12,8 +12,8 @@ hrs: 2
 Owns the AI team budget and purchasing.
 
 ## Responsibilities
-- Track the AI team budget and spend
-- Source and purchase hardware (with technical seats specifying requirements)
+- **Budget tracking** — Track the AI team budget and spend.
+- **Purchasing** — Source and purchase hardware (with technical seats specifying requirements).
 
 ## Key interfaces
 - AI Team Lead
@@ -21,3 +21,7 @@ Owns the AI team budget and purchasing.
 
 ## Goals
 - Buy a new discounted LiDAR for next year's car
+
+## Context & control
+- Areas of control — TBD
+- Context docs — TBD
