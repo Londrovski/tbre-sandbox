@@ -51,7 +51,7 @@
   .blk.open.sel{ animation:none; box-shadow:0 0 0 3px var(--gold); }
   .blk .nm{ font-size:13px; font-weight:700; line-height:1.25; }
   .blk .mt{ font-size:11px; color:var(--muted); margin-top:3px; display:flex; gap:6px; align-items:center; }
-  .odot{ width:7px; height:7px; border-radius:50%; display:inline-block; }
+  .odot{ width:7px; height:7px; border-radius:50%; display:inline-block; flex:none; }
   .odot.open{ background:var(--gold); } .odot.filled{ background:var(--d-ops); }
 
   .legend{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin:0 0 10px; font-size:11px; color:var(--muted); }
@@ -77,10 +77,14 @@
   details.resp>summary::-webkit-details-marker{ display:none; }
   details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; width:12px; }
   details.resp[open]>summary::before{ content:'–'; }
-  details.resp .resp-d{ padding:0 12px 11px 32px; font-size:13px; color:#33414f; }
-
-  .chips{ display:flex; flex-wrap:wrap; gap:8px; }
-  .chip{ font-size:12px; padding:6px 10px; border-radius:8px; background:#f1f4f9; border:1px dashed var(--line); color:#33414f; }
+  .resp-body{ padding:2px 12px 12px 12px; }
+  .resp-d{ font-size:13px; color:#33414f; margin:2px 0 10px; }
+  .rg{ margin:8px 0; }
+  .rl{ display:block; font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:4px; }
+  .rg.owns .rl{ color:var(--brand); } .rg.delivers .rl{ color:var(--d-ops); }
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{ font-size:12px; padding:5px 9px; border-radius:7px; background:#eef2f8; border:1px solid var(--line); color:#33414f; }
+  .chip.tbd{ background:#fff; border-style:dashed; color:var(--muted); }
   .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:3px 0; font-size:13px; color:#33414f; }
 
   .apply{margin-top:24px;display:block;text-align:center;background:var(--brand);color:#fff;padding:11px;border-radius:8px;text-decoration:none;font-weight:700}
@@ -113,6 +117,26 @@ function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'
 function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
 function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
 
+function parseResp(lines){
+  var res=[], cur=null;
+  lines.forEach(function(raw){
+    var t=raw.replace(/^ +/,''); var indent=raw.length-t.length;
+    if(t.slice(0,2)!=='- ') return;
+    var b=t.slice(2);
+    if(indent===0){
+      var title=b, desc='', a=b.indexOf('**');
+      if(a>=0){ var e=b.indexOf('**',a+2); if(e>a){ title=b.slice(a+2,e); desc=trimSep(b.slice(e+2)); } }
+      cur={title:title, desc:desc, context:[], owns:[], delivers:[]};
+      res.push(cur);
+    } else if(cur){
+      var ci=b.indexOf(':');
+      if(ci>0){ var key=b.slice(0,ci).trim().toLowerCase(); var val=b.slice(ci+1).trim();
+        if(cur[key] && cur[key].push) cur[key].push(val); }
+    }
+  });
+  return res;
+}
+
 function parseCard(md){
   var fm={}, body=md;
   if(md.indexOf('---')===0){
@@ -120,7 +144,7 @@ function parseCard(md){
     if(end>0){
       md.slice(3,end).trim().split(NL).forEach(function(line){
         var i=line.indexOf(':'); if(i<0) return;
-        fm[line.slice(0,i).trim()]= (line.slice(i+1).trim()||null);
+        fm[line.slice(0,i).trim()]=(line.slice(i+1).trim()||null);
       });
       body=md.slice(end+4).trimStart();
     }
@@ -134,17 +158,12 @@ function parseCard(md){
   });
   function items(name){ return (sec[name]||[]).filter(function(l){return l.slice(0,2)==='- ';}).map(function(l){return l.slice(2);}); }
   return {
-    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD',
+    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD', tag:fm.tag||null,
     reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null,
     purpose:(sec['_intro']||[]).join(' ').trim(),
-    resp:items('responsibilities').map(function(t){
-      var a=t.indexOf('**');
-      if(a>=0){ var b=t.indexOf('**',a+2); if(b>a) return {title:t.slice(a+2,b), desc:trimSep(t.slice(b+2))}; }
-      return {title:t, desc:''};
-    }),
+    resp:parseResp(sec['responsibilities']||[]),
     interfaces:items('key interfaces'),
-    goals:items('goals'),
-    context:items('context & control')
+    goals:items('goals')
   };
 }
 
@@ -167,28 +186,32 @@ function legend(){
   }).join('')+'</div>';
 }
 function ulist(arr){ return arr.length? '<ul class="ilist">'+arr.map(function(x){return '<li>'+inline(esc(x))+'</li>';}).join('')+'</ul>' : '<p style="color:var(--muted);font-size:13px">TBD</p>'; }
+function grp(cls,label,arr){
+  var chips = arr.length ? arr.map(function(x){return '<span class="chip">'+esc(x)+'</span>';}).join('')
+                         : '<span class="chip tbd">TBD</span>';
+  return '<div class="rg '+cls+'"><span class="rl">'+label+'</span><div class="chips">'+chips+'</div></div>';
+}
 
 function select(id){
   selected=id; var s=byId[id]; if(!s) return;
   var p=document.getElementById('panel'); p.className='panel';
   var rep=s.reports_to&&byId[s.reports_to]?byId[s.reports_to].seat:'—';
   var open=!s.owner||s.owner==='TBD';
-  var ownerLine=open?'<span style="color:#b8860b;font-weight:600">Open · recruiting</span>':esc(s.owner);
+  var who = open ? '<span style="color:#b8860b;font-weight:600">Open · recruiting</span>'
+                 : esc(s.owner)+(s.tag?' · <span style="color:var(--muted)">'+esc(s.tag)+'</span>':'');
   var resp=s.resp.map(function(r){
-    return '<details class="resp" style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'
-      +(r.desc?'<div class="resp-d">'+inline(esc(r.desc))+'</div>':'')+'</details>';
+    var inner=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
+      + grp('context','Context',r.context) + grp('owns','Owns',r.owns) + grp('delivers','Delivers',r.delivers);
+    return '<details class="resp" style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div></details>';
   }).join('');
-  var chips=s.context.length? '<div class="chips">'+s.context.map(function(c){return '<span class="chip">'+esc(c)+'</span>';}).join('')+'</div>'
-    : '<div class="chips"><span class="chip">TBD</span></div>';
   p.innerHTML=
     '<h2>'+esc(s.seat)+'</h2>'
     +'<div class="pdomain" style="--c:'+colorOf(s)+'">'+esc(s.domain)+'</div>'
-    +'<div class="kv"><b>Owner</b><span>'+ownerLine+'</span></div>'
+    +'<div class="kv"><b>Owner</b><span>'+who+'</span></div>'
     +'<div class="kv"><b>Reports to</b><span>'+esc(rep)+'</span></div>'
     +'<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
     +(s.purpose?'<p class="purpose">'+inline(esc(s.purpose))+'</p>':'')
     +'<div class="sect">Responsibilities</div>'+(resp||'<p style="color:var(--muted);font-size:13px">TBD</p>')
-    +'<div class="sect">Context &amp; control</div>'+chips
     +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
     +'<div class="sect">Goals</div>'+ulist(s.goals)
     +(open?'<a class="apply" href="#" onclick="return false;">Apply for this seat</a>':'')
