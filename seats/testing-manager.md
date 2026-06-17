@@ -43,6 +43,8 @@ Owns AI testing events. Testing runs over the summer break — just after exams 
 - IMechE (ASD-DV loans)
 - AI Team Lead
 
-## Goals
-- Run more testing sessions across 26-27 (components first, then the full car)
-- Build a proper, less-scrappy test kit (like IMechE's) for safe component testing
+## Requirements
+- Around over the summer (post-exams and into September) for testing
+- Organised and happy chasing bookings and coordinating people
+- Comfortable owning on-the-day logistics and safety
+- No coding needed — this is an operations seat
