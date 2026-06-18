@@ -88,8 +88,8 @@
   details.resp>summary::-webkit-details-marker{ display:none; }
   details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; font-size:18px; width:14px; }
   details.resp[open]>summary::before{ content:'–'; }
-  .resp-body{ padding:4px 16px 16px 16px; }
-  .rg{ margin:13px 0; }
+  .resp-body{ padding:2px 16px 15px 16px; display:flex; flex-wrap:wrap; gap:4px 22px; }
+  .rg{ flex:1; min-width:150px; margin:10px 0 0; }
   .rl{ display:block; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:6px; }
   .rg.owns .rl{ color:var(--brand); } .rg.delivers .rl{ color:#b07d00; }
   .rlist{ margin:3px 0 0; padding-left:18px; } .rlist li{ font-size:15px; color:#374151; margin:4px 0; }
@@ -102,6 +102,10 @@
   details.ctx .ilist{ margin-top:10px; }
   .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:5px 0; font-size:15px; color:#374151; }
 
+  .tov-h{ font-size:22px; font-weight:700; color:var(--ink); margin:0 0 4px; }
+  .tov-p{ color:#374151; font-size:15px; margin:10px 0; }
+  .back{ display:inline-block; font-size:12.5px; color:var(--muted); text-decoration:none; margin-bottom:14px; font-weight:600; }
+  .back:hover{ color:var(--brand); }
   .apply{ margin-top:26px; display:block; text-align:center; background:var(--gold); color:#3a2c00; padding:12px; border-radius:8px; text-decoration:none; font-weight:700; font-size:13.5px; }
   .apply:hover{ filter:brightness(1.04); }
   .filebadge{ font-size:11px; color:var(--muted); margin-top:16px; }
@@ -122,7 +126,7 @@
 <script>
 var REPO="Londrovski/tbre-sandbox", DIR="seats", BRANCH="main";
 var NL=String.fromCharCode(10);
-var SEATS=[], byId={}, selected=null;
+var SEATS=[], byId={}, selected=null, TEAM='';
 function childrenOf(id){ return SEATS.filter(function(s){return s.reports_to===id;}); }
 
 var DCOL={ "Leadership":"var(--d-lead)","Technology – Software":"var(--d-soft)",
@@ -133,6 +137,20 @@ function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'
 function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
 function initials(n){ var p=(n||'').split(' ').filter(Boolean); return ((p[0]||'?').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase(); }
 function uniq(a){ var seen={},o=[]; a.forEach(function(x){ if(!seen[x]){ seen[x]=1; o.push(x); } }); return o; }
+function mdToHtml(md){
+  var out=[], inList=false; function cl(){ if(inList){ out.push('</ul>'); inList=false; } }
+  md.split(NL).forEach(function(raw){
+    var line=raw.replace(/ +$/,'');
+    if(line.charAt(0)==='#'){ cl(); var lv=0; while(line.charAt(lv)==='#') lv++; var t=line.slice(lv).trim();
+      out.push(lv<=1 ? '<h2 class="tov-h">'+inline(esc(t))+'</h2>' : '<div class="sect">'+inline(esc(t))+'</div>'); }
+    else if((line.charAt(0)==='-'||line.charAt(0)==='*') && line.charAt(1)===' '){ if(!inList){ out.push('<ul class="ilist">'); inList=true; } out.push('<li>'+inline(esc(line.slice(2)))+'</li>'); }
+    else if(line===''){ cl(); }
+    else { cl(); out.push('<p class="tov-p">'+inline(esc(line))+'</p>'); }
+  });
+  cl(); return out.join('');
+}
+function showTeam(){ selected=null; var p=document.getElementById('panel'); p.className='panel';
+  p.innerHTML = TEAM ? mdToHtml(TEAM) : '<div class="loading">Add a team.md for the overview.</div>'; render(); }
 function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
 
 function parseResp(lines){
@@ -229,7 +247,8 @@ function select(id){
   }).join('');
   var pur=s.purpose||''; if(pur.length>250){ var cut=pur.slice(0,250); var sp=cut.lastIndexOf(' '); if(sp>200){ cut=cut.slice(0,sp); } pur=cut+'…'; }
   p.innerHTML=
-    '<div class="phead"><div class="ptext">'
+    '<a class="back" href="#" onclick="showTeam();return false;">‹ Team overview</a>'
+    +'<div class="phead"><div class="ptext">'
     +'<h2>'+esc(s.seat)+'</h2>'
     +'<div class="pdomain" style="--c:'+colorOf(s)+'">'+esc(s.domain)+'</div>'
     +'<div class="kv"><b>Owner</b><span>'+who+'</span></div>'
@@ -264,20 +283,20 @@ function render(){
 document.getElementById('chart').addEventListener('click',function(e){ var b=e.target.closest('.blk'); if(b) select(b.getAttribute('data-id')); });
 
 function load(){
-  fetch('https://api.github.com/repos/'+REPO+'/contents/'+DIR+'?ref='+BRANCH)
-   .then(function(r){ if(!r.ok) throw new Error('list '+r.status); return r.json(); })
-   .then(function(items){
-     var files=items.filter(function(i){return i.type==='file' && i.name.slice(-3)==='.md';});
-     return Promise.all(files.map(function(f){ return fetch(f.download_url).then(function(r){return r.text();}); }));
-   })
-   .then(function(cards){
-     SEATS=cards.map(parseCard).filter(function(s){return s.id;});
-     byId={}; SEATS.forEach(function(s){ byId[s.id]=s; });
-     render();
-   })
-   .catch(function(e){
-     document.getElementById('chart').innerHTML="<p class='loading'>Couldn't load cards ("+esc(e.message)+"). This view reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
-   });
+  Promise.all([
+    fetch('https://raw.githubusercontent.com/'+REPO+'/'+BRANCH+'/team.md').then(function(r){ return r.ok?r.text():''; }).catch(function(){ return ''; }),
+    fetch('https://api.github.com/repos/'+REPO+'/contents/'+DIR+'?ref='+BRANCH)
+      .then(function(r){ if(!r.ok) throw new Error('list '+r.status); return r.json(); })
+      .then(function(items){ var files=items.filter(function(i){return i.type==='file' && i.name.slice(-3)==='.md';});
+        return Promise.all(files.map(function(f){ return fetch(f.download_url).then(function(r){return r.text();}); })); })
+  ]).then(function(out){
+    TEAM=out[0]||'';
+    SEATS=out[1].map(parseCard).filter(function(s){return s.id;});
+    byId={}; SEATS.forEach(function(s){ byId[s.id]=s; });
+    render(); showTeam();
+  }).catch(function(e){
+    document.getElementById('chart').innerHTML="<p class='loading'>Couldn't load ("+esc(e.message)+"). Reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
+  });
 }
 load();
 </script>
