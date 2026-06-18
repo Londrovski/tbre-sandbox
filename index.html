@@ -194,7 +194,7 @@ function parseCard(md){
   });
   function items(name){ return (sec[name]||[]).filter(function(l){return l.slice(0,2)==='- ';}).map(function(l){return l.slice(2);}); }
   return {
-    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD', tag:fm.tag||null, photo:fm.photo||null,
+    id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD', tag:fm.tag||null, course:fm.course||null, photo:fm.photo||null,
     reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null,
     purpose:(sec['_intro']||[]).join(' ').trim(),
     resp:parseResp(sec['responsibilities']||[]),
@@ -252,6 +252,7 @@ function select(id){
     +'<h2>'+esc(s.seat)+'</h2>'
     +'<div class="pdomain" style="--c:'+colorOf(s)+'">'+esc(s.domain)+'</div>'
     +'<div class="kv"><b>Owner</b><span>'+who+'</span></div>'
+    +(s.course?'<div class="kv"><b>Course</b><span>'+esc(s.course)+'</span></div>':'')
     +'<div class="kv"><b>Reports to</b><span>'+esc(rep)+'</span></div>'
     +'<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
     +(pur?'<p class="purpose">'+inline(esc(pur))+'</p>':'')
