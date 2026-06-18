@@ -1,45 +1,42 @@
 ---
 id: ai-team-lead
-seat: AI Team Lead
+seat: Team Lead
 domain: Leadership
 owner: James Morris
 tag: jm3339
+course: Mech Eng · 4th Year
 photo: seats/photos/jm3339.png
 reports_to: 
 hrs: 5+
 ---
 
-# AI Team Lead
+# Team Lead
 
-Owns the AI sub-team end to end: direction, leadership team, and accountability. Sets the season's priorities and removes blockers so seats can deliver.
+Leads the AI sub-team: sets direction, builds the leadership team, and owns accountability across all seats.
 
 ## Responsibilities
-- **Vision & roadmap** — Set season vision, priorities and the competition roadmap for the AI sub-team.
+- **Direction & rhythm**
   - owns: Season plan & priorities
-  - delivers: Agreed season roadmap
-- **Team rhythm** — Run regular team check-ins and keep everyone aligned on priorities.
-  - owns: Weekly team meeting
-  - delivers: Aligned, unblocked seats
-- **Own the org chart** — Make sure every seat has the right owner.
-  - context: This repo (tbre-sandbox)
-  - owns: Org chart & seat assignments
-  - delivers: Every critical seat filled
-- **Represent the team** — Represent the AI team to the wider TBRe team and external partners.
+  - owns: Weekly leadership meeting
+  - delivers: Agreed roadmap
+  - delivers: Aligned, unblocked leads
+- **Own the org chart**
+  - context: This repo
+  - owns: This org chart & seat assignments
+  - delivers: Every critical seat owned
+- **Recruit & represent**
   - context: TBRe committee
   - context: IMechE
-  - context: Department
-  - delivers: AI team's voice in committee
-- **Recruitment** — Recruitment strategy and final sign-off on new members and seat assignments.
   - owns: Recruitment strategy
-  - delivers: New members onboarded into seats
+  - delivers: New members in seats
+  - delivers: AI team's voice on the committee
 
 ## Key interfaces
-- TBRe Team Lead / main committee
-- All AI seat owners
-- Recruitment
-- Web Manager
+- TBRe Team Lead / committee
+- Software / Elec / Mech Leads
+- Operations Manager
 
 ## Requirements
-- Comfortable leading a multi-disciplinary team
-- Good organiser and communicator
-- Across the year, heavier at season start and recruitment
+- Leads a multi-disciplinary team
+- Organised communicator
+- Across the year, heavier at season start
