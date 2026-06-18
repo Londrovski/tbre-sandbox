@@ -5,7 +5,7 @@ domain: Technology – Electrical
 owner: TBD
 reports_to: elec-lead
 hrs: 2-3
-order: 2
+order: 4
 ---
 
 # PCB Lead
