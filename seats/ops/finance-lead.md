@@ -10,19 +10,19 @@ order: 3
 
 # Finance Lead
 
-Owns the AI team budget and purchasing.
+Owns the AI team budget and purchasing — the budget request, expenditure tracking, and the interface with the main team / Competition Board on money.
 
 ## Responsibilities
 - **Budget & buy**
-  - context: Main team finance
+  - context: Main team finance; Faculty Competition Board
   - owns: The AI budget tracker
-  - delivers: An up-to-date budget
+  - delivers: The yearly budget request (expected-expenditure sheet) and an up-to-date tracker
   - delivers: Ordered hardware (e.g. discounted LiDAR)
 
 ## Key interfaces
-- Operations Manager
-- Perception Lead (specs)
-- Main team finance
+- Operations Manager / Team Lead
+- Perception Integration Lead (sensor specs)
+- Main team finance / Competition Board
 
 ## Requirements
 - Organised with numbers; reliable

@@ -1,6 +1,6 @@
 ---
-id: competition-docs-lead
-seat: Competition Docs Lead
+id: submissions
+seat: Submissions Lead
 domain: Operations
 owner: TBD
 reports_to: operations-manager
@@ -8,32 +8,33 @@ hrs: 2
 order: 4
 ---
 
-# Competition Docs Lead
+# Submissions Lead
 
-Owns the Formula Student autonomous submission documents and rules compliance — making sure the AI side is competition-ready and scrutineering passes.
+Owns the Formula Student autonomous submissions and rules compliance — the entries, design concept spec, and test plans that get the AI side competition-ready.
 
 ## Responsibilities
-- **Own the competition docs**
+- **Own the submissions**
   - context: gitlab tbre-ai/asf-template
   - context: gitlab tbre-ai/adr-2026
-  - context: IMechE / FS rules
-  - owns: AI competition documentation (ASF / ADR submissions)
+  - context: FSUK / FSG key dates; IMechE / FS rules
+  - owns: AI competition submissions (design concept spec, ASF / ADR, test plans)
   - delivers: Submitted docs by each deadline
 - **Rules & scrutineering**
   - owns: Rules tracking & scrutineering prep
   - delivers: AI side passes scrutineering
 
 ## Key interfaces
-- Operations Manager
+- Operations Manager / Team Lead
 - EBS Lead (safety case)
-- IMechE / FS rules
+- IMechE / FSUK / FSG
 - All leads (technical inputs)
 
 ## Requirements
 - Organised and deadline-driven
-- Comfortable with clear technical writing
+- Comfortable with clear technical writing (Typst templates provided)
 - No coding needed
 - Any year
 
 ## Notes
 _Working notes — not shown on the site._
+_Renamed from Competition Docs Lead (June 2026 restructure)._

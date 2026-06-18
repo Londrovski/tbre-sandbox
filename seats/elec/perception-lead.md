@@ -1,36 +1,12 @@
 ---
-id: perception-lead
-seat: Perception Lead
-domain: Technology – Electrical
-owner: TBD
-reports_to: elec-lead
-hrs: 2-3
-order: 1
+removed: true
+note: Removed in the June 2026 restructure.
 ---
 
-# Perception Lead
+# (removed)
 
-Owns detection of cones and track features from camera and LiDAR — including a new sensor and custom CUDA kernels.
+Perception moved to **Software → Perception Integration** (`seats/software`, id `perception-integration`) — the data-analysis / sensor-matching side of perception.
 
-## Responsibilities
-- **Build perception**
-  - context: gitlab tbre-ai/jetson-interface
-  - owns: The perception pipeline
-  - owns: Camera + LiDAR processing
-  - delivers: Reliable cone/feature detection
-  - delivers: Improved LiDAR with the new sensor & CUDA
-- **Feed the stack**
-  - delivers: Clean detections to SLAM & planning
+This file has no `id`, so it no longer appears on the site. Safe to delete:
 
-## Key interfaces
-- Elec Lead
-- SLAM Lead
-- Finance Lead (sensor purchase)
-
-## Requirements
-- Interested in computer vision / sensors
-- Some Python or C++; CUDA a bonus
-- Any year
-
-## Notes
-_Working notes — not shown on the site._
+    git rm seats/elec/perception-lead.md

@@ -1,31 +1,12 @@
 ---
-id: pcb-lead
-seat: PCB Lead
-domain: Technology – Electrical
-owner: TBD
-reports_to: elec-lead
-hrs: 2-3
-order: 4
+removed: true
+note: Removed in the June 2026 restructure.
 ---
 
-# PCB Lead
+# (removed)
 
-Owns the design and fabrication of the AI team's custom PCBs.
+The full AI-integration PCB is now logged as an **FYP opportunity** (see the Loom Lead seat), not a standing seat. The quick-win power & breakout PCB lives under Loom Lead.
 
-## Responsibilities
-- **Design & build PCBs**
-  - owns: AI PCB designs & fabrication
-  - delivers: Working, documented PCBs on the car
+This file has no `id`, so it no longer appears on the site. Safe to delete:
 
-## Key interfaces
-- Elec Lead
-- VCU Lead
-- Loom Lead
-
-## Requirements
-- Interested in PCB design (e.g. KiCad/Altium)
-- Some electronics experience
-- Any year
-
-## Notes
-_Working notes — not shown on the site._
+    git rm seats/elec/pcb-lead.md

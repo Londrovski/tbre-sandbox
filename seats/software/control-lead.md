@@ -1,36 +1,35 @@
 ---
-id: control-lead
-seat: Control Lead
+id: perception-integration
+seat: Perception Integration Lead
 domain: Technology – Software
-owner: TBD
+owner: Ryan Vickery
 reports_to: software-lead
 hrs: 2-3
 order: 2
 ---
 
-# Control Lead
+# Perception Integration Lead
 
-Owns path planning and vehicle control, including Model Predictive Control (MPC).
+Owns the perception data side: taking the LiDAR and camera streams and turning them into reliable cone detections — analysing the data and matching the two sensors together.
 
 ## Responsibilities
-- **Plan & control**
-  - context: gitlab tbre-ai/mpc-sandbox
-  - owns: The control + planning codebase
-  - owns: MPC implementation
-  - delivers: MPC for path planning & control
-  - delivers: Control validated in sim
-- **Tune for the car**
-  - delivers: Control tuned to TBRe27 dynamics
+- **LiDAR + camera data**
+  - owns: Sensor data analysis (LiDAR + camera)
+  - delivers: Matched / fused detections (cone positions) feeding SLAM
+- **Calibration & alignment**
+  - delivers: Calibrated, aligned LiDAR–camera data
 
 ## Key interfaces
 - Software Lead
-- Simulation Lead
-- SLAM Lead
+- Pathfinding Lead
+- Sensor Plate Lead (Mech)
 
 ## Requirements
-- Comfortable with control theory / MPC
-- Python or C++ and some maths
+- Comfortable with data analysis / Python
+- Interested in sensor fusion & perception
 - Any year
 
 ## Notes
 _Working notes — not shown on the site._
+_Scope note: this is the data-analysis / sensor-matching side of perception. It is NOT about training or improving image-recognition models — that's a common misconception._
+_Repurposed from the old Control Lead seat; control / MPC now lives under Pathfinding (June 2026 restructure)._

@@ -13,24 +13,25 @@ order: 1
 
 # Steering Lead
 
-Owns autonomous steering actuation — a steering-angle sensor and shaft-mounted motor working alongside manual control.
+Owns autonomous steering actuation — a steering-angle sensor and shaft-mounted motor working alongside manual control — including the steering quick-release.
 
 ## Responsibilities
 - **Deliver steering control**
   - context: Vehicle Dynamics
-  - context: Control Lead
+  - context: Pathfinding Lead
   - owns: The steering actuation design
+  - owns: The steering quick-release system
   - delivers: Accurate autonomous steering on the car
 
 ## Key interfaces
 - Mech Lead
-- Control Lead
+- Pathfinding Lead
 - Vehicle Dynamics team
 
 ## Requirements
-- CAD; some electrical/wiring
+- CAD; some electrical / wiring
 - Interested in actuation & control
-- Penultimate/final year ideal
+- Penultimate / final year ideal
 
 ## Notes
 _Working notes — not shown on the site._
