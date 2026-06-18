@@ -8,6 +8,7 @@ course: Mech Eng · 4th Year
 photo: seats/photos/jm3339.png
 reports_to: 
 hrs: 5+
+order: 0
 ---
 
 # Team Lead
@@ -22,7 +23,7 @@ Leads the AI sub-team: sets direction, builds the leadership team, and owns acco
   - delivers: Aligned, unblocked leads
 - **Own the org chart**
   - context: This repo
-  - owns: This org chart & seat assignments
+  - owns: Org chart & seat assignments
   - delivers: Every critical seat owned
 - **Recruit & represent**
   - context: TBRe committee
@@ -32,7 +33,7 @@ Leads the AI sub-team: sets direction, builds the leadership team, and owns acco
   - delivers: AI team's voice on the committee
 
 ## Key interfaces
-- TBRe Team Lead / committee
+- TBRe Team Lead / main committee
 - Software / Elec / Mech Leads
 - Operations Manager
 

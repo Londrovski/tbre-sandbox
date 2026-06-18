@@ -8,6 +8,7 @@ course: Mech Eng · 4th Year
 photo: seats/photos/jm3339.png
 reports_to: ai-team-lead
 hrs: 3
+order: 4
 ---
 
 # Operations Manager
@@ -22,7 +23,7 @@ Keeps the team running — testing, onboarding, finance and the systems that hol
 
 ## Key interfaces
 - Team Lead
-- Testing / Onboarding / Finance Leads
+- Testing / Onboarding / Finance / Competition Docs Leads
 
 ## Requirements
 - Organised; likes making things run smoothly

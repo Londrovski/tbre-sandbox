@@ -7,6 +7,7 @@ tag: spf35
 course: Comp Sci · 4th Year
 reports_to: ai-team-lead
 hrs: 3-4
+order: 1
 ---
 
 # Software Lead

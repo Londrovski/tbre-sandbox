@@ -7,6 +7,7 @@ tag: pa838
 course: IME · 2nd Year
 reports_to: ai-team-lead
 hrs: 3-4
+order: 2
 ---
 
 # Elec Lead

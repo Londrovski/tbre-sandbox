@@ -5,6 +5,7 @@ domain: Technology – Software
 owner: TBD
 reports_to: software-lead
 hrs: 2-3
+order: 2
 ---
 
 # SLAM Lead
