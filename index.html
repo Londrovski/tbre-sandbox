@@ -132,6 +132,7 @@ function childrenOf(id){ return SEATS.filter(function(s){return s.reports_to===i
 var DCOL={ "Leadership":"var(--d-lead)","Technology – Software":"var(--d-soft)",
   "Technology – Electrical":"var(--d-elec)","Technology – Mechanical":"var(--d-mech)",
   "Operations":"var(--d-ops)","Outside AI (interface)":"var(--d-out)" };
+var DORD={ "Leadership":0,"Technology – Software":1,"Technology – Electrical":2,"Technology – Mechanical":3,"Operations":4,"Outside AI (interface)":5 };
 function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
 function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
 function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
@@ -211,7 +212,7 @@ function block(s){
     +'<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div></div>';
 }
 function treeNode(id){
-  var kids=childrenOf(id).sort(function(a,b){return a.seat.localeCompare(b.seat);});
+  var kids=childrenOf(id).sort(function(a,b){ var da=(DORD[a.domain]==null?9:DORD[a.domain]), db=(DORD[b.domain]==null?9:DORD[b.domain]); return da-db || a.seat.localeCompare(b.seat); });
   var h='<li>'+block(byId[id]);
   if(kids.length) h+='<ul>'+kids.map(function(k){return treeNode(k.id);}).join('')+'</ul>';
   return h+'</li>';
