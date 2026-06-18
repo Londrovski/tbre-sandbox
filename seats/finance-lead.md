@@ -5,6 +5,7 @@ domain: Operations
 owner: TBD
 reports_to: operations-manager
 hrs: 2
+order: 3
 ---
 
 # Finance Lead

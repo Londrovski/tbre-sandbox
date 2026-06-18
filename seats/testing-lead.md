@@ -5,6 +5,7 @@ domain: Operations
 owner: TBD
 reports_to: operations-manager
 hrs: 2-3
+order: 1
 ---
 
 # Testing Lead

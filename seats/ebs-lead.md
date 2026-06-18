@@ -5,8 +5,10 @@ domain: Technology – Mechanical
 owner: Sara Alkhalili
 tag: sa3257
 course: Mech with Auto · 4th Year
+photo: seats/photos/sa3257.JPG
 reports_to: mech-lead
 hrs: 2-3
+order: 2
 ---
 
 # EBS Lead
