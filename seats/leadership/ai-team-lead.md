@@ -17,20 +17,25 @@ Leads the AI sub-team: sets direction, builds the leadership team, and owns acco
 
 ## Responsibilities
 - **Direction & rhythm**
-  - owns: Season plan & priorities
-  - owns: Weekly leadership meeting
-  - delivers: Agreed roadmap
-  - delivers: Aligned, unblocked leads
-- **Own the org chart**
-  - context: This repo
-  - owns: Org chart & seat assignments
-  - delivers: Every critical seat owned
-- **Recruit & represent**
+  - owns: Goals, rocks, delegation of issues and tasks
+  - owns: Communication with other Team Leads, HODs, and faculty
+  - owns: Runs weekly AI Team Leadership meeting
+  - delivers: Achieved roadmap and milestone plans
+  - delivers: Team cohesion and support
+  - delivers: The right people in the right seats
+- **Recruitment**
   - context: TBRe committee
   - context: IMechE
-  - owns: Recruitment strategy
-  - delivers: New members in seats
-  - delivers: AI team's voice on the committee
+  - owns: Recruitment strategies, presentations, and outreach, and AI Team representation
+  - owns: Support Subteam Leads in recruitment and onboarding
+  - delivers: New members onboarded fully with context and POCs defined
+- **GBDP & FYPs**
+  - context: TBRe committee
+  - owns: Working with designated supervisor to manage GBDP group
+  - owns: Oversight of FYPs to integrate into the team
+  - delivers: GBDP brief alonside supervisor
+  - delivers: GBDP useful contribution to build for the next year's car
+  - delivers: FYPs that integrate into current year work and helps push envelope for future years
 
 ## Key interfaces
 - TBRe Team Lead / main committee
@@ -40,7 +45,7 @@ Leads the AI sub-team: sets direction, builds the leadership team, and owns acco
 ## Requirements
 - Leads a multi-disciplinary team
 - Organised communicator
-- Across the year, heavier at season start
+- Available all the year, heavier at season start
 
 ## Notes
 _Working notes — not shown on the site. To be formalised into responsibilities/context later._
