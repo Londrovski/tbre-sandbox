@@ -5,6 +5,7 @@ domain: Technology – Software
 owner: Szymon Fladro
 tag: spf35
 course: Comp Sci · 4th Year
+photo: seats/photos/spf35.JPG
 reports_to: ai-team-lead
 hrs: 3-4
 order: 1
