@@ -31,3 +31,6 @@ Owns autonomous steering actuation — a steering-angle sensor and shaft-mounted
 - CAD; some electrical/wiring
 - Interested in actuation & control
 - Penultimate/final year ideal
+
+## Notes
+_Working notes — not shown on the site._

@@ -31,3 +31,6 @@ Owns path planning and vehicle control, including Model Predictive Control (MPC)
 - Comfortable with control theory / MPC
 - Python or C++ and some maths
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

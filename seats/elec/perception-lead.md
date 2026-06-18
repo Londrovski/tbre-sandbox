@@ -31,3 +31,6 @@ Owns detection of cones and track features from camera and LiDAR — including a
 - Interested in computer vision / sensors
 - Some Python or C++; CUDA a bonus
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

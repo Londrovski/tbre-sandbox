@@ -32,3 +32,6 @@ Owns AI testing events over the summer and pre-term — booking space, sourcing 
 - Around over the summer for testing
 - Organised; happy chasing bookings
 - No coding needed
+
+## Notes
+_Working notes — not shown on the site._

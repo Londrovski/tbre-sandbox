@@ -31,3 +31,6 @@ Owns mounting the sensing plate and system across the ASD-DV and TBRe27 cars, de
 - Comfortable with CAD and fabrication
 - Mechanical background
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

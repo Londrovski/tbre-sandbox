@@ -34,3 +34,6 @@ Owns the Formula Student autonomous submission documents and rules compliance â€
 - Comfortable with clear technical writing
 - No coding needed
 - Any year
+
+## Notes
+_Working notes â€” not shown on the site._

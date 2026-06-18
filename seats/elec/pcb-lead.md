@@ -26,3 +26,6 @@ Owns the design and fabrication of the AI team's custom PCBs.
 - Interested in PCB design (e.g. KiCad/Altium)
 - Some electronics experience
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

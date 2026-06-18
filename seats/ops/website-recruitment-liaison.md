@@ -36,3 +36,6 @@ Sits outside the AI team. Oversees changes and updates to the website, fixes err
 - Comfortable with the website tooling / stack
 - Organised with access and handover
 - ~2 hrs/week
+
+## Notes
+_Working notes — not shown on the site._

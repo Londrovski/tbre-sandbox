@@ -33,3 +33,6 @@ Owns the software domain — direction across simulation, SLAM and control, plus
 - Strong C/C++; comfortable with Git & CMake
 - Enjoys mentoring and reviewing code
 - Any year, penultimate/final ideal
+
+## Notes
+_Working notes — not shown on the site._

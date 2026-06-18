@@ -28,3 +28,6 @@ Owns the AI team budget and purchasing.
 - Organised with numbers; reliable
 - No coding needed
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

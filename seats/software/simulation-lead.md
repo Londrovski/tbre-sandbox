@@ -32,3 +32,6 @@ Owns the simulation used to develop and test the control stack — moving off Un
 - Comfortable with C++/Unity or game/physics engines
 - Interested in simulation & vehicle modelling
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

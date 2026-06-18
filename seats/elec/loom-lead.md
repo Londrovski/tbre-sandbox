@@ -26,3 +26,6 @@ Owns the wiring loom for the AI sensing and compute systems.
 - Hands-on with wiring / connectors
 - Careful and methodical
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

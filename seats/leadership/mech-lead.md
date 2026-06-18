@@ -33,3 +33,6 @@ Owns the mechanical domain — steering and braking actuation, the EBS, and moun
 - Comfortable with CAD and fabrication
 - Mechanical background
 - Any year, penultimate/final ideal
+
+## Notes
+_Working notes — not shown on the site._

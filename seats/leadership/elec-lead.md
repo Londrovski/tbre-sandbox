@@ -31,3 +31,6 @@ Owns the electrical domain — perception hardware, PCBs, the VCU interface, wir
 - Interested in electronics, PCBs and embedded
 - Organised; happy coordinating
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

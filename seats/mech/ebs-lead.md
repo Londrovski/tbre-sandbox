@@ -30,3 +30,6 @@ Owns the Emergency Braking System and autonomous braking — critical for safe d
 - CAD; interest in safety-critical systems
 - Methodical and safety-minded
 - Penultimate/final year ideal
+
+## Notes
+_Working notes — not shown on the site._

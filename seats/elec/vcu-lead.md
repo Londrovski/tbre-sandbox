@@ -30,3 +30,6 @@ Owns the interface to the Vehicle Control Unit — the bridge between the AI sys
 - Comfortable with embedded / CAN / microcontrollers
 - Some C/C++
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

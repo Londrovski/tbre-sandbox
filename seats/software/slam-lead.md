@@ -29,3 +29,6 @@ Owns localisation and mapping — building a new SLAM system so the car knows wh
 - Comfortable with C++ and some maths/geometry
 - Interested in robotics / state estimation
 - Any year
+
+## Notes
+_Working notes — not shown on the site._

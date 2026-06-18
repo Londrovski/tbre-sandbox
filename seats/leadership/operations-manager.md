@@ -28,3 +28,6 @@ Keeps the team running — testing, onboarding, finance and the systems that hol
 ## Requirements
 - Organised; likes making things run smoothly
 - Across the year
+
+## Notes
+_Working notes — not shown on the site._

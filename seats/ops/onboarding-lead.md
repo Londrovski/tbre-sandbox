@@ -30,3 +30,6 @@ Owns onboarding and the team's systems — getting new members set up and keepin
 - Organised; likes documentation & tidy systems
 - Comfortable with GitLab and Teams
 - Any year
+
+## Notes
+_Working notes — not shown on the site._
