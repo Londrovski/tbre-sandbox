@@ -45,7 +45,7 @@
   .tree ul::before{ content:''; position:absolute; top:0; left:50%; border-left:2px solid var(--line); width:0; height:24px; }
   .tree li>ul{ position:relative; }
   .leafwrap{ position:relative; padding-top:24px; }
-  .leafwrap .spine{ position:absolute; top:0; bottom:14px; left:50%; width:2px; margin-left:-1px; background:var(--line); }
+  .leafwrap .spine{ position:absolute; top:0; bottom:29px; left:50%; width:2px; margin-left:-1px; background:var(--line); }
   .leafrows{ display:flex; flex-direction:column; gap:16px; }
   .lrow{ display:grid; grid-template-columns:1fr 1fr; column-gap:72px; align-items:center; }
   .lcell{ position:relative; }
@@ -98,11 +98,13 @@
   details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; font-size:18px; width:14px; }
   details.resp[open]>summary::before{ content:'–'; }
   .resp-body{ padding:0 16px 14px 16px; display:flex; flex-wrap:wrap; gap:4px 22px; }
+  .resp-d{ font-size:15px; color:#374151; margin:4px 0 12px; }
   .rg{ flex:1; min-width:150px; margin:4px 0 0; }
   .rl{ display:block; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:6px; }
   .rg.owns .rl{ color:var(--brand); } .rg.delivers .rl{ color:#b07d00; }
   .rlist{ margin:3px 0 0; padding-left:18px; } .rlist li{ font-size:15px; color:#374151; margin:4px 0; }
   .rtbd{ color:var(--muted); font-size:12px; margin:2px 0 0; font-style:italic; }
+  .covers{ color:var(--muted); font-size:14px; margin:14px 0 0; } .covers b{ color:var(--ink); font-weight:600; }
   details.ctx{ margin:24px 0 12px; }
   details.ctx>summary{ cursor:pointer; list-style:none; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--brand); font-weight:700; border-bottom:1px solid var(--line); padding-bottom:7px; display:flex; align-items:center; }
   details.ctx>summary::-webkit-details-marker{ display:none; }
@@ -111,11 +113,11 @@
   details.ctx .ilist{ margin-top:10px; }
   .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:5px 0; font-size:15px; color:#374151; }
 
-  .tov-h{ font-size:22px; font-weight:700; color:var(--ink); margin:0 0 4px; }
+.tov-h{ font-size:22px; font-weight:700; color:var(--ink); margin:0 0 4px; }
   .tov-p{ color:#374151; font-size:15px; margin:10px 0; }
   .back{ display:inline-block; font-size:12.5px; color:var(--muted); text-decoration:none; margin-bottom:14px; font-weight:600; }
   .back:hover{ color:var(--brand); }
-  .apply{ margin-top:26px; display:block; text-align:center; background:var(--gold); color:#3a2c00; padding:12px; border-radius:8px; text-decoration:none; font-weight:700; font-size:13.5px; }
+    .apply{ margin-top:26px; display:block; text-align:center; background:var(--gold); color:#3a2c00; padding:12px; border-radius:8px; text-decoration:none; font-weight:700; font-size:13.5px; }
   .apply:hover{ filter:brightness(1.04); }
   .filebadge{ font-size:11px; color:var(--muted); margin-top:16px; }
   .row{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
@@ -281,7 +283,7 @@ function select(id){
     +'<div class="kv"><b>Commitment</b><span>~'+esc(s.hrs)+' hrs/week</span></div>'
     +(pur?'<p class="purpose">'+inline(esc(pur))+'</p>':'')
     +'</div><div class="pphoto">'+photo+'</div></div>'
-    +'<div class="sect">Requirements</div>'+ulist(s.requirements)
+    +(open ? ('<div class="sect">Requirements</div>'+ulist(s.requirements)) : ('<details class="ctx"><summary>Requirements</summary>'+ulist(s.requirements)+'</details>'))
     +'<div class="sect">Responsibilities</div>'+(resp||'<p class="rtbd">TBD</p>')
     +(ctx.length?'<details class="ctx"><summary>Context</summary>'+ulist(ctx)+'</details>':'')
     +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
