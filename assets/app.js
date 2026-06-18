@@ -162,7 +162,9 @@ var TBRE=(function(){
       var seatCtx='<details class="ctx ctxdoc seatctx" data-doc="context/seats/'+esc(s.id)+'.md"><summary>Seat context</summary><div class="ctxbody"><p class="rtbd">Loading…</p></div></details>';
       var respT=s.resp.map(function(r){
         var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
-        var cd = r.doc ? '<details class="ctx ctxdoc" data-doc="'+esc(r.doc)+'"><summary>Context</summary><div class="ctxbody"><p class="rtbd">Loading…</p></div></details>' : '';
+        var dd = r.doc ? ' data-doc="'+esc(r.doc)+'"' : '';
+        var ph = r.doc ? '<p class="rtbd">Loading…</p>' : '<p class="rtbd">No context doc linked yet — add a doc: line to this responsibility in the card.</p>';
+        var cd = '<details class="ctx ctxdoc"'+dd+'><summary>Context</summary><div class="ctxbody">'+ph+'</div></details>';
         return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
       }).join('');
       p.innerHTML = head
@@ -241,8 +243,9 @@ var TBRE=(function(){
     panel.addEventListener('toggle', function(e){
       var d=e.target; if(!d.classList || !d.classList.contains('ctxdoc')) return;
       if(!d.open || d.getAttribute('data-loaded')) return;
+      var path=d.getAttribute('data-doc'); if(!path) return;
       d.setAttribute('data-loaded','1');
-      var path=d.getAttribute('data-doc'); var body=d.querySelector('.ctxbody');
+      var body=d.querySelector('.ctxbody');
       fetchCtx(path).then(function(txt){
         if(!txt){ body.innerHTML='<p class="rtbd">No context doc yet ('+esc(path)+').</p>'; return; }
         body.innerHTML=mdToHtml(stripFM(txt));
