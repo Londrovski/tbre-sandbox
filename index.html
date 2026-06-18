@@ -121,6 +121,25 @@
   .apply:hover{ filter:brightness(1.04); }
   .filebadge{ font-size:11px; color:var(--muted); margin-top:16px; }
   .row{ display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+
+  .mback{ display:none; align-items:center; gap:6px; position:sticky; top:0; z-index:2;
+    width:calc(100% + 36px); margin:0 -18px 14px; padding:14px 18px; background:#fff;
+    border:0; border-bottom:1px solid var(--line); font:700 14px Poppins,sans-serif;
+    color:var(--brand); cursor:pointer; text-align:left; }
+  @media (max-width:760px){
+    header{ padding:10px 16px; }
+    .search{ width:100%; margin-left:0; order:3; }
+    .search input{ width:100%; }
+    .wrap{ display:block; height:auto; }
+    .chart{ height:calc(100vh - 96px); padding:20px 12px 56px; }
+    .panel{ position:fixed; inset:0; width:auto; min-width:0; flex:none; z-index:60;
+      border-left:0; padding:0 18px 44px; display:none; }
+    body.detail-open .panel{ display:block; }
+    body.detail-open .chart{ display:none; }
+    .panel .back{ display:none; }
+    .mback{ display:flex; }
+    .pphoto{ flex-basis:42%; }
+  }
 </style>
 </head>
 <body>
@@ -161,7 +180,7 @@ function mdToHtml(md){
   });
   cl(); return out.join('');
 }
-function showTeam(){ selected=null; var p=document.getElementById('panel'); p.className='panel';
+function showTeam(){ selected=null; document.body.classList.remove('detail-open'); var p=document.getElementById('panel'); p.className='panel';
   p.innerHTML = TEAM ? mdToHtml(TEAM) : '<div class="loading">Add a team.md for the overview.</div>'; render(); }
 function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
 
@@ -257,6 +276,7 @@ function grp(cls,label,arr){
 function select(id){
   selected=id; var s=byId[id]; if(!s) return;
   var p=document.getElementById('panel'); p.className='panel';
+  document.body.classList.add('detail-open');
   var rep=s.reports_to&&byId[s.reports_to]?byId[s.reports_to].seat:'—';
   var open=!s.owner||s.owner==='TBD';
   var who = open ? '<span style="color:#b8860b;font-weight:600">Open · recruiting</span>'
@@ -273,7 +293,8 @@ function select(id){
   }).join('');
   var pur=s.purpose||''; if(pur.length>250){ var cut=pur.slice(0,250); var sp=cut.lastIndexOf(' '); if(sp>200){ cut=cut.slice(0,sp); } pur=cut+'…'; }
   p.innerHTML=
-    '<a class="back" href="#" onclick="showTeam();return false;">‹ Team overview</a>'
+    '<button class="mback" onclick="showTeam();return false;">‹ Back to map</button>'
+    +'<a class="back" href="#" onclick="showTeam();return false;">‹ Team overview</a>'
     +'<div class="phead"><div class="ptext">'
     +'<h2>'+esc(s.seat)+'</h2>'
     +'<div class="pdomain" style="--c:'+colorOf(s)+'">'+esc(s.domain)+'</div>'
