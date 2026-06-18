@@ -31,7 +31,7 @@
   .panel.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center}
 
   .tree, .tree ul{ list-style:none; margin:0; padding:0; display:flex; }
-  .tree{ justify-content:center; }
+  .tree{ width:max-content; margin:0 auto; }
   .tree ul{ padding-top:24px; justify-content:center; }
   .tree li{ position:relative; padding:24px 10px 0; display:flex; flex-direction:column; align-items:center; }
   .tree li::before, .tree li::after{ content:''; position:absolute; top:0; width:50%; height:24px; border-top:2px solid var(--line); }
@@ -83,13 +83,13 @@
 
   details.resp{ background:var(--surface); border:1px solid var(--line); border-left:3px solid var(--c,var(--brand));
     border-radius:8px; margin:9px 0; overflow:hidden; box-shadow:var(--shadow); }
-  details.resp>summary{ cursor:pointer; list-style:none; padding:13px 16px; font-size:16px; font-weight:700;
+  details.resp>summary{ cursor:pointer; list-style:none; padding:12px 16px 6px; font-size:16px; font-weight:700;
     display:flex; align-items:center; gap:10px; color:var(--ink); }
   details.resp>summary::-webkit-details-marker{ display:none; }
   details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; font-size:18px; width:14px; }
   details.resp[open]>summary::before{ content:'–'; }
-  .resp-body{ padding:2px 16px 15px 16px; display:flex; flex-wrap:wrap; gap:4px 22px; }
-  .rg{ flex:1; min-width:150px; margin:10px 0 0; }
+  .resp-body{ padding:0 16px 14px 16px; display:flex; flex-wrap:wrap; gap:4px 22px; }
+  .rg{ flex:1; min-width:150px; margin:4px 0 0; }
   .rl{ display:block; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:6px; }
   .rg.owns .rl{ color:var(--brand); } .rg.delivers .rl{ color:#b07d00; }
   .rlist{ margin:3px 0 0; padding-left:18px; } .rlist li{ font-size:15px; color:#374151; margin:4px 0; }
@@ -196,7 +196,7 @@ function parseCard(md){
   function items(name){ return (sec[name]||[]).filter(function(l){return l.slice(0,2)==='- ';}).map(function(l){return l.slice(2);}); }
   return {
     id:fm.id, seat:fm.seat||fm.id, domain:fm.domain||'', owner:fm.owner||'TBD', tag:fm.tag||null, course:fm.course||null, photo:fm.photo||null,
-    reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null,
+    reports_to:fm.reports_to||null, hrs:fm.hrs||'?', group:fm.group||null, order:(fm.order!=null?parseInt(fm.order,10):null),
     purpose:(sec['_intro']||[]).join(' ').trim(),
     resp:parseResp(sec['responsibilities']||[]),
     interfaces:items('key interfaces'),
@@ -212,7 +212,7 @@ function block(s){
     +'<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div></div>';
 }
 function treeNode(id){
-  var kids=childrenOf(id).sort(function(a,b){ var da=(DORD[a.domain]==null?9:DORD[a.domain]), db=(DORD[b.domain]==null?9:DORD[b.domain]); return da-db || a.seat.localeCompare(b.seat); });
+  var kids=childrenOf(id).sort(function(a,b){ var oa=(a.order==null?99:a.order), ob=(b.order==null?99:b.order); if(oa!==ob) return oa-ob; var da=(DORD[a.domain]==null?9:DORD[a.domain]), db=(DORD[b.domain]==null?9:DORD[b.domain]); return da-db || a.seat.localeCompare(b.seat); });
   var h='<li>'+block(byId[id]);
   if(kids.length) h+='<ul>'+kids.map(function(k){return treeNode(k.id);}).join('')+'</ul>';
   return h+'</li>';
