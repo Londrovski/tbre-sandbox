@@ -17,6 +17,7 @@ built from each card's `reports_to`, not its folder, so you can drop a card in a
 - **`seats/ops/`** — Testing, Onboarding, Finance, Competition Docs (+ the Website spare).
 - **`seats/archive/`** — parked roles, not shown on the site.
 - **`seats/photos/`** — headshots (`<tag>.png`).
+- **`context/`** — hidden context docs (responsibility- and seat-level). Not rendered by the site yet. See **Context model** below.
 - **`index.html`** — the self-loading chart + detail panel.
 
 ## Add / edit a role
@@ -42,6 +43,7 @@ Short purpose paragraph.
 
 ## Responsibilities
 - **Title** — Description.
+  - doc: context/responsibilities/my-resp-id.md   # optional; deep context (hidden), see Context model
   - context: where to look / POC
   - owns: a repo / folder / process / outcome
   - delivers: an output
@@ -65,6 +67,48 @@ The site **only** renders four sections: the intro paragraph (purpose), `## Resp
 `## Notes` (and any `###` sub-headings inside it) is a safe place for working notes, brainstorming, and
 context to formalise later. It lives in the markdown and in git history but never appears on the card.
 Every card currently carries a `## Notes` stub for this purpose.
+
+Within a responsibility, the parser only captures the sub-bullet keys `context:`, `owns:` and `delivers:`.
+**Any other key — e.g. `doc:` — is silently ignored by the site**, which is what makes the context links below
+safe to add without changing anything on the page.
+
+---
+
+## Context model (responsibility + seat context docs)
+
+Deep context lives in a separate **`context/`** tree, kept out of the cards so the cards stay lean and the
+live recruitment site is unaffected. Two kinds of doc:
+
+- **`context/responsibilities/<resp-id>.md`** — one doc per responsibility. Keyed by the responsibility, **not**
+  nested under a seat, so when a responsibility moves between seats (they're portable) the doc stays put — you
+  only move the card bullet. This also avoids the connector's can't-move-files limit.
+- **`context/seats/<seat-id>.md`** — a per-seat catch-all for context that isn't tied to one responsibility.
+
+**Linking.** A responsibility points at its context doc with a hidden `doc:` sub-bullet:
+```markdown
+- **Build & run the sim**
+  - doc: context/responsibilities/sim-build-run.md
+  - context: gitlab tbre-ai/tbresim
+  - owns: The simulator (tbresim)
+```
+The seat-level doc is found by convention at `context/seats/<id>.md` (no field needed).
+
+**Why this is invisible today.** The site loader only fetches `seats/**.md`, so the whole `context/` tree is
+ignored; and the card parser ignores the `doc:` key. Nothing renders until the team view is built.
+
+**Each context doc** carries light front-matter (`context_for`, `id`, `seat`, `status`, `updated`) so it's
+self-describing and machine-addressable. `status: draft` + `_TO FILL_` markers flag where real knowledge still
+needs to be added by the seat holder / James.
+
+**Worked example (done):** `simulation-lead` — see `context/seats/simulation-lead.md` and
+`context/responsibilities/sim-build-run.md`, `sim-keep-representative.md`, plus the `doc:` links on the card.
+The remaining seats follow the same pattern.
+
+### Future: team-view mode
+The plan is to add a mode toggle to `index.html`:
+- **Recruitment view (current):** what's live now — open seats, Apply buttons, purpose/responsibilities/requirements.
+- **Team view:** org chart + responsibilities + the context docs (fetched from `context/` by the `doc:` links and
+  the `context/seats/<id>.md` convention). Raw fetches don't count against the API rate limit, so this stays cheap.
 
 ---
 
@@ -95,6 +139,8 @@ map of who owns/controls what and who to contact.
   shown as Owns/Delivers groups, Requirements (collapsed if the seat is filled), Context + Key interfaces.
 - **Only four card sections render** (purpose, Responsibilities, Key interfaces, Requirements). Any other
   heading — notably `## Notes` — is ignored by the renderer, so it's the place for hidden working notes.
+- **Deep context** lives in the separate `context/` tree (see **Context model** above), linked from cards via
+  the hidden `doc:` key. Invisible to the current site; for the future team view.
 
 **Branding.** Match teambathracingelectric.com — Poppins font, blue `#105BAB`, gold `#FFC423`, white cards,
 near-black text, no green. The TBRe logo loads from the live site.
@@ -120,6 +166,7 @@ Brian Cheung (tyc91). Everything else is currently open (`TBD`). Website Managem
 **Editable team overview.** `team.md` at the repo root is shown as the default panel (the people-first pitch +
 "where we are / where we're going"). Edit it like any card.
 
-**Possible future work (not built):** wire the "Apply" button to a real recruitment form; sync seats to
-**success.co** (EOS platform; GraphQL API at https://www.success.co/graphql, Bearer key, James generates the
-key); fill structure gaps (Logging/Infra owner, integration/systems sign-off, test-day safety owner).
+**Possible future work (not built):** the **team-view mode** described under Context model (surface context docs);
+wire the "Apply" button to a real recruitment form; sync seats to **success.co** (EOS platform; GraphQL API at
+https://www.success.co/graphql, Bearer key, James generates the key); fill structure gaps (Logging/Infra owner,
+integration/systems sign-off, test-day safety owner).
