@@ -51,10 +51,20 @@ Short purpose paragraph.
 
 ## Requirements
 - Good-fit / skills / commitment
+
+## Notes
+_Working notes — not shown on the site. Write whatever you like here._
 ```
 
 Push to `main` → GitHub Pages redeploys. Each role is a *seat* (one owner, ~2-3 hrs/week);
 one person can hold several. Responsibilities are portable between seats.
+
+### What renders vs what's hidden
+The site **only** renders four sections: the intro paragraph (purpose), `## Responsibilities`,
+`## Key interfaces`, and `## Requirements`. **Any other heading is read but never displayed** — so
+`## Notes` (and any `###` sub-headings inside it) is a safe place for working notes, brainstorming, and
+context to formalise later. It lives in the markdown and in git history but never appears on the card.
+Every card currently carries a `## Notes` stub for this purpose.
 
 ---
 
@@ -83,6 +93,8 @@ map of who owns/controls what and who to contact.
   sorts siblings under a lead. `group: spare` floats a card unconnected at the bottom.
 - The detail panel: split header (text left, photo right), purpose capped ~250 chars, responsibilities
   shown as Owns/Delivers groups, Requirements (collapsed if the seat is filled), Context + Key interfaces.
+- **Only four card sections render** (purpose, Responsibilities, Key interfaces, Requirements). Any other
+  heading — notably `## Notes` — is ignored by the renderer, so it's the place for hidden working notes.
 
 **Branding.** Match teambathracingelectric.com — Poppins font, blue `#105BAB`, gold `#FFC423`, white cards,
 near-black text, no green. The TBRe logo loads from the live site.
