@@ -36,6 +36,11 @@ Leads the AI sub-team: sets direction, builds the leadership team, and owns acco
   - delivers: GBDP brief alonside supervisor
   - delivers: GBDP useful contribution to build for the next year's car
   - delivers: FYPs that integrate into current year work and helps push envelope for future years
+- **Handover**
+  - owns: Handover to new team lead
+  - owns: Supervise handover of subteam leads
+  - delivers: Smooth transition to new cohort with no loss of information
+  - delivers: Fulld documentation through the year
 
 ## Key interfaces
 - TBRe Team Lead / main committee
