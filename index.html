@@ -33,7 +33,7 @@
   .tree, .tree ul{ list-style:none; margin:0; padding:0; display:flex; }
   .tree{ width:max-content; margin:0 auto; }
   .tree ul{ padding-top:24px; justify-content:center; }
-  .tree li{ position:relative; padding:24px 10px 0; display:flex; flex-direction:column; align-items:center; }
+  .tree li{ position:relative; padding:24px 30px 0; display:flex; flex-direction:column; align-items:center; }
   .tree li::before, .tree li::after{ content:''; position:absolute; top:0; width:50%; height:24px; border-top:2px solid var(--line); }
   .tree li::before{ right:50%; }
   .tree li::after{ left:50%; border-left:2px solid var(--line); }
@@ -45,8 +45,14 @@
   .tree ul::before{ content:''; position:absolute; top:0; left:50%; border-left:2px solid var(--line); width:0; height:24px; }
   .tree li>ul{ position:relative; }
   .leafwrap{ position:relative; padding-top:24px; }
-  .leafwrap::before{ content:''; position:absolute; top:0; left:50%; width:0; height:24px; border-left:2px solid var(--line); }
-  .leafgrid{ display:grid; grid-template-columns:repeat(2, max-content); gap:16px 18px; justify-content:center; }
+  .leafwrap .spine{ position:absolute; top:0; bottom:14px; left:50%; width:2px; margin-left:-1px; background:var(--line); }
+  .leafrows{ display:flex; flex-direction:column; gap:16px; }
+  .lrow{ display:grid; grid-template-columns:1fr 1fr; column-gap:72px; align-items:center; }
+  .lcell{ position:relative; }
+  .lcell.left{ justify-self:end; }
+  .lcell.right{ justify-self:start; }
+  .lcell.left::after{ content:''; position:absolute; top:50%; right:0; width:36px; height:0; border-top:2px solid var(--line); transform:translateX(100%); }
+  .lcell.right::after{ content:''; position:absolute; top:50%; left:0; width:36px; height:0; border-top:2px solid var(--line); transform:translateX(-100%); }
 
   .blk{ position:relative; background:var(--surface); border:1px solid var(--line);
     border-top:3px solid var(--c,var(--brand)); border-radius:8px; padding:10px 13px;
@@ -214,6 +220,15 @@ function block(s){
     +'<div class="nm">'+esc(s.seat)+'</div>'
     +'<div class="mt"><span class="odot '+(open?'open':'filled')+'"></span>'+(open?'Open':esc(s.owner))+' · ~'+esc(s.hrs)+'h</div></div>';
 }
+function leafGrid(kids){
+  var rows='';
+  for(var i=0;i<kids.length;i+=2){
+    var left='<div class="lcell left">'+block(kids[i])+'</div>';
+    var right=(i+1<kids.length)?'<div class="lcell right">'+block(kids[i+1])+'</div>':'<div></div>';
+    rows+='<div class="lrow">'+left+right+'</div>';
+  }
+  return '<div class="leafwrap"><div class="spine"></div><div class="leafrows">'+rows+'</div></div>';
+}
 function sortKids(id){ return childrenOf(id).sort(function(a,b){ var oa=(a.order==null?99:a.order), ob=(b.order==null?99:b.order); if(oa!==ob) return oa-ob; var da=(DORD[a.domain]==null?9:DORD[a.domain]), db=(DORD[b.domain]==null?9:DORD[b.domain]); return da-db || a.seat.localeCompare(b.seat); }); }
 function treeNode(id){
   var kids=sortKids(id);
@@ -221,7 +236,7 @@ function treeNode(id){
   if(kids.length){
     var deep=kids.some(function(k){return childrenOf(k.id).length>0;});
     if(deep){ h+='<ul>'+kids.map(function(k){return treeNode(k.id);}).join('')+'</ul>'; }
-    else { h+='<div class="leafwrap"><div class="leafgrid">'+kids.map(function(k){return block(byId[k.id]);}).join('')+'</div></div>'; }
+    else { h+=leafGrid(kids); }
   }
   return h+'</li>';
 }
