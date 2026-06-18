@@ -8,7 +8,7 @@ course: Robotics · 4th Year
 photo: seats/photos/csg45.JPG
 reports_to: elec-lead
 hrs: 2-3
-order: 3
+order: 2
 ---
 
 # VCU Lead
