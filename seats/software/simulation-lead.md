@@ -14,6 +14,7 @@ Owns the simulation used to develop and test the control stack — moving off Un
 
 ## Responsibilities
 - **Build & run the sim**
+  - doc: context/responsibilities/sim-build-run.md
   - context: gitlab tbre-ai/tbresim
   - context: Originally built by Ben Rall
   - owns: The simulator (tbresim)
@@ -21,6 +22,7 @@ Owns the simulation used to develop and test the control stack — moving off Un
   - delivers: A custom-physics sim, off Unity
   - delivers: A sim others can rely on
 - **Keep it representative**
+  - doc: context/responsibilities/sim-keep-representative.md
   - delivers: Sim matched to the TBRe27 car
 
 ## Key interfaces
