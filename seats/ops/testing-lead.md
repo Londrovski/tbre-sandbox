@@ -24,6 +24,7 @@ Owns AI testing events over the summer and pre-term — booking space, sourcing 
 
 ## Key interfaces
 - Operations Manager
+- High Voltage Trained members for access to HV shed - Ibraheem, Peter
 - Estates
 - IMechE
 
