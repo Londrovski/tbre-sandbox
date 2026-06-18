@@ -5,7 +5,7 @@ domain: Technology – Electrical
 owner: TBD
 reports_to: elec-lead
 hrs: 2-3
-order: 4
+order: 3
 ---
 
 # Loom Lead
