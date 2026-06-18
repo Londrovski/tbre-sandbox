@@ -49,11 +49,11 @@
     border-top:3px solid var(--c,var(--brand)); border-radius:8px; padding:10px 13px;
     min-width:150px; max-width:184px; cursor:pointer; transition:.14s; text-align:left; box-shadow:var(--shadow); }
   .blk:hover{ transform:translateY(-2px); box-shadow:var(--shadow-h); }
-  .blk.sel{ box-shadow:0 0 0 3px var(--gold), var(--shadow); }
+  .blk.sel{ box-shadow:0 0 0 3px var(--brand), var(--shadow); }
   @keyframes openGlow{ 0%,100%{ box-shadow:0 0 0 1px var(--gold), 0 0 5px rgba(255,196,35,.30), var(--shadow);} 50%{ box-shadow:0 0 0 1px var(--gold), 0 0 14px rgba(255,196,35,.65), var(--shadow);} }
   .blk.open{ border-color:var(--gold); animation:openGlow 2.6s ease-in-out infinite; }
   .blk.open:hover{ animation:none; }
-  .blk.open.sel{ animation:none; box-shadow:0 0 0 3px var(--gold), var(--shadow); }
+  .blk.open.sel{ animation:none; box-shadow:0 0 0 3px var(--brand), var(--shadow); }
   .blk .nm{ font-size:13.5px; font-weight:700; line-height:1.25; }
   .blk .mt{ font-size:11px; color:var(--muted); margin-top:4px; display:flex; gap:6px; align-items:center; font-weight:500; }
   .odot{ width:7px; height:7px; border-radius:50%; display:inline-block; flex:none; }
@@ -282,7 +282,7 @@ function render(){
   html+='<p class="hint">Add a card: drop a markdown file with key info at the top into /seats — it shows up here automatically.</p>';
   chart.innerHTML=html;
 }
-document.getElementById('chart').addEventListener('click',function(e){ var b=e.target.closest('.blk'); if(b) select(b.getAttribute('data-id')); });
+document.getElementById('chart').addEventListener('click',function(e){ var b=e.target.closest('.blk'); if(b) select(b.getAttribute('data-id')); else showTeam(); });
 
 function load(){
   Promise.all([
