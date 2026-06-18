@@ -312,14 +312,17 @@ document.getElementById('chart').addEventListener('click',function(e){ var b=e.t
 function load(){
   Promise.all([
     fetch('https://raw.githubusercontent.com/'+REPO+'/'+BRANCH+'/team.md').then(function(r){ return r.ok?r.text():''; }).catch(function(){ return ''; }),
-    fetch('https://api.github.com/repos/'+REPO+'/contents/'+DIR+'?ref='+BRANCH)
-      .then(function(r){ if(!r.ok) throw new Error('list '+r.status); return r.json(); })
-      .then(function(items){ var files=items.filter(function(i){return i.type==='file' && i.name.slice(-3)==='.md';});
-        return Promise.all(files.map(function(f){ return fetch(f.download_url).then(function(r){return r.text();}); })); })
+    fetch('https://api.github.com/repos/'+REPO+'/git/trees/'+BRANCH+'?recursive=1')
+      .then(function(r){ if(!r.ok) throw new Error('tree '+r.status); return r.json(); })
+      .then(function(t){
+        var paths=(t.tree||[]).filter(function(n){ return n.type==='blob' && n.path.indexOf(DIR+'/')===0 && n.path.slice(-3)==='.md' && n.path.indexOf(DIR+'/archive/')!==0; }).map(function(n){return n.path;});
+        return Promise.all(paths.map(function(p){ return fetch('https://raw.githubusercontent.com/'+REPO+'/'+BRANCH+'/'+p).then(function(r){return r.text();}); }));
+      })
   ]).then(function(out){
     TEAM=out[0]||'';
-    SEATS=out[1].map(parseCard).filter(function(s){return s.id;});
-    byId={}; SEATS.forEach(function(s){ byId[s.id]=s; });
+    var cards=out[1].map(parseCard).filter(function(s){return s.id;});
+    byId={}; SEATS=[];
+    cards.forEach(function(s){ if(!byId[s.id]){ byId[s.id]=s; SEATS.push(s); } });
     render(); showTeam();
   }).catch(function(e){
     document.getElementById('chart').innerHTML="<p class='loading'>Couldn't load ("+esc(e.message)+"). Reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
