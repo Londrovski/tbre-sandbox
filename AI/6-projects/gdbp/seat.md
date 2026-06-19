@@ -1,5 +1,5 @@
 ---
-id: gdbp-group
+id: gdbp
 seat: GDBP Group
 domain: Outside AI (interface)
 owner: TBD

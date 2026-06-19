@@ -43,9 +43,8 @@ the folders are organisational only.
 - **`AI/2-software/<id>/`** — Simulation, Pathfinding, Perception Integration.
 - **`AI/3-elec/<id>/`** — VCU, Loom.
 - **`AI/4-mech/<id>/`** — Steering, EBS, Sensor Plate.
-- **`AI/5-ops/<id>/`** — Testing & Safety, Onboarding, Finance, Submissions, Recruitment (+ the Website spare).
-- **`AI/6-projects/<id>/`** — final-year-project (FYP) opportunities, e.g. the AI integration PCB.
-- **`AI/7-project-groups/<id>/`** — the GDBP group. (6 & 7 float below the chart via `group:`; see **Outside-the-team blocks**.)
+- **`AI/5-ops/<id>/`** — Testing & Safety, Onboarding, Finance, Submissions, Recruitment.
+- **`AI/6-projects/<id>/`** — the outside-the-team cards, one subfolder each: the GDBP group and the AI integration PCB FYP (the "Project groups" block), plus Website Management (the "Outside the AI team" block). All float below the chart via `group:` (see **Outside-the-team blocks**).
 - **`AI/photos/`** — headshots (`<tag>.JPG`/`.png`).
 - **`AI/archive/`** — parked roles, not shown on the site.
 - **`assets/app.js`, `assets/app.css`** — the shared engine + styles.
