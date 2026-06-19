@@ -2,8 +2,8 @@
 
 Interactive org chart for the TBRe AI team. **Live:** https://londrovski.github.io/tbre-sandbox/
 
-The page is self-building: a shared engine (`assets/app.js`) reads every card under **`seats/`** (the whole
-tree, via the GitHub API) and renders the org chart from the front-matter at the top of each file. There's no
+The page is self-building: a shared engine (`assets/app.js`) reads every `seat.md` card under **`AI/`** (via the
+GitHub API) and renders the org chart from the front-matter at the top of each file. There's no
 database — **the markdown cards are the data**. Add or edit a card and it shows up automatically.
 
 ## Two views (one engine)
@@ -26,7 +26,7 @@ so edits happen in one place:
 | Commitment (hrs/week) | shown | **hidden** |
 | Responsibilities | shown (Owns/Delivers) | shown (Owns/Delivers) |
 | Per-responsibility context | not shown | **"Context" dropdown** under each responsibility (loads its `doc:` file) |
-| Seat context | short pointers shown as one "Context" box | **"Seat context" dropdown** above responsibilities (loads `context/seats/<id>.md`) |
+| Seat context | short pointers shown as one "Context" box | **"Seat context" dropdown** above responsibilities (loads the seat's `context.md`) |
 | Key interfaces | shown | shown |
 | Apply button | shown (open seats) | not shown |
 
@@ -34,23 +34,29 @@ Things excluded from a mode are **hidden, not collapsed**. Context docs are **la
 (raw fetches, which don't count against the API rate limit) and cached.
 
 ## Layout
-Cards are grouped into one folder per sub-team. The folder is just for tidiness — the chart is
-built from each card's `reports_to`, not its folder, so you can drop a card in any subfolder.
+Everything for the AI team lives under **`AI/`**. Sub-teams are **numbered folders** (ordering/tidiness only), and
+**each seat is its own folder named after its `id`**, holding a `seat.md` card plus any context files for that seat
+— one self-contained package per seat. The chart is still built from each card's `reports_to`, not its folder, so
+the folders are organisational only.
 
-- **`seats/leadership/`** — Team Lead + the sub-team leads (Software, Elec, Mech, Operations).
-- **`seats/software/`** — Simulation, Pathfinding, Perception Integration.
-- **`seats/elec/`** — VCU, Loom.
-- **`seats/mech/`** — Steering, EBS, Sensor Plate.
-- **`seats/ops/`** — Testing & Safety, Onboarding, Finance, Submissions, Recruitment (+ the Website spare).
-- **`seats/outside/`** — the GDBP group + FYP opportunities (e.g. the AI integration PCB), floated below the chart via `group:` (see **Outside-the-team blocks**). Folder is cosmetic; the Website spare uses the same mechanism from `seats/ops/`.
-- **`seats/archive/`** — parked roles, not shown on the site.
-- **`seats/photos/`** — headshots (`<tag>.png`).
-- **`context/`** — hidden context docs (responsibility- and seat-level). Shown only in Team view. See **Context model**.
+- **`AI/1-leadership/<id>/`** — Team Lead + the sub-team leads (Software, Elec, Mech, Operations).
+- **`AI/2-software/<id>/`** — Simulation, Pathfinding, Perception Integration.
+- **`AI/3-elec/<id>/`** — VCU, Loom.
+- **`AI/4-mech/<id>/`** — Steering, EBS, Sensor Plate.
+- **`AI/5-ops/<id>/`** — Testing & Safety, Onboarding, Finance, Submissions, Recruitment (+ the Website spare).
+- **`AI/6-projects/<id>/`** — final-year-project (FYP) opportunities, e.g. the AI integration PCB.
+- **`AI/7-project-groups/<id>/`** — the GDBP group. (6 & 7 float below the chart via `group:`; see **Outside-the-team blocks**.)
+- **`AI/photos/`** — headshots (`<tag>.JPG`/`.png`).
+- **`AI/archive/`** — parked roles, not shown on the site.
 - **`assets/app.js`, `assets/app.css`** — the shared engine + styles.
-- **`index.html`, `team.html`** — the two thin entry pages.
+- **`index.html`, `team.html`** — the two thin entry pages; **`team.md`** (repo root) is the overview panel.
+
+Inside a seat folder: **`seat.md`** is the card; **`context.md`** (optional) is the seat-level context shown in
+Team view; each responsibility's deep-context doc is a plain `.md` file in the same folder, linked by a bare
+`doc:` filename (see **Context model**).
 
 ## Add / edit a role
-Create `seats/<subteam>/<id>.md`:
+Create `AI/<n-subteam>/<id>/seat.md` (the folder name is the seat's `id`):
 
 ```markdown
 ---
@@ -59,7 +65,7 @@ seat: My Seat
 domain: Technology – Software   # or Leadership | Technology – Electrical | Technology – Mechanical | Operations | Outside AI (interface)
 owner: TBD                      # name, or TBD = open seat (glows gold in recruitment, red in team view)
 tag: ab1234                     # uni username (optional)
-photo: seats/photos/ab1234.png  # optional (path is from repo root, any subfolder)
+photo: AI/photos/ab1234.png     # optional (path is from repo root)
 reports_to: ai-team-lead        # parent seat id; blank = top
 hrs: 2-3
 order: 1                         # optional; orders siblings (or members of an outside block)
@@ -72,7 +78,7 @@ Short purpose paragraph.
 
 ## Responsibilities
 - **Title** — Description.
-  - doc: context/responsibilities/my-resp-id.md   # optional; deep context (Team view), see Context model
+  - doc: my-resp.md   # optional; deep context (Team view) — a .md file in THIS seat's folder. See Context model
   - context: where to look / POC
   - owns: a repo / folder / process / outcome
   - delivers: an output
@@ -113,34 +119,36 @@ To add another outside block, add `{key, label}` to `OUTSIDE` in `app.js` and ta
 
 ---
 
-## Context model (responsibility + seat context docs)
+## Context model (per-seat context + responsibility docs)
 
-Deep context lives in a separate **`context/`** tree, kept out of the cards so the cards stay lean. Two kinds:
+Deep context lives **inside each seat's own folder**, next to its `seat.md`, so a seat is one self-contained
+package. Two kinds:
 
-- **`context/responsibilities/<resp-id>.md`** — one doc per responsibility. Keyed by the responsibility, **not**
-  nested under a seat, so when a responsibility moves between seats (they're portable) the doc stays put — you
-  only move the card bullet. This also avoids the connector's can't-move-files limit.
-- **`context/seats/<seat-id>.md`** — a per-seat catch-all for context that isn't tied to one responsibility.
+- **`<seat-folder>/context.md`** — seat-level context (the "Seat context" dropdown). Found by convention; no field
+  needed.
+- **`<seat-folder>/<name>.md`** — one file per responsibility's deep context, linked from the card by a bare `doc:`
+  filename.
 
-**Linking.** A responsibility points at its context doc with a `doc:` sub-bullet:
+**Linking.** A responsibility points at its context doc with a `doc:` sub-bullet — a **bare filename** resolved
+inside the seat's folder:
 ```markdown
-- **Build & run the sim**
-  - doc: context/responsibilities/sim-build-run.md
+- **Own & maintain the simulator**
+  - doc: own-sim.md
   - context: gitlab tbre-ai/tbresim
   - owns: The simulator (tbresim)
 ```
-The seat-level doc is found by convention at `context/seats/<id>.md` (no field needed).
+If a `doc:` value contains a `/` it is instead treated as a repo-root path (e.g. for a doc shared across seats).
 
-**Where it shows.** Only in **Team view** (`team.html`): the per-responsibility doc as a "Context" dropdown under
-each responsibility, and the seat doc as a "Seat context" dropdown above the responsibilities. Docs are fetched
-lazily on first open and cached. If a doc doesn't exist yet, the dropdown shows a "No context doc yet" note.
+**Where it shows.** Only in **Team view** (`team.html`): each responsibility's doc as a "Context" dropdown under it,
+and `context.md` as a "Seat context" dropdown above the responsibilities. Docs are fetched lazily on first open and
+cached. If a doc doesn't exist yet, the dropdown shows a "No context doc yet" note.
 
 **Each context doc** carries light front-matter (`context_for`, `id`, `seat`, `status`, `updated`) so it's
 self-describing. The engine strips the front-matter and renders the markdown body. `status: draft` + `_TO FILL_`
 markers flag where real knowledge still needs adding by the seat holder / James.
 
-**Worked example (done):** `simulation-lead` — `context/seats/simulation-lead.md` plus
-`context/responsibilities/sim-build-run.md` and `sim-keep-representative.md`, with `doc:` links on the card.
+**Worked example (done):** `simulation-lead` — `AI/2-software/simulation-lead/` holds `seat.md`, `context.md`, and
+the responsibility docs `own-sim.md`, `model-tbre27.md`, `hil.md`, linked by bare `doc:` filenames on the card.
 The remaining seats follow the same pattern (still to be filled in).
 
 ---
@@ -164,18 +172,19 @@ attached (Team view).
   on GitHub Pages (classic deploy-from-branch, `main`, root). Each page just calls `TBRE.init(mode)`. Edit the
   engine once; both views update. See **Two views (one engine)** above for the per-mode differences.
 - It is **self-loading**: on load it calls the GitHub git/trees API once
-  (`/repos/Londrovski/tbre-sandbox/git/trees/main?recursive=1`), filters to `seats/**.md`
-  (excluding `seats/archive/`), then fetches each card's raw markdown from `raw.githubusercontent.com`.
-  Raw fetches do **not** count against the anonymous 60/hr API limit — only the single tree call does.
-  Context docs (`context/**`) are fetched the same way, lazily, only in Team view.
+  (`/repos/Londrovski/tbre-sandbox/git/trees/main?recursive=1`), filters to `AI/**/seat.md`
+  (excluding `AI/archive/`), then fetches each card's raw markdown from `raw.githubusercontent.com`.
+  Each seat's folder is derived by stripping `/seat.md` from its path. Raw fetches do **not** count against the
+  anonymous 60/hr API limit — only the single tree call does. Context files (the seat's `context.md` and its
+  responsibility docs) are fetched the same way, lazily, only in Team view.
 - Cards are parsed from front-matter + body in **vanilla JS**, then **deduped by `id`** (first wins).
 - The chart is built from `reports_to` links, NOT folder location. `domain` sets the colour. `order`
   sorts siblings under a lead. A `group:` floats a card into a named block below the chart (`spare`, `gdbp`;
   see **Outside-the-team blocks**) instead of the tree.
 - **Only four card sections are read** (purpose, Responsibilities, Key interfaces, Requirements). Any other
   heading — notably `## Notes` — is ignored, so it's the place for hidden working notes.
-- **Deep context** lives in the separate `context/` tree (see **Context model**), linked from cards via the
-  `doc:` key, surfaced only in Team view.
+- **Deep context** lives inside each seat's folder (`context.md` + per-responsibility docs; see **Context model**),
+  linked from cards via a bare `doc:` filename, surfaced only in Team view.
 
 **Branding.** Match teambathracingelectric.com — Poppins font, blue `#105BAB`, gold `#FFC423`, white cards,
 near-black text. Team view uses red `#e23b3b` for unfilled seats. No green.
@@ -186,10 +195,10 @@ near-black text. Team view uses red `#e23b3b` for unfilled seats. No green.
   regexes, and `String.fromCharCode(10)` instead of a newline literal. Don't introduce backslashes anywhere in
   `assets/app.js` (or inline script). Validate before pushing: `node --check assets/app.js`.
 - **The GitHub connector used in chat can create/update files but CANNOT delete or move them.** To move or
-  remove files, hand James a `git` command to run locally (he has push rights), or have him do it in the GitHub
-  UI. Don't pretend a delete happened. (This is why context docs are keyed by responsibility, not seat — so they
-  never need moving.)
-- Photos can't be scraped from LinkedIn / the team site — James uploads headshots to `seats/photos/` himself
+  remove files (e.g. reorganising seat folders, or moving a responsibility's doc when it moves between seats),
+  hand James a `git` command to run locally (he has push rights), or have him do it in the GitHub UI. Don't
+  pretend a delete happened.
+- Photos can't be scraped from LinkedIn / the team site — James uploads headshots to `AI/photos/` himself
   (`<tag>.JPG`/`.png`). Photo paths in cards are absolute from repo root, so they resolve from any subfolder.
 
 **Roster (June 2026, for reference — verify before relying on it):** Team Lead James Morris (jm3339, Mech Eng 4th,

@@ -1,5 +1,5 @@
 var TBRE=(function(){
-  var REPO="Londrovski/tbre-sandbox", DIR="seats", BRANCH="main";
+  var REPO="Londrovski/tbre-sandbox", DIR="AI", BRANCH="main";
   var NL=String.fromCharCode(10);
   var RAW="https://raw.githubusercontent.com/"+REPO+"/"+BRANCH+"/";
   var SEATS=[], byId={}, selected=null, TEAM='', MODE='recruitment';
@@ -165,10 +165,11 @@ var TBRE=(function(){
     var open=!s.owner||s.owner==='TBD';
     var head=header(s);
     if(MODE==='team'){
-      var seatCtx='<details class="ctx ctxdoc seatctx" data-doc="context/seats/'+esc(s.id)+'.md"><summary>Seat context</summary><div class="ctxbody"><p class="rtbd">Loading…</p></div></details>';
+      var seatCtx='<details class="ctx ctxdoc seatctx" data-doc="'+esc(s.folder)+'/context.md"><summary>Seat context</summary><div class="ctxbody"><p class="rtbd">Loading…</p></div></details>';
       var respT=s.resp.map(function(r){
         var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
-        var dd = r.doc ? ' data-doc="'+esc(r.doc)+'"' : '';
+        var docPath = r.doc ? (r.doc.indexOf('/')>=0 ? r.doc : s.folder+'/'+r.doc) : null;
+        var dd = docPath ? ' data-doc="'+esc(docPath)+'"' : '';
         var ph = r.doc ? '<p class="rtbd">Loading…</p>' : '<p class="rtbd">No context doc linked yet — add a doc: line to this responsibility in the card.</p>';
         var cd = '<details class="ctx ctxdoc"'+dd+'><summary>Context</summary><div class="ctxbody">'+ph+'</div></details>';
         return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
@@ -177,7 +178,7 @@ var TBRE=(function(){
         +seatCtx
         +'<div class="sect">Responsibilities</div>'+(respT||'<p class="rtbd">TBD</p>')
         +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
-        +'<div class="filebadge">seats/'+esc(s.id)+'.md</div>';
+        +'<div class="filebadge">'+esc(s.folder)+'/seat.md</div>';
     } else {
       var ctx=[]; s.resp.forEach(function(r){ ctx=ctx.concat(r.context); }); ctx=uniq(ctx);
       var resp=s.resp.map(function(r){
@@ -190,7 +191,7 @@ var TBRE=(function(){
         +(ctx.length?'<details class="ctx"><summary>Context</summary>'+ulist(ctx)+'</details>':'')
         +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
         +(open?'<a class="apply js-noop" href="#">Apply for this seat</a>':'')
-        +'<div class="filebadge">seats/'+esc(s.id)+'.md</div>';
+        +'<div class="filebadge">'+esc(s.folder)+'/seat.md</div>';
     }
     render();
   }
@@ -212,7 +213,7 @@ var TBRE=(function(){
       }
     });
     if(groups.length){ html+='<div class="outside-wrap">'+groups.join('')+'</div>'; }
-    html+='<p class="hint">Add a card: drop a markdown file with key info at the top into /seats — it shows up here automatically.</p>';
+    html+='<p class="hint">Add a seat: create a folder under AI/ with a seat.md inside — it shows up here automatically.</p>';
     chart.innerHTML=html;
   }
 
@@ -227,17 +228,17 @@ var TBRE=(function(){
       fetch('https://api.github.com/repos/'+REPO+'/git/trees/'+BRANCH+'?recursive=1')
         .then(function(r){ if(!r.ok) throw new Error('tree '+r.status); return r.json(); })
         .then(function(t){
-          var paths=(t.tree||[]).filter(function(n){ return n.type==='blob' && n.path.indexOf(DIR+'/')===0 && n.path.slice(-3)==='.md' && n.path.indexOf(DIR+'/archive/')!==0; }).map(function(n){return n.path;});
-          return Promise.all(paths.map(function(p){ return fetch(RAW+p).then(function(r){return r.text();}); }));
+          var paths=(t.tree||[]).filter(function(n){ return n.type==='blob' && n.path.indexOf(DIR+'/')===0 && n.path.indexOf(DIR+'/archive/')!==0 && n.path.slice(-8)==='/seat.md'; }).map(function(n){return n.path;});
+          return Promise.all(paths.map(function(p){ return fetch(RAW+p).then(function(r){return r.text();}).then(function(txt){ return {path:p, text:txt}; }); }));
         })
     ]).then(function(out){
       TEAM=out[0]||'';
-      var cards=out[1].map(parseCard).filter(function(s){return s.id;});
+      var cards=out[1].map(function(o){ var c=parseCard(o.text); c.folder=o.path.slice(0,-8); return c; }).filter(function(s){return s.id;});
       byId={}; SEATS=[];
       cards.forEach(function(s){ if(!byId[s.id]){ byId[s.id]=s; SEATS.push(s); } });
       render(); showTeam();
     }).catch(function(e){
-      document.getElementById('chart').innerHTML="<p class='loading'>Couldn't load ("+esc(e.message)+"). Reads /seats live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
+      document.getElementById('chart').innerHTML="<p class='loading'>Couldn't load ("+esc(e.message)+"). Reads AI/ live via the GitHub API — if rate-limited, wait a minute and reload.</p>";
     });
   }
 
