@@ -8,7 +8,7 @@ course: Mech with Auto · 4th Year
 photo: seats/photos/sa3257.JPG
 reports_to: mech-lead
 hrs: 2-3
-order: 2
+order: 3
 ---
 
 # EBS Lead
