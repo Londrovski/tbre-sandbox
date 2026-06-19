@@ -11,6 +11,12 @@ var TBRE=(function(){
     "Technology – Electrical":"var(--d-elec)","Technology – Mechanical":"var(--d-mech)",
     "Operations":"var(--d-ops)","Outside AI (interface)":"var(--d-out)" };
   var DORD={ "Leadership":0,"Technology – Software":1,"Technology – Electrical":2,"Technology – Mechanical":3,"Operations":4,"Outside AI (interface)":5 };
+  // Blocks floated below the tree, in render order. A card joins one via its front-matter group:.
+  var OUTSIDE=[
+    {key:"spare", label:"Outside the AI team (spare)"},
+    {key:"gdbp",  label:"Outside the AI team (extra to the AI team)"}
+  ];
+  function isOutsideGroup(g){ for(var i=0;i<OUTSIDE.length;i++){ if(OUTSIDE[i].key===g) return true; } return false; }
   function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
   function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
   function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
@@ -196,12 +202,14 @@ var TBRE=(function(){
       var hits=SEATS.filter(function(s){return ((s.seat||'')+(s.domain||'')+(s.owner||'')+(s.purpose||'')).toLowerCase().indexOf(q)>=0;});
       chart.innerHTML='<div class="row">'+hits.map(block).join('')+'</div>'; return;
     }
-    var roots=SEATS.filter(function(s){return !s.reports_to && s.group!=='spare';});
-    var spares=SEATS.filter(function(s){return s.group==='spare';});
+    var roots=SEATS.filter(function(s){return !s.reports_to && !isOutsideGroup(s.group);});
     var html=legend()+'<ul class="tree">'+roots.map(function(r){return treeNode(r.id);}).join('')+'</ul>';
-    if(spares.length){
-      html+='<div class="spare-wrap"><div class="spare-label">Outside the AI team (spare)</div><div class="row">'+spares.map(block).join('')+'</div></div>';
-    }
+    OUTSIDE.forEach(function(g){
+      var members=SEATS.filter(function(s){return s.group===g.key;}).sort(function(a,b){ var oa=(a.order==null?99:a.order), ob=(b.order==null?99:b.order); return oa-ob || a.seat.localeCompare(b.seat); });
+      if(members.length){
+        html+='<div class="spare-wrap"><div class="spare-label">'+esc(g.label)+'</div><div class="row">'+members.map(block).join('')+'</div></div>';
+      }
+    });
     html+='<p class="hint">Add a card: drop a markdown file with key info at the top into /seats — it shows up here automatically.</p>';
     chart.innerHTML=html;
   }

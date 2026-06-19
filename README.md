@@ -38,10 +38,11 @@ Cards are grouped into one folder per sub-team. The folder is just for tidiness 
 built from each card's `reports_to`, not its folder, so you can drop a card in any subfolder.
 
 - **`seats/leadership/`** — Team Lead + the sub-team leads (Software, Elec, Mech, Operations).
-- **`seats/software/`** — Simulation, SLAM, Control.
-- **`seats/elec/`** — Perception, VCU, Loom, PCB.
-- **`seats/mech/`** — Steering, EBS, Mounting.
-- **`seats/ops/`** — Testing, Onboarding, Finance, Competition Docs (+ the Website spare).
+- **`seats/software/`** — Simulation, Pathfinding, Perception Integration.
+- **`seats/elec/`** — VCU, Loom.
+- **`seats/mech/`** — Steering, EBS, Sensor Plate.
+- **`seats/ops/`** — Testing & Safety, Onboarding, Finance, Submissions, Recruitment (+ the Website spare).
+- **`seats/outside/`** — the GDBP group + FYP opportunities (e.g. the AI integration PCB), floated below the chart via `group:` (see **Outside-the-team blocks**). Folder is cosmetic; the Website spare uses the same mechanism from `seats/ops/`.
 - **`seats/archive/`** — parked roles, not shown on the site.
 - **`seats/photos/`** — headshots (`<tag>.png`).
 - **`context/`** — hidden context docs (responsibility- and seat-level). Shown only in Team view. See **Context model**.
@@ -61,8 +62,8 @@ tag: ab1234                     # uni username (optional)
 photo: seats/photos/ab1234.png  # optional (path is from repo root, any subfolder)
 reports_to: ai-team-lead        # parent seat id; blank = top
 hrs: 2-3
-order: 1                         # optional; orders siblings under a lead
-# group: spare                  # float outside the chart
+order: 1                         # optional; orders siblings (or members of an outside block)
+# group: spare                  # float below the chart in a named block — spare | gdbp (see Outside-the-team blocks)
 ---
 
 # My Seat
@@ -97,6 +98,17 @@ and in git history but never appears on a card.
 
 Within a responsibility, the parser only captures the sub-bullet keys `context:`, `owns:`, `delivers:` and
 `doc:`. **Any other key is silently ignored.** `doc:` is captured but only *used* by the Team view.
+
+### Outside-the-team blocks
+A card with no `reports_to` and no `group:` is a chart **root**. A card with a `group:` instead floats below the
+tree in a named block (horizontal, wrapping row), defined by the `OUTSIDE` list in `app.js`:
+
+- **`group: spare`** → *"Outside the AI team (spare)"* — roles adjacent to the AI team (e.g. Website Management).
+- **`group: gdbp`** → *"Outside the AI team (extra to the AI team)"* — the second-semester GDBP group and
+  final-year-project opportunities (e.g. the AI integration PCB). Extend it by adding more cards with `group: gdbp`;
+  `order:` sets left-to-right position within the block.
+
+To add another outside block, add `{key, label}` to `OUTSIDE` in `app.js` and tag cards with that `group:`.
 
 ---
 
@@ -157,7 +169,8 @@ attached (Team view).
   Context docs (`context/**`) are fetched the same way, lazily, only in Team view.
 - Cards are parsed from front-matter + body in **vanilla JS**, then **deduped by `id`** (first wins).
 - The chart is built from `reports_to` links, NOT folder location. `domain` sets the colour. `order`
-  sorts siblings under a lead. `group: spare` floats a card unconnected at the bottom.
+  sorts siblings under a lead. A `group:` floats a card into a named block below the chart (`spare`, `gdbp`;
+  see **Outside-the-team blocks**) instead of the tree.
 - **Only four card sections are read** (purpose, Responsibilities, Key interfaces, Requirements). Any other
   heading — notably `## Notes` — is ignored, so it's the place for hidden working notes.
 - **Deep context** lives in the separate `context/` tree (see **Context model**), linked from cards via the
