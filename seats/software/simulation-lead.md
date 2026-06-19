@@ -19,6 +19,7 @@ Owns the test environment the whole stack develops against — the sim everyone 
   - owns: Member access & training
   - owns: Bug-fixing
   - delivers: A reliable sim the whole team can run
+  - delivers: A team that can run and test with the sim
 - **Model the TBRe27 car**
   - doc: context/responsibilities/sim-match-tbre27.md
   - delivers: A sim that represents the TBRe27 car
