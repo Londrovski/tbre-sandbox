@@ -101,12 +101,13 @@ Within a responsibility, the parser only captures the sub-bullet keys `context:`
 
 ### Outside-the-team blocks
 A card with no `reports_to` and no `group:` is a chart **root**. A card with a `group:` instead floats below the
-tree in a named block (horizontal, wrapping row), defined by the `OUTSIDE` list in `app.js`:
+tree. The outside blocks are defined by the `OUTSIDE` list in `app.js` and render **side by side** (one
+horizontal row, divider between them), so they don't add vertical length:
 
-- **`group: spare`** → *"Outside the AI team (spare)"* — roles adjacent to the AI team (e.g. Website Management).
-- **`group: gdbp`** → *"Outside the AI team (extra to the AI team)"* — the second-semester GDBP group and
-  final-year-project opportunities (e.g. the AI integration PCB). Extend it by adding more cards with `group: gdbp`;
-  `order:` sets left-to-right position within the block.
+- **`group: spare`** → *"Outside the AI team"* — roles adjacent to the AI team (e.g. Website Management).
+- **`group: gdbp`** → *"Project groups"* — the second-semester GDBP group and final-year-project opportunities
+  (e.g. the AI integration PCB). Extend it by adding more cards with `group: gdbp`; `order:` sets left-to-right
+  position within the block.
 
 To add another outside block, add `{key, label}` to `OUTSIDE` in `app.js` and tag cards with that `group:`.
 

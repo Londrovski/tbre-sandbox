@@ -13,8 +13,8 @@ var TBRE=(function(){
   var DORD={ "Leadership":0,"Technology – Software":1,"Technology – Electrical":2,"Technology – Mechanical":3,"Operations":4,"Outside AI (interface)":5 };
   // Blocks floated below the tree, in render order. A card joins one via its front-matter group:.
   var OUTSIDE=[
-    {key:"spare", label:"Outside the AI team (spare)"},
-    {key:"gdbp",  label:"Outside the AI team (extra to the AI team)"}
+    {key:"spare", label:"Outside the AI team"},
+    {key:"gdbp",  label:"Project groups"}
   ];
   function isOutsideGroup(g){ for(var i=0;i<OUTSIDE.length;i++){ if(OUTSIDE[i].key===g) return true; } return false; }
   function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
@@ -204,12 +204,14 @@ var TBRE=(function(){
     }
     var roots=SEATS.filter(function(s){return !s.reports_to && !isOutsideGroup(s.group);});
     var html=legend()+'<ul class="tree">'+roots.map(function(r){return treeNode(r.id);}).join('')+'</ul>';
+    var groups=[];
     OUTSIDE.forEach(function(g){
       var members=SEATS.filter(function(s){return s.group===g.key;}).sort(function(a,b){ var oa=(a.order==null?99:a.order), ob=(b.order==null?99:b.order); return oa-ob || a.seat.localeCompare(b.seat); });
       if(members.length){
-        html+='<div class="spare-wrap"><div class="spare-label">'+esc(g.label)+'</div><div class="row">'+members.map(block).join('')+'</div></div>';
+        groups.push('<div class="outside-grp"><div class="spare-label">'+esc(g.label)+'</div><div class="row">'+members.map(block).join('')+'</div></div>');
       }
     });
+    if(groups.length){ html+='<div class="outside-wrap">'+groups.join('')+'</div>'; }
     html+='<p class="hint">Add a card: drop a markdown file with key info at the top into /seats — it shows up here automatically.</p>';
     chart.innerHTML=html;
   }
