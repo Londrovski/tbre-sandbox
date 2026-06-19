@@ -5,7 +5,7 @@ domain: Technology – Software
 owner: Ryan Vickery
 reports_to: software-lead
 hrs: 2-3
-order: 2
+order: 1
 ---
 
 # Perception Integration Lead
