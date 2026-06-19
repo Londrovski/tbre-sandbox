@@ -7,8 +7,6 @@ status: draft
 updated: 2026-06-19
 ---
 
-# Context — Model the TBRe27 car
-
 > Delta only — for the sim itself (repo, setup, history) see **Own & maintain the simulator**.
 
 ## What you inherit

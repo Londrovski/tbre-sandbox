@@ -7,8 +7,6 @@ status: draft
 updated: 2026-06-19
 ---
 
-# Context — Own & maintain the simulator
-
 > The base context for the sim itself. The other Simulation responsibilities (Model TBRe27, HIL) only add what's specific to them and point back here.
 
 ## What you inherit

@@ -7,8 +7,6 @@ status: draft
 updated: 2026-06-19
 ---
 
-# Context — Hardware-in-the-loop (HIL) sim
-
 > Delta only — for the sim itself see **Own & maintain the simulator**.
 
 ## In plain English
