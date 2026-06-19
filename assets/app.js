@@ -42,7 +42,7 @@ var TBRE=(function(){
     cl(); return out.join('');
   }
   function showTeam(){ selected=null; document.body.classList.remove('detail-open'); var p=document.getElementById('panel'); p.className='panel';
-    p.innerHTML = TEAM ? mdToHtml(TEAM) : '<div class="loading">Add a team.md for the overview.</div>'; render(); }
+    p.innerHTML = TEAM ? mdToHtml(TEAM) : '<div class="loading">Add an AI/team.md for the overview.</div>'; render(); }
 
   function parseResp(lines){
     var res=[], cur=null;
@@ -224,7 +224,7 @@ var TBRE=(function(){
 
   function load(){
     Promise.all([
-      fetch(RAW+'team.md').then(function(r){ return r.ok?r.text():''; }).catch(function(){ return ''; }),
+      fetch(RAW+'AI/team.md').then(function(r){ return r.ok?r.text():''; }).catch(function(){ return ''; }),
       fetch('https://api.github.com/repos/'+REPO+'/git/trees/'+BRANCH+'?recursive=1')
         .then(function(r){ if(!r.ok) throw new Error('tree '+r.status); return r.json(); })
         .then(function(t){

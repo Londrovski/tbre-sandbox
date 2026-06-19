@@ -49,7 +49,7 @@ the folders are organisational only.
 - **`AI/photos/`** — headshots (`<tag>.JPG`/`.png`).
 - **`AI/archive/`** — parked roles, not shown on the site.
 - **`assets/app.js`, `assets/app.css`** — the shared engine + styles.
-- **`index.html`, `team.html`** — the two thin entry pages; **`team.md`** (repo root) is the overview panel.
+- **`index.html`, `team.html`** — the two thin entry pages (repo root); **`AI/team.md`** is the overview panel.
 
 Inside a seat folder: **`seat.md`** is the card; **`context.md`** (optional) is the seat-level context shown in
 Team view; each responsibility's deep-context doc is a plain `.md` file in the same folder, linked by a bare
@@ -206,7 +206,7 @@ also Operations Manager) → Software Lead Szymon Fladro (spf35), Elec Lead Pant
 Sara Alkhalili (sa3257, also EBS Lead). Filled sub-seats: VCU Lead Shinn Gee Choo (csg45), Steering Lead
 Brian Cheung (tyc91). Everything else is currently open (`TBD`). Website Management is the spare/outside-AI seat.
 
-**Editable team overview.** `team.md` at the repo root is shown as the default panel in both views (the
+**Editable team overview.** `AI/team.md` is shown as the default panel in both views (the
 people-first pitch + "where we are / where we're going"). Edit it like any card.
 
 **Possible future work (not built):** fill in the remaining context docs; wire the "Apply" button to a real
