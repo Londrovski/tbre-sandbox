@@ -5,7 +5,7 @@ domain: Technology – Mechanical
 owner: TBD
 reports_to: mech-lead
 hrs: 2-3
-order: 3
+order: 1
 ---
 
 # Sensor Plate Lead
