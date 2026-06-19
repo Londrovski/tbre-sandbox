@@ -8,7 +8,7 @@ course: Mech with Auto · 4th Year
 photo: seats/photos/tyc91.JPG
 reports_to: mech-lead
 hrs: 2-3
-order: 1
+order: 2
 ---
 
 # Steering Lead
