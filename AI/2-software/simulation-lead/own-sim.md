@@ -1,6 +1,6 @@
 ---
 context_for: responsibility
-id: sim-own
+id: own-sim
 title: Own & maintain the simulator
 seat: simulation-lead
 status: draft

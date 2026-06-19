@@ -1,6 +1,6 @@
 ---
 context_for: responsibility
-id: sim-hil
+id: hil
 title: Hardware-in-the-loop (HIL) sim
 seat: simulation-lead
 status: draft
