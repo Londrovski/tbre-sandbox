@@ -3,39 +3,28 @@ context_for: seat
 id: simulation-lead
 seat: Simulation Lead
 status: draft
-updated: 2026-06-18
+updated: 2026-06-19
 ---
 
 # Seat context — Simulation Lead
 
-> Per-seat catch-all context: the background a holder of this seat needs that isn't tied to a single
-> responsibility. Hidden from the public recruitment site; surfaced in the future team view.
-> Each responsibility has its own doc under `context/responsibilities/`.
+> Background for whoever holds this seat that isn't tied to a single responsibility. Each responsibility has its own context doc.
 
-## Why this seat exists
-The AI control stack can't be developed against the real car for most of the year — the team only has the
-IMechE test vehicle for a short window. The simulator is how Control, SLAM and the wider stack keep making
-progress between test days. Whoever holds this seat owns that environment.
+## What you inherit
+- A Unity-based `tbresim` (built by Ben Rall), relied on all year because the team only has the real DDT car for a short window — the sim is how everyone makes progress between test days.
+- Two directions in flight: the move to custom physics (fidelity) and the new HIL sim (Ryan).
 
-## How it fits the team
-- Sits under the **Software Lead**.
-- Main customers are **Control Lead** (uses the sim to develop/tune the controller) and, over time, **SLAM**
-  and perception for closed-loop testing.
-- Depends on **Mounting Lead** / mechanical for accurate vehicle parameters to stay representative of TBRe27.
+## Where it lives
+- Repo: `gitlab tbre-ai/tbresim`. Output viewed in Foxglove.
 
-## History & current state
-- Originally built by **Ben Rall**.
-- Current sim is built in **Unity**; the direction is to move to a **custom-physics** simulator.
-- Lives at **gitlab: tbre-ai/tbresim**.
+## Scope & aim
+- The team's main development and test environment for the autonomy stack, on any machine and (via HIL) on real compute.
 
-## Where things live
-- Repo: `gitlab tbre-ai/tbresim`
-- Sim setup & docs: _TO FILL — link the README / setup notes once consolidated._
+## People
+- Reports to the Software Lead. Main customers: Pathfinding, Perception Integration. Depends on Mech / Vehicle Dynamics for car parameters.
 
-## Open questions / decisions
-- _TO FILL — what's the target physics approach / engine for the custom sim?_
-- _TO FILL — definition of "representative enough" for TBRe27 (which parameters must match, to what tolerance)._
+## Dependencies
+- Feeds the whole software stack; depends on car parameters (Mech/VD) and the TBRe-RT comms layer (for HIL).
 
-## Points of contact
-- Ben Rall (original author) — _TO FILL contact_
-- Control Lead, Mounting Lead (see card interfaces)
+## Open questions
+- Long-term: one sim, or two (a lightweight everyone-can-run sim plus the high-fidelity HIL)?
