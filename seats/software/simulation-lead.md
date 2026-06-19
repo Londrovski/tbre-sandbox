@@ -10,19 +10,22 @@ order: 3
 
 # Simulation Lead
 
-Owns the test environment the whole stack develops against — keeping the current sim running for everyone, growing it to match the TBRe27 car, and building the hardware-in-the-loop (HIL) sim.
+Owns the test environment the whole stack develops against — the sim everyone runs, growing it to match the TBRe27 car, and the hardware-in-the-loop (HIL) rig.
 
 ## Responsibilities
-- **Access & reliability**
+- **Own & maintain the simulator**
   - doc: context/responsibilities/sim-access-reliability.md
   - owns: The simulator (tbresim)
-  - delivers: A reliable sim that runs on any team member's machine
-- **Develop to match TBRe27**
+  - owns: Member access & training
+  - owns: Bug-fixing
+  - delivers: A reliable sim the whole team can run
+- **Model the TBRe27 car**
   - doc: context/responsibilities/sim-match-tbre27.md
   - delivers: A sim that represents the TBRe27 car
-- **Develop the HIL sim**
+- **Hardware-in-the-loop (HIL) sim**
   - doc: context/responsibilities/sim-hil.md
-  - delivers: A hardware-in-the-loop sim for the ADS-DV and TBRe27 car
+  - owns: The lab HIL rig & sensor-plate test access
+  - delivers: A HIL sim for the ADS-DV and TBRe27 car
 
 ## Key interfaces
 - Software Lead

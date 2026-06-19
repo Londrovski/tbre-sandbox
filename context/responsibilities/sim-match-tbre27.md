@@ -1,42 +1,37 @@
 ---
 context_for: responsibility
 id: sim-match-tbre27
-title: Develop to match TBRe27
+title: Model the TBRe27 car
 seat: simulation-lead
 status: draft
 updated: 2026-06-19
 ---
 
-# Context — Develop to match TBRe27
+# Context — Model the TBRe27 car
 
-> Growing the sim so its vehicle behaviour represents the real TBRe27 car.
+> Delta only — for the sim itself (repo, setup, history) see **Own & maintain the simulator**.
 
 ## What you inherit
-- The current sim uses **Unity's physics**, which is **"not very accurate"** (per Wenzel).
-- Direction: move to a **custom-physics** model for fidelity.
-- Working / broken: _TO-FILL — what's modelled well vs poorly today?_
-- Next: build the custom-physics model; define which car parameters must match.
+- The sim **doesn't represent the TBRe27 car yet**, and **little has been done** on this so far.
+- The full **general assembly and part details are available** to model from.
+- For the sim model specifically, the main thing is getting the **sensors in the correct place** so it matches the car.
 
 ## Where it lives
-- Vehicle-parameter source of truth: _TO-FILL — Mech / Vehicle Dynamics (spreadsheet? CAD?)_
-- Where parameters live inside `tbresim`: _TO-FILL_
+- TBRe27 general assembly & part details: _TO-FILL — location (Mech / CAD)._
+- Base sim repo & setup: see **Own & maintain the simulator**.
 
 ## Scope & aim
-- Scope: develop the sim's vehicle model toward the TBRe27 car.
+- Make the sim represent the TBRe27 car — primarily correct sensor placement plus vehicle details.
 - Good looks like: control tuned in sim transfers to the real car with minimal surprises.
 
 ## People
-- **Mech Lead (Sara) / Vehicle Dynamics** — car parameters.
-- **Pathfinding Lead** — main consumer; needs the fidelity for control.
-- **Sensor Plate Lead** — sensor placement on the car.
+- **Mech Lead (Sara)** and the **main mechanical team** (several seats currently unfilled).
+- Needs communication across the wider team for part details.
 
 ## Dependencies
-- Inputs: up-to-date TBRe27 parameters from Mech / VD.
-- Outputs / feeds: a representative sim for Pathfinding / control development.
+- Inputs: TBRe27 assembly / part data; correct sensor positions.
 - A car-spec change should trigger a sim update.
 
 ## Open questions
 - Which parameters must match, and to what tolerance?
-- How do parameter changes get communicated and versioned?
 - Validation loop: how do we check the sim against real logged runs after a test day?
-- Target physics approach for the custom sim?
