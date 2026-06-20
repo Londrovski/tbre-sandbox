@@ -50,9 +50,10 @@ the folders are organisational only.
 - **`assets/app.js`, `assets/app.css`** — the shared engine + styles.
 - **`index.html`, `team.html`** — the two thin entry pages (repo root); **`AI/team.md`** is the overview panel.
 
-Inside a seat folder: **`seat.md`** is the card; **`context.md`** (optional) is the seat-level context shown in
-Team view; each responsibility's deep-context doc is a plain `.md` file in the same folder, linked by a bare
-`doc:` filename (see **Context model**).
+Inside a seat folder: **`seat.md`** is the card (front-matter + purpose + Key interfaces + Requirements);
+**`context.md`** (optional) is the seat-level context shown in Team view; and **each responsibility is its own
+`.md` file** in the folder, discovered automatically and ordered by its own front-matter `order` (see
+**Context model**).
 
 ## Add / edit a role
 Create `AI/<n-subteam>/<id>/seat.md` (the folder name is the seat's `id`):
@@ -75,11 +76,6 @@ order: 1                         # optional; orders siblings (or members of an o
 
 Short purpose paragraph.
 
-## Responsibilities
-- **Title**
-  - doc: my-resp.md   # the responsibility's own file — Owns/Delivers/context live there. See Context model
-# (legacy form, still supported: put owns:/delivers:/context: sub-bullets here instead of a doc)
-
 ## Key interfaces
 - Who this seat works with
 
@@ -90,18 +86,41 @@ Short purpose paragraph.
 _Working notes — not shown on the site. Write whatever you like here._
 ```
 
+There is **no `## Responsibilities` section** — each responsibility is its own file in the same folder, e.g.
+`AI/<n-subteam>/<id>/my-resp.md`:
+
+```markdown
+---
+context_for: responsibility
+id: my-resp
+title: My Responsibility        # the block title (edit it here)
+seat: my-seat                   # parent seat id
+order: 1                        # orders the responsibilities within the seat
+status: draft
+updated: 2026-06-20
+---
+
+One-line summary of what's going on.
+
+## Owns
+- a repo / process / outcome
+## Delivers
+- an output
+
+## Background / ## Scope & aim / ## Interfaces / ## Open questions ...
+```
+
 Push to `main` → GitHub Pages redeploys. Each role is a *seat* (one owner, ~2-3 hrs/week);
-one person can hold several. Responsibilities are portable between seats.
+one person can hold several. Responsibilities are portable between seats (move the file).
 
 ### What renders vs what's hidden
-The engine **only** reads four card sections: the intro paragraph (purpose), `## Responsibilities`,
-`## Key interfaces`, and `## Requirements`. **Any other heading is read but never displayed** — so
-`## Notes` (and any `###` sub-headings inside it) is a safe place for working notes. It lives in the markdown
-and in git history but never appears on a card.
+From `seat.md` the engine reads the front-matter plus three sections: the intro paragraph (purpose),
+`## Key interfaces`, and `## Requirements`. **Any other heading is read but never displayed** — so `## Notes`
+(and any `###` sub-headings inside it) is a safe place for working notes.
 
-Within a responsibility on the card, the parser captures the sub-bullet keys `doc:`, `owns:`, `delivers:` and
-`context:` (any other key is ignored). The **current model uses just `doc:`** — everything about the responsibility
-lives in that file; the **legacy model** puts `owns:`/`delivers:`/`context:` inline on the card. See **Context model**.
+Responsibilities are **not** in `seat.md` — they're separate files in the seat folder (see **Context model**).
+**Legacy seats** that still have a `## Responsibilities` section on the card (with `owns:`/`delivers:`/`context:`/
+`doc:` sub-bullets) are read the old way **only when the seat has no responsibility files**.
 
 ### Outside-the-team blocks
 A card with no `reports_to` and no `group:` is a chart **root**. A card with a `group:` instead floats below the
@@ -123,22 +142,28 @@ Everything for a seat lives **inside its own folder**, next to `seat.md`, so a s
 The key idea: **each responsibility is its own file** — the single unit you edit — holding that responsibility's
 **Owns**, **Delivers**, and all of its context as plain markdown. `seat.md` is just a thin index.
 
-- **`<seat-folder>/<name>.md`** — one **self-contained responsibility doc**. The single unit you edit.
+- **`<seat-folder>/<name>.md`** — one **self-contained responsibility file** (the single unit you edit). Discovered
+  automatically; its front-matter sets the **title** and **order**.
 - **`<seat-folder>/context.md`** — seat-level context (the "Seat context" dropdown in Team view). Found by
   convention; no field needed.
 
-**The split.** `seat.md`'s `## Responsibilities` is just a **title + a `doc:` pointer** per responsibility — nothing
-else. So you almost never touch `seat.md` (only to reorder responsibilities or change the owner); everything about a
-responsibility lives in its doc, which the engine parses into a fixed shape:
+**The split.** `seat.md` carries **no responsibilities at all**. Each responsibility is its own file in the seat's
+folder — **any `.md` except `seat.md` and `context.md`** is treated as one. The engine discovers them, reads their
+front-matter for **title** and **order**, and renders them in `order`. So to add, retitle, reorder, or rewrite a
+responsibility you only ever touch its own file (exactly like a seat card owns its `seat:` / `order:`):
 
 ```markdown
-# in seat.md  (thin index)
-## Responsibilities
-- **Own & maintain the simulator**
-  - doc: own-sim.md
+---
+context_for: responsibility
+id: own-sim
+title: Own & maintain the simulator   # the block title — edit it here
+seat: simulation-lead                 # parent seat id
+order: 1                              # position within the seat
+status: draft
+updated: 2026-06-20
+---
 
-# in own-sim.md  (the unit you edit)
-One-line summary of what's going on.        <- shows under the title
+Keep the sim everyone runs healthy — get people onto it and fix what breaks.   <- summary, under the title
 
 ## Owns                                      <- left chip (blue)
 - The simulator (tbresim)
@@ -150,27 +175,26 @@ One-line summary of what's going on.        <- shows under the title
 ## Interfaces        <- the people + physical/system dependencies
 ## Open questions
 ```
+
 **How it renders.** The engine pulls the intro line (summary, under the title), `## Owns` / `## Delivers` (the same
 two coloured chips as everywhere else), and folds **every other section** into a collapsible **Context** box. So a
 responsibility reads as: *title → summary → Owns | Delivers → Context +*. Section names under Owns/Delivers are a
 convention (Background / Scope & aim / Interfaces / Open questions) — any headings work; they all land in Context.
+`context.md` shows as a "Seat context" dropdown. Files are fetched and cached when a seat is opened; the per-
+responsibility Context box appears in **Team view** only.
 
-The `doc:` value is a **bare filename** resolved inside the seat's folder; if it contains a `/` it is treated as a
-repo-root path instead (e.g. a doc shared across seats). `context.md` shows as a "Seat context" dropdown in Team
-view. Files are fetched lazily and cached; the Context box appears in **Team view** only.
+**Legacy form (still supported).** A seat with **no** responsibility files falls back to a `## Responsibilities`
+section in `seat.md` (with `owns:`/`delivers:`/`context:`/`doc:` sub-bullets), rendered as Owns/Delivers chips.
+Migrating a seat = pull each responsibility out into its own file (front-matter `title`/`order` + the body above)
+and delete the `## Responsibilities` section.
 
-**Legacy form (still supported).** A responsibility may instead carry `owns:`/`delivers:`/`context:` sub-bullets
-directly on the card — most seats still do. Those render as **Owns/Delivers chips**, and in Team view any `doc:`
-appears as a separate "Context" dropdown. Migrating a seat = move those bullets into a `doc:` file as `## Owns` /
-`## Delivers` + context.
+**Front-matter.** A responsibility file carries `context_for`, `id`, `title`, `seat`, `order`, `status`, `updated`;
+`context.md` carries `context_for`, `id`, `seat`, `status`, `updated`. The engine uses `title`/`order`, strips the
+rest, and renders the body. `status: draft` + `_TO FILL_` markers flag where real knowledge still needs adding.
 
-**Each doc** carries light front-matter (`context_for`, `id`, `seat`, `status`, `updated`) so it's self-describing.
-The engine strips the front-matter and renders the markdown body. `status: draft` + `_TO FILL_` markers flag where
-real knowledge still needs adding by the seat holder / James.
-
-**Worked example (done):** `simulation-lead` — `AI/2-software/simulation-lead/` holds a thin `seat.md`, a
-`context.md`, and three self-contained responsibility docs `own-sim.md`, `model-tbre27.md`, `hil.md` (each with its
-own Owns/Delivers + context). The remaining seats still use the legacy inline form (to be migrated).
+**Worked example (done):** `simulation-lead` — `AI/2-software/simulation-lead/` holds a thin `seat.md` (no
+responsibilities), a `context.md`, and three responsibility files `own-sim.md`, `model-tbre27.md`, `hil.md`, each
+carrying its own `title`/`order` + Owns/Delivers + context. The remaining seats still use the legacy inline form.
 
 ---
 
@@ -195,18 +219,19 @@ attached (Team view).
 - It is **self-loading**: on load it calls the GitHub git/trees API once
   (`/repos/Londrovski/tbre-sandbox/git/trees/main?recursive=1`), filters to `AI/**/seat.md`
   (excluding `AI/archive/`), then fetches each card's raw markdown from `raw.githubusercontent.com`.
-  Each seat's folder is derived by stripping `/seat.md` from its path. Raw fetches do **not** count against the
-  anonymous 60/hr API limit — only the single tree call does. Context files are fetched the same way and cached:
-  responsibility docs render inline in the responsibility block (both views); `context.md` is a Team-view dropdown.
+  Each seat's folder is derived by stripping `/seat.md` from its path, and its **responsibility files** are the other
+  `.md` in that folder (not `context.md`). Raw fetches do **not** count against the anonymous 60/hr API limit — only
+  the single tree call does. Responsibility files + `context.md` are fetched and cached when a seat is opened.
 - Cards are parsed from front-matter + body in **vanilla JS**, then **deduped by `id`** (first wins).
 - The chart is built from `reports_to` links, NOT folder location. `domain` sets the colour. `order`
   sorts siblings under a lead. A `group:` floats a card into a named block below the chart (`spare`, `gdbp`;
   see **Outside-the-team blocks**) instead of the tree.
-- **Only four card sections are read** (purpose, Responsibilities, Key interfaces, Requirements). Any other
-  heading — notably `## Notes` — is ignored, so it's the place for hidden working notes.
-- **Responsibility content** lives in per-responsibility docs inside each seat's folder (Owns/Delivers/context; see
-  **Context model**), linked from `seat.md` by a bare `doc:` filename and rendered inline in both views. `context.md`
-  is the seat-level dropdown (Team view).
+- **`seat.md` is thin:** the engine reads its front-matter + three sections (purpose, Key interfaces, Requirements).
+  Any other heading — notably `## Notes` — is ignored, so it's the place for hidden working notes.
+- **Responsibilities are their own files** in each seat's folder, discovered from the tree and ordered by their
+  front-matter `order` (title from `title`). Each renders as summary → Owns/Delivers chips → a Team-view Context box
+  (Background/Scope/Interfaces/…). `context.md` is the seat-level dropdown. See **Context model**. Legacy seats with
+  no responsibility files fall back to a `## Responsibilities` section on the card.
 
 **Branding.** Match teambathracingelectric.com — Poppins font, blue `#105BAB`, gold `#FFC423`, white cards,
 near-black text. Team view uses red `#e23b3b` for unfilled seats. No green.

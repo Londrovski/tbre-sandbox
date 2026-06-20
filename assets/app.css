@@ -106,7 +106,6 @@ details.resp>summary::-webkit-details-marker{ display:none; }
 details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; font-size:18px; width:14px; }
 details.resp[open]>summary::before{ content:'–'; }
 .resp-body{ padding:0 16px 14px 16px; display:flex; flex-wrap:wrap; gap:4px 22px; }
-.resp-mount{ display:contents; }
 .resp-d{ font-size:15px; color:#374151; margin:2px 0 10px; padding:0 16px; }
 .rg{ flex:1; min-width:150px; margin:4px 0 0; }
 .rl{ display:block; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:6px; }

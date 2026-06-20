@@ -3,6 +3,7 @@ context_for: responsibility
 id: own-sim
 title: Own & maintain the simulator
 seat: simulation-lead
+order: 1
 status: draft
 updated: 2026-06-20
 ---

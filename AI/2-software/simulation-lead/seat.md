@@ -12,13 +12,7 @@ order: 3
 
 Owns the test environment the whole stack develops against — the sim everyone runs, growing it to match the TBRe27 car, and the hardware-in-the-loop (HIL) rig.
 
-## Responsibilities
-- **Own & maintain the simulator**
-  - doc: own-sim.md
-- **Model the TBRe27 car**
-  - doc: model-tbre27.md
-- **Hardware-in-the-loop (HIL) sim**
-  - doc: hil.md
+<!-- Responsibilities are their own files in this folder (own-sim.md, model-tbre27.md, hil.md); each carries its own title + order. Nothing to list here. -->
 
 ## Key interfaces
 - Software Lead

@@ -3,6 +3,7 @@ context_for: responsibility
 id: hil
 title: Hardware-in-the-loop (HIL) sim
 seat: simulation-lead
+order: 3
 status: draft
 updated: 2026-06-20
 ---

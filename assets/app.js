@@ -172,15 +172,33 @@ var TBRE=(function(){
     });
     return { desc:desc.join(' ').trim(), owns:owns, delivers:delivers, rest:rest.join(NL).trim() };
   }
+  // Front-matter (title, order) + parsed body for a self-contained responsibility file.
+  function parseRespFull(md){
+    var fm={};
+    if(md.indexOf('---')===0){ var end=md.indexOf(NL+'---',3);
+      if(end>0){ md.slice(3,end).trim().split(NL).forEach(function(line){ var i=line.indexOf(':'); if(i<0) return; fm[line.slice(0,i).trim()]=(line.slice(i+1).trim()||null); }); } }
+    var b=parseRespDoc(md);
+    return { title:fm.title||'(untitled)', order:(fm.order!=null?parseInt(fm.order,10):null), desc:b.desc, owns:b.owns, delivers:b.delivers, rest:b.rest };
+  }
+  // A responsibility rendered from its own file: title → summary → Owns/Delivers chips → Context (Team view).
+  function respDocBlock(s,r){
+    var html=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
+      +'<div class="resp-body">'+grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers)+'</div>';
+    if(MODE==='team' && r.rest){ html+='<details class="ctx ctxdoc"><summary>Context</summary><div class="ctxbody">'+mdToHtml(r.rest)+'</div></details>'; }
+    return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'+html+'</details>';
+  }
+  // Fetch a seat's responsibility files, order by their front-matter order, and fill the slot.
+  function renderSeatResps(s,slot){
+    if(!slot) return;
+    Promise.all(s.respDocs.map(function(path){ return fetchCtx(path).then(function(txt){ return txt; }); })).then(function(texts){
+      var parsed=texts.filter(Boolean).map(parseRespFull)
+        .sort(function(a,b){ var oa=(a.order==null?99:a.order), ob=(b.order==null?99:b.order); return oa-ob || a.title.localeCompare(b.title); });
+      slot.innerHTML = parsed.length ? parsed.map(function(r){return respDocBlock(s,r);}).join('') : '<p class="rtbd">TBD</p>';
+    });
+  }
+  // Legacy: a responsibility listed on the card with inline owns/delivers (Team view shows its doc as a dropdown).
   function respBlock(s,r){
     var docPath=docPathOf(s,r);
-    var hasInline=r.owns.length || r.delivers.length;
-    // Self-contained responsibility doc: parse it into summary + Owns/Delivers chips + Context, filled once fetched.
-    if(docPath && !hasInline){
-      return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'
-        +'<div class="resp-mount" data-doc="'+esc(docPath)+'"><div class="resp-body"><p class="rtbd">Loading…</p></div></div></details>';
-    }
-    // Legacy: owns/delivers inline on the card. Team view also offers the doc as a lazy Context dropdown.
     var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
     var cd='';
     if(MODE==='team'){
@@ -190,22 +208,6 @@ var TBRE=(function(){
     }
     return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
   }
-  function loadRespDocs(p){
-    var nodes=p.querySelectorAll('.resp-mount[data-doc]');
-    Array.prototype.forEach.call(nodes,function(d){
-      if(d.getAttribute('data-loaded')) return;
-      d.setAttribute('data-loaded','1');
-      var path=d.getAttribute('data-doc');
-      fetchCtx(path).then(function(txt){
-        if(!txt){ d.innerHTML='<div class="resp-body"><p class="rtbd">No context doc yet ('+esc(path)+').</p></div>'; return; }
-        var r=parseRespDoc(txt);
-        var html=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
-          +'<div class="resp-body">'+grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers)+'</div>';
-        if(MODE==='team' && r.rest){ html+='<details class="ctx ctxdoc"><summary>Context</summary><div class="ctxbody">'+mdToHtml(r.rest)+'</div></details>'; }
-        d.innerHTML=html;
-      });
-    });
-  }
 
   function select(id){
     selected=id; var s=byId[id]; if(!s) return;
@@ -213,25 +215,27 @@ var TBRE=(function(){
     document.body.classList.add('detail-open');
     var open=!s.owner||s.owner==='TBD';
     var head=header(s);
-    var respHtml=s.resp.map(function(r){return respBlock(s,r);}).join('');
+    var useDocs=s.respDocs && s.respDocs.length;
+    var respHtml=useDocs ? '<div class="resp-list"><p class="rtbd">Loading…</p></div>'
+                         : (s.resp.map(function(r){return respBlock(s,r);}).join('')||'<p class="rtbd">TBD</p>');
     if(MODE==='team'){
       var seatCtx='<details class="ctx ctxdoc seatctx" data-doc="'+esc(s.folder)+'/context.md"><summary>Seat context</summary><div class="ctxbody"><p class="rtbd">Loading…</p></div></details>';
       p.innerHTML = head
         +seatCtx
-        +'<div class="sect">Responsibilities</div>'+(respHtml||'<p class="rtbd">TBD</p>')
+        +'<div class="sect">Responsibilities</div>'+respHtml
         +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
         +'<div class="filebadge">'+esc(s.folder)+'/seat.md</div>';
     } else {
       var ctx=[]; s.resp.forEach(function(r){ ctx=ctx.concat(r.context); }); ctx=uniq(ctx);
       p.innerHTML = head
         +(open?('<div class="sect">Requirements</div>'+ulist(s.requirements)):'')
-        +'<div class="sect">Responsibilities</div>'+(respHtml||'<p class="rtbd">TBD</p>')
+        +'<div class="sect">Responsibilities</div>'+respHtml
         +(ctx.length?'<details class="ctx"><summary>Context</summary>'+ulist(ctx)+'</details>':'')
         +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
         +(open?'<a class="apply js-noop" href="#">Apply for this seat</a>':'')
         +'<div class="filebadge">'+esc(s.folder)+'/seat.md</div>';
     }
-    loadRespDocs(p);
+    if(useDocs){ renderSeatResps(s, p.querySelector('.resp-list')); }
     render();
   }
 
@@ -267,12 +271,22 @@ var TBRE=(function(){
       fetch('https://api.github.com/repos/'+REPO+'/git/trees/'+BRANCH+'?recursive=1')
         .then(function(r){ if(!r.ok) throw new Error('tree '+r.status); return r.json(); })
         .then(function(t){
-          var paths=(t.tree||[]).filter(function(n){ return n.type==='blob' && n.path.indexOf(DIR+'/')===0 && n.path.indexOf(DIR+'/archive/')!==0 && n.path.slice(-8)==='/seat.md'; }).map(function(n){return n.path;});
-          return Promise.all(paths.map(function(p){ return fetch(RAW+p).then(function(r){return r.text();}).then(function(txt){ return {path:p, text:txt}; }); }));
+          var md=(t.tree||[]).filter(function(n){ return n.type==='blob' && n.path.indexOf(DIR+'/')===0 && n.path.indexOf(DIR+'/archive/')!==0 && n.path.slice(-3)==='.md'; }).map(function(n){return n.path;});
+          var seatPaths=md.filter(function(p){ return p.slice(-8)==='/seat.md'; });
+          return Promise.all(seatPaths.map(function(p){
+            var folder=p.slice(0,-8);
+            // a responsibility = any .md directly in the seat folder that isn't seat.md or context.md
+            var respDocs=md.filter(function(m){
+              if(m===p || m.slice(0,folder.length+1)!==folder+'/') return false;
+              var base=m.slice(folder.length+1);
+              return base.indexOf('/')<0 && base!=='context.md';
+            });
+            return fetch(RAW+p).then(function(r){return r.text();}).then(function(txt){ return {path:p, text:txt, folder:folder, respDocs:respDocs}; });
+          }));
         })
     ]).then(function(out){
       TEAM=out[0]||'';
-      var cards=out[1].map(function(o){ var c=parseCard(o.text); c.folder=o.path.slice(0,-8); return c; }).filter(function(s){return s.id;});
+      var cards=out[1].map(function(o){ var c=parseCard(o.text); c.folder=o.folder; c.respDocs=o.respDocs; return c; }).filter(function(s){return s.id;});
       byId={}; SEATS=[];
       cards.forEach(function(s){ if(!byId[s.id]){ byId[s.id]=s; SEATS.push(s); } });
       render(); showTeam();
