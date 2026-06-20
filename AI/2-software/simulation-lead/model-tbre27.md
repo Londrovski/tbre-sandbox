@@ -4,8 +4,11 @@ id: model-tbre27
 title: Model the TBRe27 car
 seat: simulation-lead
 status: draft
-updated: 2026-06-19
+updated: 2026-06-20
 ---
+
+## Delivers
+- A sim that represents the TBRe27 car
 
 > Delta only — for the sim itself (repo, setup, history) see **Own & maintain the simulator**.
 

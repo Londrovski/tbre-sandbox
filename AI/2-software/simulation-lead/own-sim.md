@@ -4,8 +4,17 @@ id: own-sim
 title: Own & maintain the simulator
 seat: simulation-lead
 status: draft
-updated: 2026-06-19
+updated: 2026-06-20
 ---
+
+## Owns
+- The simulator (tbresim)
+- Member access & training
+- Bug-fixing
+
+## Delivers
+- A reliable sim the whole team can run
+- A team that can run and test with the sim
 
 > The base context for the sim itself. The other Simulation responsibilities (Model TBRe27, HIL) only add what's specific to them and point back here.
 

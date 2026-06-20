@@ -4,8 +4,14 @@ id: hil
 title: Hardware-in-the-loop (HIL) sim
 seat: simulation-lead
 status: draft
-updated: 2026-06-19
+updated: 2026-06-20
 ---
+
+## Owns
+- The lab HIL rig & sensor-plate test access
+
+## Delivers
+- A HIL sim for the ADS-DV and TBRe27 car
 
 > Delta only — for the sim itself see **Own & maintain the simulator**.
 

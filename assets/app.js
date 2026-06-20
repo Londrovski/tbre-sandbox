@@ -158,41 +158,60 @@ var TBRE=(function(){
       +'</div><div class="pphoto">'+photo+'</div></div>';
   }
 
+  function docPathOf(s,r){ return r.doc ? (r.doc.indexOf('/')>=0 ? r.doc : s.folder+'/'+r.doc) : null; }
+  function respBlock(s,r){
+    var docPath=docPathOf(s,r);
+    var hasInline=r.owns.length || r.delivers.length;
+    // Self-contained responsibility doc (Owns/Delivers/context all inside it) — render its body inline.
+    if(docPath && !hasInline){
+      return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'
+        +'<div class="resp-body"><div class="resp-doc" data-doc="'+esc(docPath)+'"><p class="rtbd">Loading…</p></div></div></details>';
+    }
+    // Legacy: owns/delivers inline on the card. Team view also offers the doc as a lazy Context dropdown.
+    var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
+    var cd='';
+    if(MODE==='team'){
+      var dd=docPath ? ' data-doc="'+esc(docPath)+'"' : '';
+      var ph=docPath ? '<p class="rtbd">Loading…</p>' : '<p class="rtbd">No context doc linked yet — add a doc: line to this responsibility in the card.</p>';
+      cd='<details class="ctx ctxdoc"'+dd+'><summary>Context</summary><div class="ctxbody">'+ph+'</div></details>';
+    }
+    return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
+  }
+  function loadRespDocs(p){
+    var nodes=p.querySelectorAll('.resp-doc[data-doc]');
+    Array.prototype.forEach.call(nodes,function(d){
+      if(d.getAttribute('data-loaded')) return;
+      d.setAttribute('data-loaded','1');
+      var path=d.getAttribute('data-doc');
+      fetchCtx(path).then(function(txt){ d.innerHTML = txt ? mdToHtml(stripFM(txt)) : '<p class="rtbd">No context doc yet ('+esc(path)+').</p>'; });
+    });
+  }
+
   function select(id){
     selected=id; var s=byId[id]; if(!s) return;
     var p=document.getElementById('panel'); p.className='panel';
     document.body.classList.add('detail-open');
     var open=!s.owner||s.owner==='TBD';
     var head=header(s);
+    var respHtml=s.resp.map(function(r){return respBlock(s,r);}).join('');
     if(MODE==='team'){
       var seatCtx='<details class="ctx ctxdoc seatctx" data-doc="'+esc(s.folder)+'/context.md"><summary>Seat context</summary><div class="ctxbody"><p class="rtbd">Loading…</p></div></details>';
-      var respT=s.resp.map(function(r){
-        var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
-        var docPath = r.doc ? (r.doc.indexOf('/')>=0 ? r.doc : s.folder+'/'+r.doc) : null;
-        var dd = docPath ? ' data-doc="'+esc(docPath)+'"' : '';
-        var ph = r.doc ? '<p class="rtbd">Loading…</p>' : '<p class="rtbd">No context doc linked yet — add a doc: line to this responsibility in the card.</p>';
-        var cd = '<details class="ctx ctxdoc"'+dd+'><summary>Context</summary><div class="ctxbody">'+ph+'</div></details>';
-        return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
-      }).join('');
       p.innerHTML = head
         +seatCtx
-        +'<div class="sect">Responsibilities</div>'+(respT||'<p class="rtbd">TBD</p>')
+        +'<div class="sect">Responsibilities</div>'+(respHtml||'<p class="rtbd">TBD</p>')
         +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
         +'<div class="filebadge">'+esc(s.folder)+'/seat.md</div>';
     } else {
       var ctx=[]; s.resp.forEach(function(r){ ctx=ctx.concat(r.context); }); ctx=uniq(ctx);
-      var resp=s.resp.map(function(r){
-        var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
-        return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div></details>';
-      }).join('');
       p.innerHTML = head
         +(open?('<div class="sect">Requirements</div>'+ulist(s.requirements)):'')
-        +'<div class="sect">Responsibilities</div>'+(resp||'<p class="rtbd">TBD</p>')
+        +'<div class="sect">Responsibilities</div>'+(respHtml||'<p class="rtbd">TBD</p>')
         +(ctx.length?'<details class="ctx"><summary>Context</summary>'+ulist(ctx)+'</details>':'')
         +'<div class="sect">Key interfaces</div>'+ulist(s.interfaces)
         +(open?'<a class="apply js-noop" href="#">Apply for this seat</a>':'')
         +'<div class="filebadge">'+esc(s.folder)+'/seat.md</div>';
     }
+    loadRespDocs(p);
     render();
   }
 
