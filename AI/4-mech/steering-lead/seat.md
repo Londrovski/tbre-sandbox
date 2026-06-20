@@ -15,13 +15,7 @@ order: 2
 
 Owns autonomous steering actuation — a steering-angle sensor and shaft-mounted motor working alongside manual control — including the steering quick-release.
 
-## Responsibilities
-- **Deliver steering control**
-  - context: Vehicle Dynamics
-  - context: Pathfinding Lead
-  - owns: The steering actuation design
-  - owns: The steering quick-release system
-  - delivers: Accurate autonomous steering on the car
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Mech Lead

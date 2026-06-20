@@ -12,14 +12,7 @@ order: 1
 
 Owns bringing new people in — the pitch, the application flow, and the visible push at the start of the year.
 
-## Responsibilities
-- **Run recruitment**
-  - context: Microsoft Form on the website → recruitment sheet
-  - context: Freshers' Week sports & societies stand
-  - owns: The recruitment pitch deck & materials
-  - owns: The application form & recruitment sheet
-  - delivers: Posters and a Freshers-week presence
-  - delivers: A pipeline of applicants into open seats
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Operations Manager / Team Lead

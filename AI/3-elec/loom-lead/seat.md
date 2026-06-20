@@ -12,13 +12,7 @@ order: 1
 
 Owns the cabling and boards that connect the AI sensing and compute hardware — full control of the wiring so interfacing is clean and reliable. Tiered: loom first, then a power & breakout PCB.
 
-## Responsibilities
-- **Wiring loom**
-  - owns: The AI wiring loom
-  - delivers: A tidy, reliable, documented loom (replacing the current mess of cables)
-- **Power & breakout PCB**
-  - owns: A power-distribution / breakout board
-  - delivers: The quickest useful PCB on the car — power to the Jetson, LiDAR and camera, plus a Jetson CAN / GPIO breakout
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Elec Lead

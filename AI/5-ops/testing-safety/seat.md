@@ -12,18 +12,7 @@ order: 4
 
 Owns AI testing events and test-day safety — booking space, sourcing the car, running safe sessions, and owning the safety side on the day.
 
-## Responsibilities
-- **Plan & run testing**
-  - context: How Wenzel ran testing this year — see handover notes
-  - owns: The testing schedule
-  - owns: Estates & IMechE relationships
-  - owns: Test-day checklist
-  - delivers: Booked space & sessions each window
-  - delivers: ADS-DV on site (transport, storage, test-site approval)
-  - delivers: Logged run data
-- **Test-day safety**
-  - owns: Test-day safety (procedures, emergency-stop checks, sign-off)
-  - delivers: Safe, compliant test sessions
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Operations Manager / Team Lead

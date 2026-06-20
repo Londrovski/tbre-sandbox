@@ -14,13 +14,7 @@ order: 2
 
 Owns the electrical domain — perception hardware, PCBs, the VCU interface, wiring, and AI safety systems.
 
-## Responsibilities
-- **Electrical direction**
-  - context: Main Elec dept standards
-  - owns: Electrical architecture & safety systems
-  - delivers: Safe, integrated AI electronics on the car
-- **Grow the elec team**
-  - delivers: Elec seats owned & onboarded
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Team Lead

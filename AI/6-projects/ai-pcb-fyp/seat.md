@@ -13,10 +13,7 @@ order: 1
 
 Open final-year project: a full consolidated **AI integration PCB** that brings all the AI sensing/compute IO onto one board plus a Jetson compute module — replacing the tiered loom + breakout board with a single integrated solution. A bigger job than a standing seat, so it is logged as an FYP opportunity. Currently untaken.
 
-## Responsibilities
-- **Integrated AI PCB** — Design the consolidated board: power distribution, sensor/compute IO, and a Jetson compute module on one PCB.
-  - owns: The AI integration PCB design
-  - delivers: A manufacturable, documented board that replaces the loom + breakout setup
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Loom Lead (the interim loom & breakout PCB this would supersede)

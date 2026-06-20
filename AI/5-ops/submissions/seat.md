@@ -12,16 +12,7 @@ order: 5
 
 Owns the Formula Student autonomous submissions and rules compliance — the entries, design concept spec, and test plans that get the AI side competition-ready.
 
-## Responsibilities
-- **Own the submissions**
-  - context: gitlab tbre-ai/asf-template
-  - context: gitlab tbre-ai/adr-2026
-  - context: FSUK / FSG key dates; IMechE / FS rules
-  - owns: AI competition submissions (design concept spec, ASF / ADR, test plans)
-  - delivers: Submitted docs by each deadline
-- **Rules & scrutineering**
-  - owns: Rules tracking & scrutineering prep
-  - delivers: AI side passes scrutineering
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Operations Manager / Team Lead

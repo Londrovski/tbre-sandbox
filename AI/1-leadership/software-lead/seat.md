@@ -15,14 +15,7 @@ order: 1
 
 Owns the software domain — direction across simulation, SLAM and control, plus software onboarding and code quality.
 
-## Responsibilities
-- **Software direction**
-  - context: gitlab tbre-ai group
-  - owns: Software architecture & standards
-  - owns: GitLab repos & review standards
-  - delivers: A coherent, integrated software stack
-- **Grow the software team**
-  - delivers: Software seats owned & onboarded
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Team Lead

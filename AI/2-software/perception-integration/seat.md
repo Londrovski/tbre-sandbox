@@ -12,12 +12,7 @@ order: 1
 
 Owns the perception data side: taking the LiDAR and camera streams and turning them into reliable cone detections — analysing the data and matching the two sensors together.
 
-## Responsibilities
-- **LiDAR + camera data**
-  - owns: Sensor data analysis (LiDAR + camera)
-  - delivers: Matched / fused detections (cone positions) feeding SLAM
-- **Calibration & alignment**
-  - delivers: Calibrated, aligned LiDAR–camera data
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Software Lead

@@ -15,14 +15,7 @@ order: 3
 
 Owns the mechanical domain — steering and braking actuation, the EBS, and mounting the sensing system across cars.
 
-## Responsibilities
-- **Mechanical direction**
-  - context: Chassis team
-  - context: Mech dept technicians
-  - owns: Mechanical integration & fabrication plan
-  - delivers: Actuation & mounting delivered on the car
-- **Grow the mech team**
-  - delivers: Mech seats owned & onboarded
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Team Lead

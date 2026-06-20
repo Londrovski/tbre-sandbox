@@ -15,11 +15,7 @@ order: 4
 
 Keeps the team running — testing, onboarding, finance and the systems that hold it all together.
 
-## Responsibilities
-- **Run operations**
-  - owns: Team operating rhythm
-  - owns: Budget & testing oversight
-  - delivers: A team that ships: tested, funded, onboarded
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Team Lead

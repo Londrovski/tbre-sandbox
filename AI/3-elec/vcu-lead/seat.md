@@ -15,13 +15,7 @@ order: 2
 
 Owns the Vehicle Control Unit — the embedded bridge between the AI system and the car. Anything that runs on the VCU / ECU is firmly an Elec job.
 
-## Responsibilities
-- **Own the VCU interface**
-  - context: gitlab tbre-ai/vcu-interface
-  - owns: The VCU interface (vcu-interface)
-  - owns: Embedded control — Simulink blocks, hard limits (max steering / accel), CAN translation
-  - delivers: A reliable AI-to-car interface (the ADS-DV API on the embedded side)
-  - delivers: CAN messages translated to motor torque / actuator commands
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Elec Lead

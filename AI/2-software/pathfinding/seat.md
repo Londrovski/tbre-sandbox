@@ -12,19 +12,7 @@ order: 2
 
 Owns the autonomy line: SLAM, path / racing-line planning, and the MPC control that drives the car — from "where am I" through to the control output handed to the VCU.
 
-## Responsibilities
-- **SLAM & localisation**
-  - context: gitlab tbre-ai (main TBRe-AI code)
-  - owns: The SLAM pipeline
-  - delivers: Reliable mapping & localisation (well-developed this year — maintain & refine)
-- **Path & racing line**
-  - owns: Path planning
-  - delivers: A smooth centre line, then a racing line between the cones
-- **MPC control**
-  - context: gitlab tbre-ai/mpc-sandbox
-  - owns: The MPC implementation (acados)
-  - delivers: Control output to the VCU — the closest interface between pathfinding and the car
-  - delivers: Control validated in sim and tuned to TBRe27
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Software Lead

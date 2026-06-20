@@ -15,11 +15,7 @@ order: 3
 
 Owns the Emergency Braking System and autonomous braking — critical for safe driverless running.
 
-## Responsibilities
-- **Deliver the EBS**
-  - context: Rules / scrutineering
-  - owns: The EBS design & safety case
-  - delivers: Autonomous braking + emergency stop on the car
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Mech Lead

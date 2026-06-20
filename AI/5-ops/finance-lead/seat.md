@@ -12,12 +12,7 @@ order: 3
 
 Owns the AI team budget and purchasing — the budget request, expenditure tracking, and the interface with the main team / Competition Board on money.
 
-## Responsibilities
-- **Budget & buy**
-  - context: Main team finance; Faculty Competition Board
-  - owns: The AI budget tracker
-  - delivers: The yearly budget request (expected-expenditure sheet) and an up-to-date tracker
-  - delivers: Ordered hardware (e.g. discounted LiDAR)
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Operations Manager / Team Lead

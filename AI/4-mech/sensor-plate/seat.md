@@ -12,18 +12,7 @@ order: 1
 
 Owns the sensor plate — designing it, mounting it to the car, and housing the sensors. Built to transfer between the ADS-DV and the TBRe27 main car.
 
-## Responsibilities
-- **Design & mount the plate**
-  - context: Chassis team
-  - context: Simulation Lead (sensor placement)
-  - owns: The sensor-plate CAD
-  - delivers: A mounted, cross-compatible sensor plate (ADS-DV + TBRe27)
-  - delivers: Waterproof housing for the sensors
-- **Make parts**
-  - context: Mech dept technicians
-  - delivers: Fabricated parts (3D print / laser cut)
-- **Available for testing**
-  - delivers: The plate kept assembled and available in the lab so hardware-in-the-loop testing can run
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Mech Lead

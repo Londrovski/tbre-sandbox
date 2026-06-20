@@ -13,9 +13,7 @@ order: 0
 
 Group Design & Business Project (GDBP) cohort the AI team gets access to in the second semester — a pool of third- and final-year student effort we can point at a scoped AI work-package. Sits outside the standing AI team seats; the specific group and project are not yet allocated.
 
-## Responsibilities
-- **Scoped work-package** — Take on a defined AI deliverable suitable for a group project and carry it through the semester.
-  - delivers: A completed, documented piece of work handed back to the AI team
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - AI Team Lead

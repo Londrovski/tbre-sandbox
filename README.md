@@ -194,9 +194,11 @@ and delete the `## Responsibilities` section.
 `context.md` carries `context_for`, `id`, `seat`, `status`, `updated`. The engine uses `title`/`order`, strips the
 rest, and renders the body. `status: draft` + `_TO FILL_` markers flag where real knowledge still needs adding.
 
-**Worked example (done):** `simulation-lead` — `AI/2-software/simulation-lead/` holds a thin `seat.md` (no
-responsibilities), a `context.md`, and three responsibility files `own-sim.md`, `model-tbre27.md`, `hil.md`, each
-carrying its own `title`/`order` + Owns/Delivers + context. The remaining seats still use the legacy inline form.
+**All seats use this scheme.** Every seat folder holds a thin `seat.md` plus one file per responsibility (the
+fullest example is `simulation-lead`, which also has a `context.md` and rich Background/Scope/Interfaces sections).
+Most responsibilities were migrated from the old inline form, so their files currently carry `## Owns` / `##
+Delivers` / `## Interfaces` (from the old `context:` pointers) and are ready to grow Background/Scope/Open-questions
+detail. The legacy inline `## Responsibilities` path in the engine is kept only as a fallback.
 
 ---
 

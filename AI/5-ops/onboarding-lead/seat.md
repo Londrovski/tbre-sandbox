@@ -12,17 +12,7 @@ order: 2
 
 Owns onboarding and the team's systems — getting new members set up fast and teaching the universal skills everyone needs.
 
-## Responsibilities
-- **Onboard & organise**
-  - context: Vault / access controller
-  - owns: Onboarding process
-  - owns: GitLab / Teams hygiene
-  - owns: The Start_Here index
-  - delivers: New members set up fast
-  - delivers: A tidy, findable knowledge base
-- **Universal skills**
-  - owns: Baseline training in the team's universal tools
-  - delivers: Everyone able to use the Jetson, Foxglove logging, Typst and GitLab
+<!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
 - Operations Manager / Team Lead
