@@ -19,7 +19,7 @@ var TBRE=(function(){
   function isOutsideGroup(g){ for(var i=0;i<OUTSIDE.length;i++){ if(OUTSIDE[i].key===g) return true; } return false; }
   function colorOf(s){ return DCOL[s.domain]||"var(--brand)"; }
   function esc(t){ return (t==null?'':''+t).replace(/[<>&]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;'}[c];}); }
-  function inline(t){ var p=t.split('**'),r=''; for(var i=0;i<p.length;i++){ r+=(i%2===1)?'<strong>'+p[i]+'</strong>':p[i]; } return r; }
+  function inline(t){ var parts=t.split('`'),r=''; for(var i=0;i<parts.length;i++){ if(i%2===1){ r+='<code>'+parts[i]+'</code>'; } else { var b=parts[i].split('**'),s=''; for(var j=0;j<b.length;j++){ s+=(j%2===1)?'<strong>'+b[j]+'</strong>':b[j]; } r+=s; } } return r; }
   function initials(n){ var p=(n||'').split(' ').filter(Boolean); return ((p[0]||'?').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase(); }
   function uniq(a){ var seen={},o=[]; a.forEach(function(x){ if(!seen[x]){ seen[x]=1; o.push(x); } }); return o; }
   function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
@@ -29,18 +29,37 @@ var TBRE=(function(){
     if(md.indexOf('---')===0){ var end=md.indexOf(NL+'---',3); if(end>0){ return md.slice(end+4).trimStart(); } }
     return md;
   }
+  function mdCells(s){ var t=s.replace(/^ +/,'').replace(/ +$/,''); if(t.charAt(0)==='|'){ t=t.slice(1); } if(t.charAt(t.length-1)==='|'){ t=t.slice(0,t.length-1); } return t.split('|').map(function(x){ return x.replace(/^ +/,'').replace(/ +$/,''); }); }
+  function mdIsTableSep(s){ var seen=false; for(var k=0;k<s.length;k++){ var c=s.charAt(k); if(c==='-'){ seen=true; } else if(c!=='|' && c!==':' && c!==' '){ return false; } } return seen; }
   function mdToHtml(md){
-    var out=[], inList=false; function cl(){ if(inList){ out.push('</ul>'); inList=false; } }
-    md.split(NL).forEach(function(raw){
-      var line=raw.replace(/ +$/,'');
-      if(line.charAt(0)==='#'){ cl(); var lv=0; while(line.charAt(lv)==='#') lv++; var t=line.slice(lv).trim();
-        out.push(lv<=1 ? '<h2 class="tov-h">'+inline(esc(t))+'</h2>' : '<div class="sect">'+inline(esc(t))+'</div>'); }
-      else if(line.charAt(0)==='>'){ cl(); out.push('<p class="ctx-note">'+inline(esc(trimSep(line.slice(1))))+'</p>'); }
-      else if((line.charAt(0)==='-'||line.charAt(0)==='*') && line.charAt(1)===' '){ if(!inList){ out.push('<ul class="ilist">'); inList=true; } out.push('<li>'+inline(esc(line.slice(2)))+'</li>'); }
-      else if(line===''){ cl(); }
-      else { cl(); out.push('<p class="tov-p">'+inline(esc(line))+'</p>'); }
-    });
-    cl(); return out.join('');
+    var lines=md.split(NL), out=[], i=0, para=[], inList=false;
+    function fp(){ if(para.length){ out.push('<p class="tov-p">'+inline(esc(para.join(' ')))+'</p>'); para=[]; } }
+    function cl(){ if(inList){ out.push('</ul>'); inList=false; } }
+    while(i<lines.length){
+      var raw=lines[i], line=raw.replace(/ +$/,''), t=line.replace(/^ +/,'');
+      if(t.charAt(0)==='|' && (i+1)<lines.length && mdIsTableSep(lines[i+1].replace(/ +$/,'').replace(/^ +/,''))){
+        fp(); cl();
+        var head=mdCells(t); i+=2; var rows=[];
+        while(i<lines.length && lines[i].replace(/^ +/,'').charAt(0)==='|'){ rows.push(mdCells(lines[i])); i++; }
+        var th='<tr>'+head.map(function(c){ return '<th>'+inline(esc(c))+'</th>'; }).join('')+'</tr>';
+        var tb=rows.map(function(r){ return '<tr>'+r.map(function(c){ return '<td>'+inline(esc(c))+'</td>'; }).join('')+'</tr>'; }).join('');
+        out.push('<table class="md-tbl"><thead>'+th+'</thead><tbody>'+tb+'</tbody></table>'); continue;
+      }
+      if(line===''){ fp(); cl(); i++; continue; }
+      if(line.charAt(0)==='#'){ fp(); cl(); var lv=0; while(line.charAt(lv)==='#') lv++; var ht=line.slice(lv).trim();
+        out.push(lv<=1 ? '<h2 class="tov-h">'+inline(esc(ht))+'</h2>' : '<div class="sect">'+inline(esc(ht))+'</div>'); i++; continue; }
+      if(t.charAt(0)==='>'){ fp(); cl(); var notes=[];
+        while(i<lines.length && lines[i].replace(/^ +/,'').charAt(0)==='>'){ notes.push(trimSep(lines[i].replace(/^ +/,'').slice(1))); i++; }
+        out.push('<p class="ctx-note">'+inline(esc(notes.join(' ')))+'</p>'); continue; }
+      if((t.charAt(0)==='-'||t.charAt(0)==='*') && t.charAt(1)===' '){ fp(); if(!inList){ out.push('<ul class="ilist">'); inList=true; }
+        var item=t.slice(2); i++;
+        while(i<lines.length){ var nx=lines[i].replace(/ +$/,''), nt=nx.replace(/^ +/,'');
+          if(nx===''||nt.charAt(0)==='#'||nt.charAt(0)==='>'||nt.charAt(0)==='|'||((nt.charAt(0)==='-'||nt.charAt(0)==='*')&&nt.charAt(1)===' ')){ break; }
+          item+=' '+nt; i++; }
+        out.push('<li>'+inline(esc(item))+'</li>'); continue; }
+      para.push(t); i++;
+    }
+    fp(); cl(); return out.join('');
   }
   function showTeam(){ selected=null; document.body.classList.remove('detail-open'); var p=document.getElementById('panel'); p.className='panel';
     p.innerHTML = TEAM ? mdToHtml(TEAM) : '<div class="loading">Add an AI/team.md for the overview.</div>'; render(); }
@@ -162,7 +181,7 @@ var TBRE=(function(){
     lines.forEach(function(raw){
       var line=raw.replace(/ +$/,'');
       if(line.slice(0,2)==='##'){ cur=line.replace(/^#+/,'').trim().toLowerCase(); if(cur!=='owns'&&cur!=='delivers'&&cur!=='background') rest.push(line); return; }
-      if(cur==='_intro'){ if(line!=='') desc.push(line); }
+      if(cur==='_intro'){ if(line!==''){ var L=line; if(L.charAt(0)==='>'){ L=trimSep(L.slice(1)); } desc.push(L); } }
       else if(cur==='owns'){ if(line.slice(0,2)==='- ') owns.push(line.slice(2)); }
       else if(cur==='delivers'){ if(line.slice(0,2)==='- ') delivers.push(line.slice(2)); }
       else rest.push(line);
