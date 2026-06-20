@@ -22,6 +22,11 @@ transfers to the real car with minimal surprises.
 - The single most important piece is **getting the sensors in the correct place** so the sim geometry matches
   the real car; beyond that, the wider vehicle details.
 - The full **TBRe27 general assembly and part details exist** to model from (Mech / CAD side).
+- **Current physics is a placeholder:** the sim's vehicle Rigidbody, mass and wheel-collider settings were
+  carried over from the old sim and are fairly arbitrary (tbresim issue **#5**), and wheel colliders behave
+  inconsistently at high speed. Making the vehicle behave like TBRe27 overlaps with that realism work.
+- There's a backlog item to build a **headless, model-based sim** and pursue **Vehicle-Dynamics integration /
+  a custom physics engine** (tbresim issue **#8**) — the natural home for a proper TBRe27 vehicle model.
 
 ## Scope & aim
 - Make the sim represent the TBRe27 car — **primarily correct sensor placement**, plus vehicle details.
