@@ -164,7 +164,7 @@ var TBRE=(function(){
     var lines=stripFM(md).split(NL), desc=[], owns=[], delivers=[], rest=[], cur='_intro';
     lines.forEach(function(raw){
       var line=raw.replace(/ +$/,'');
-      if(line.slice(0,2)==='##'){ cur=line.replace(/^#+/,'').trim().toLowerCase(); if(cur!=='owns'&&cur!=='delivers') rest.push(line); return; }
+      if(line.slice(0,2)==='##'){ cur=line.replace(/^#+/,'').trim().toLowerCase(); if(cur!=='owns'&&cur!=='delivers'&&cur!=='background') rest.push(line); return; }
       if(cur==='_intro'){ if(line!=='') desc.push(line); }
       else if(cur==='owns'){ if(line.slice(0,2)==='- ') owns.push(line.slice(2)); }
       else if(cur==='delivers'){ if(line.slice(0,2)==='- ') delivers.push(line.slice(2)); }

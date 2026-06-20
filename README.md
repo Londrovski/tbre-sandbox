@@ -170,7 +170,7 @@ Keep the sim everyone runs healthy — get people onto it and fix what breaks.  
 ## Delivers                                  <- right chip (gold)
 - A reliable sim the whole team can run
 
-## Background        <- what you inherit + where it lives today
+## Background        <- what you inherit + where it lives today (heading is hidden — leads the Context box)
 ## Scope & aim       <- what to do; forward "where things live"; **what good looks like**
 ## Interfaces        <- the people + physical/system dependencies
 ## Open questions
@@ -180,6 +180,8 @@ Keep the sim everyone runs healthy — get people onto it and fix what breaks.  
 two coloured chips as everywhere else), and folds **every other section** into a collapsible **Context** box. So a
 responsibility reads as: *title → summary → Owns | Delivers → Context +*. Section names under Owns/Delivers are a
 convention (Background / Scope & aim / Interfaces / Open questions) — any headings work; they all land in Context.
+The **`## Background` heading itself is hidden** so the Context box flows straight from its header into that content;
+keep it in the file as the section marker (it's what separates the context from Delivers).
 `context.md` shows as a "Seat context" dropdown. Files are fetched and cached when a seat is opened; the per-
 responsibility Context box appears in **Team view** only.
 
