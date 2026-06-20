@@ -6,6 +6,4 @@ status: draft
 updated: 2026-06-19
 ---
 
-A Unity-based TBRe sim, built by Ben and the team last year. It exists because the team only has the real ADS-DV (DDT) car for a short window each year — the sim is how everyone makes progress between test days.
-
-This year: build a hardware-in-the-loop (HIL) rig, and model the sim on the TBRe27 car.
+A simulation has been built in Unity this past year, it exists because the team get access to test on the real ASD-DV (DDT) car built by the IMechE for a short window each year — the sim is how everyone makes progress between test days. We want to expand the capacity of this sim to help us in our main goal of integrating AI systems onto the TBRe27 car for competition in summer 2027.
