@@ -3,7 +3,7 @@
   --ink:#0a0a0a; --bg:#f4f6f9; --surface:#ffffff; --line:#e5e5e5; --muted:#6b7280;
   --shadow:0 1px 3px rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
   --shadow-h:0 6px 18px rgba(16,91,171,.18);
-  --d-lead:#0c4a8c; --d-soft:#1f7fce; --d-elec:#e0a100; --d-mech:#6aa9e0; --d-ops:#105BAB; --d-out:#9aa6b5;
+  --d-lead:#FFC423; --d-soft:#2E9E5B; --d-elec:#7A4FBE; --d-mech:#0c4a8c; --d-ops:#E8821E; --d-out:#105BAB;
   --red:#e23b3b; --red-d:#c0392b;
 }
 *{box-sizing:border-box}
@@ -24,7 +24,7 @@ body.mode-team .tabs .tab.active{color:var(--red-d);box-shadow:inset 0 -3px 0 va
 .search input{background:#fff;border:1px solid var(--line);color:var(--ink);padding:8px 12px;border-radius:8px;font:500 13px Poppins,sans-serif;width:220px}
 .search input::placeholder{color:#9aa3af}
 .wrap{display:flex;height:calc(100vh - 61px)}
-.chart{flex:1;overflow:auto;padding:36px 24px 70px;text-align:center}
+.chart{flex:1;overflow:auto;padding:36px 24px 90px;text-align:center}
 .panel{flex:0 0 36%;min-width:380px;border-left:1px solid var(--line);background:var(--surface);overflow:auto;padding:26px 28px}
 .panel.empty{display:flex;align-items:center;justify-content:center;color:var(--muted);text-align:center}
 
@@ -57,27 +57,17 @@ body.mode-team .tabs .tab.active{color:var(--red-d);box-shadow:inset 0 -3px 0 va
   min-width:150px; max-width:184px; cursor:pointer; transition:.14s; text-align:left; box-shadow:var(--shadow); }
 .blk:hover{ transform:translateY(-2px); box-shadow:var(--shadow-h); }
 .blk.sel{ box-shadow:0 0 0 3px var(--brand), var(--shadow); }
-@keyframes openGlow{ 0%,100%{ box-shadow:0 0 0 1px var(--gold), 0 0 5px rgba(255,196,35,.30), var(--shadow);} 50%{ box-shadow:0 0 0 1px var(--gold), 0 0 14px rgba(255,196,35,.65), var(--shadow);} }
-.blk.open{ border-color:var(--gold); animation:openGlow 2.6s ease-in-out infinite; }
-.blk.open:hover{ animation:none; }
-.blk.open.sel{ animation:none; box-shadow:0 0 0 3px var(--brand), var(--shadow); }
+.blk.open{ box-shadow:0 0 0 2px var(--red), 0 0 10px rgba(226,59,59,.55), var(--shadow); }
+.blk.open:hover{ transform:translateY(-2px); box-shadow:0 0 0 2px var(--red), 0 0 13px rgba(226,59,59,.65), var(--shadow-h); }
+.blk.open.sel{ box-shadow:0 0 0 3px var(--brand), var(--shadow); }
 .blk .nm{ font-size:13.5px; font-weight:700; line-height:1.25; }
 .blk .mt{ font-size:11px; color:var(--muted); margin-top:4px; display:flex; gap:6px; align-items:center; font-weight:500; }
 .odot{ width:7px; height:7px; border-radius:50%; display:inline-block; flex:none; }
-.odot.open{ background:var(--gold); } .odot.filled{ background:var(--brand); }
+.odot.open{ background:var(--red); } .odot.filled{ background:var(--brand); }
 
-@keyframes openGlowRed{ 0%,100%{ box-shadow:0 0 0 1px var(--red), 0 0 5px rgba(226,59,59,.30), var(--shadow);} 50%{ box-shadow:0 0 0 1px var(--red), 0 0 14px rgba(226,59,59,.70), var(--shadow);} }
-body.mode-team .blk.open{ border-color:var(--red); animation:openGlowRed 2.6s ease-in-out infinite; }
-body.mode-team .blk.open:hover{ animation:none; }
-body.mode-team .blk.open.sel{ animation:none; box-shadow:0 0 0 3px var(--brand), var(--shadow); }
-body.mode-team .odot.open{ background:var(--red); }
-
-.legend{ display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin:0 0 12px; font-size:11.5px; color:var(--muted); font-weight:500; }
-.legend span{ display:flex; align-items:center; gap:5px; }
-.sw{ width:10px;height:10px;border-radius:3px;display:inline-block; }
 .hint{ color:var(--muted); font-size:12px; margin:22px 0 0; }
-.outside-wrap{ margin:48px auto 0; padding-top:26px; border-top:1px dashed var(--line); max-width:920px;
-  display:flex; justify-content:center; align-items:stretch; flex-wrap:nowrap; overflow-x:auto; }
+.outside-wrap{ margin:48px auto 0; padding:26px 8px 16px; border-top:1px dashed var(--line); width:max-content; max-width:100%;
+  display:flex; justify-content:center; align-items:flex-start; flex-wrap:wrap; gap:8px 0; overflow:visible; }
 .outside-grp{ padding:0 22px; }
 .outside-grp:first-child{ padding-left:0; }
 .outside-grp + .outside-grp{ border-left:1px solid var(--line); }

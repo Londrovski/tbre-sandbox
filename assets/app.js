@@ -23,6 +23,7 @@ var TBRE=(function(){
   function initials(n){ var p=(n||'').split(' ').filter(Boolean); return ((p[0]||'?').charAt(0)+(p.length>1?p[p.length-1].charAt(0):'')).toUpperCase(); }
   function uniq(a){ var seen={},o=[]; a.forEach(function(x){ if(!seen[x]){ seen[x]=1; o.push(x); } }); return o; }
   function trimSep(s){ var k=0; while(k<s.length && ' —:-'.indexOf(s.charAt(k))>=0) k++; return s.slice(k); }
+  function stripComments(s){ var i; while((i=s.indexOf('<!--'))>=0){ var j=s.indexOf('-->',i+4); if(j<0){ s=s.slice(0,i); break; } s=s.slice(0,i)+s.slice(j+3); } return s; }
 
   function stripFM(md){
     if(md.indexOf('---')===0){ var end=md.indexOf(NL+'---',3); if(end>0){ return md.slice(end+4).trimStart(); } }
@@ -78,6 +79,7 @@ var TBRE=(function(){
       }
     }
     var sec={}, cur='_intro'; sec[cur]=[];
+    body=stripComments(body);
     body.split(NL).forEach(function(raw){
       var line=raw.replace(/ +$/,'');
       if(line.slice(0,2)==='##'){ cur=line.replace(/^#+/,'').trim().toLowerCase(); sec[cur]=[]; }
@@ -121,11 +123,6 @@ var TBRE=(function(){
       else { h+=leafGrid(kids); }
     }
     return h+'</li>';
-  }
-  function legend(){
-    return '<div class="legend">'+Object.keys(DCOL).map(function(d){
-      return '<span><span class="sw" style="background:'+DCOL[d]+'"></span>'+d.replace('Technology – ','').replace(' (interface)','')+'</span>';
-    }).join('')+'</div>';
   }
   function ulist(arr){ return arr.length? '<ul class="ilist">'+arr.map(function(x){return '<li>'+inline(esc(x))+'</li>';}).join('')+'</ul>' : '<p class="rtbd">TBD</p>'; }
   function grp(cls,label,arr){
@@ -247,7 +244,7 @@ var TBRE=(function(){
       chart.innerHTML='<div class="row">'+hits.map(block).join('')+'</div>'; return;
     }
     var roots=SEATS.filter(function(s){return !s.reports_to && !isOutsideGroup(s.group);});
-    var html=legend()+'<ul class="tree">'+roots.map(function(r){return treeNode(r.id);}).join('')+'</ul>';
+    var html='<ul class="tree">'+roots.map(function(r){return treeNode(r.id);}).join('')+'</ul>';
     var groups=[];
     OUTSIDE.forEach(function(g){
       var members=SEATS.filter(function(s){return s.group===g.key;}).sort(function(a,b){ var oa=(a.order==null?99:a.order), ob=(b.order==null?99:b.order); return oa-ob || a.seat.localeCompare(b.seat); });
