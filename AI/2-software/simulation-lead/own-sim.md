@@ -17,6 +17,7 @@ Keep the sim everyone runs healthy — get people onto it and fix what breaks.
 
 ## Delivers
 - A reliable sim the whole team can run
+- Documentation for members to onboard themselves to using the sim
 - A team that can run and test with the sim
 
 ## Background
