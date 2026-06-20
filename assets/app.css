@@ -3,7 +3,7 @@
   --ink:#0a0a0a; --bg:#f4f6f9; --surface:#ffffff; --line:#e5e5e5; --muted:#6b7280;
   --shadow:0 1px 3px rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1);
   --shadow-h:0 6px 18px rgba(16,91,171,.18);
-  --d-lead:#FFC423; --d-soft:#2E9E5B; --d-elec:#7A4FBE; --d-mech:#0c4a8c; --d-ops:#E8821E; --d-out:#105BAB;
+  --d-lead:#105BAB; --d-soft:#2E9E5B; --d-elec:#FFC423; --d-mech:#105BAB; --d-ops:#E8821E; --d-out:#105BAB;
   --red:#e23b3b; --red-d:#c0392b;
 }
 *{box-sizing:border-box}
