@@ -20,7 +20,7 @@ so edits happen in one place:
 
 | | Recruitment (`index.html`) | Team view (`team.html`) |
 |---|---|---|
-| Unfilled seats | glow **gold** ("Open · recruiting") | glow **red** ("Open · unfilled") |
+| Unfilled seats | soft **yellow** glow ("Open · recruiting") | soft **red** glow ("Open · unfilled") |
 | Purpose / intro | shown | shown |
 | Requirements | shown (open seats only) | **hidden** |
 | Commitment (hrs/week) | shown | **hidden** |
@@ -63,7 +63,7 @@ Create `AI/<n-subteam>/<id>/seat.md` (the folder name is the seat's `id`):
 id: my-seat
 seat: My Seat
 domain: Technology – Software   # or Leadership | Technology – Electrical | Technology – Mechanical | Operations | Outside AI (interface)
-owner: TBD                      # name, or TBD = open seat (glows gold in recruitment, red in team view)
+owner: TBD                      # name, or TBD = open seat (soft yellow glow in recruitment, red in team view)
 tag: ab1234                     # uni username (optional)
 photo: AI/photos/ab1234.png     # optional (path is from repo root)
 reports_to: ai-team-lead        # parent seat id; blank = top
@@ -185,6 +185,12 @@ keep it in the file as the section marker (it's what separates the context from 
 `context.md` shows as a "Seat context" dropdown. Files are fetched and cached when a seat is opened; the per-
 responsibility More info box appears in **Team view** only.
 
+**Markdown support.** Responsibility bodies, `context.md` and `team.md` are rendered by the in-house
+mini-markdown engine. It handles paragraphs (**wrapped lines reflow into one paragraph** — hard-wrap freely),
+`**bold**`, `` `inline code` ``, bullet lists (including wrapped continuation lines), `>` notes, headings, and
+**GitHub-style tables** (a `| a | b |` header followed by a `|---|---|` separator row). HTML comments
+(`<!-- … -->`) are stripped, so they never show on a card. (No support for images, nested lists or links yet.)
+
 **Legacy form (still supported).** A seat with **no** responsibility files falls back to a `## Responsibilities`
 section in `seat.md` (with `owns:`/`delivers:`/`context:`/`doc:` sub-bullets), rendered as Owns/Delivers chips.
 Migrating a seat = pull each responsibility out into its own file (front-matter `title`/`order` + the body above)
@@ -237,8 +243,23 @@ attached (Team view).
   (Background/Scope/Interfaces/…). `context.md` is the seat-level dropdown. See **Context model**. Legacy seats with
   no responsibility files fall back to a `## Responsibilities` section on the card.
 
-**Branding.** Match teambathracingelectric.com — Poppins font, blue `#105BAB`, gold `#FFC423`, white cards,
-near-black text. Team view uses red `#e23b3b` for unfilled seats. No green.
+**Branding & colours.** Poppins font, white cards, near-black text, matching teambathracingelectric.com.
+Brand blue `#105BAB`, gold `#FFC423`. Each **domain** sets a card's header (the coloured top border) and its
+detail-panel pill, via `--d-*` CSS vars in `:root` (`assets/app.css`):
+
+| Domain | Colour |
+|---|---|
+| Leadership | blue `#105BAB` |
+| Technology – Software | green `#2E9E5B` |
+| Technology – Electrical | yellow `#FFC423` |
+| Technology – Mechanical | blue `#105BAB` |
+| Operations | orange `#E8821E` |
+| Outside AI (interface) | blue `#105BAB` |
+
+**Open (unfilled) seats** get a **soft background glow only** — no outline ring, no pulse — **yellow** in
+Recruitment and **red** in Team view; the header keeps its domain colour either way. Change a domain colour by
+editing its `--d-*` var; the empty-glow colours live on `.blk.open` (recruitment) and `body.mode-team .blk.open`
+(team).
 
 **Hard constraints when editing the engine (`assets/app.js`) — learned the hard way:**
 - **Keep the JS/CSS backslash-free.** The chat editing pipeline mangles backslashes, so the code deliberately
@@ -255,7 +276,7 @@ near-black text. Team view uses red `#e23b3b` for unfilled seats. No green.
 **Roster (June 2026, for reference — verify before relying on it):** Team Lead James Morris (jm3339, Mech Eng 4th,
 also Operations Manager) → Software Lead Szymon Fladro (spf35), Elec Lead Panteha Asadi (pa838), Mech Lead
 Sara Alkhalili (sa3257, also EBS Lead). Filled sub-seats: VCU Lead Shinn Gee Choo (csg45), Steering Lead
-Brian Cheung (tyc91). Everything else is currently open (`TBD`). Website Management is the spare/outside-AI seat.
+Brian Cheung (tyc91), and Simulation + Perception Integration Lead Ryan Vickery. Everything else is currently open (`TBD`). Website Management is the spare/outside-AI seat.
 
 **Editable team overview.** `AI/team.md` is shown as the default panel in both views (the
 people-first pitch + "where we are / where we're going"). Edit it like any card.
