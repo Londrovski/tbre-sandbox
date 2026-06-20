@@ -8,11 +8,43 @@ status: draft
 updated: 2026-06-20
 ---
 
-## Owns
-- The SLAM pipeline
+> "Where am I, and where are the cones?" The first stage of the autonomy line. Feeds the path planner. For the
+> overall code layout and build, see the **Software Lead → Software direction** notes; this is the SLAM detail.
 
-## Delivers
-- Reliable mapping & localisation (well-developed this year — maintain & refine)
+## What you inherit
+- A reasonably **well-developed SLAM pipeline**, written in **C**, in **`tbre-ai/tbreai` → `src/control/slam/`**.
+  The pieces:
+  - `slam.c` / `slam.h` — the pipeline entry.
+  - `slam_odom.c` — odometry (motion estimate).
+  - `slam_local.c` — the local map; `slam_global.c` — the global map and **track-zone identification** from the
+    cone landmarks (`slam_identify_track_zones`).
+  - `slam_path.c` — path output (see **Path & racing line**, which lives here too).
+  - `slam_debug.c` — debugging; `jc_voronoi/` — a vendored **Voronoi** library used for track/centre-line
+    geometry.
+- It takes **fused cone detections** (from Perception Integration) and produces the **car's pose + a map of
+  cones / track zones** for the planner.
+- **Ben is building a new graph-SLAM implementation** — the next iteration of this. **Szymon** has also done
+  cleanup on the SLAM code.
 
-## Interfaces
-- gitlab tbre-ai (main TBRe-AI code)
+## Where it lives
+- `gitlab tbre-ai/tbreai`, `src/control/slam/`. Built with the rest of the compute system (CMake; see the repo
+  README). Visualised in **Foxglove**.
+- Ben's new graph-SLAM: _TO FILL — which branch, and how far along._
+
+## Scope & aim
+- Own the SLAM pipeline; deliver **reliable mapping & localisation**. It's the most mature part of the stack, so
+  the job is **maintain & refine**, and **land Ben's graph-SLAM** as the upgrade.
+- Good looks like: stable pose + map the planner can trust, lap after lap.
+
+## People
+- **Ben** — new graph-SLAM; **final-year, leaving** — get his design and branch documented before he goes.
+- **Szymon Fladro (spf35)** — Software Lead; did SLAM cleanup, knows the codebase.
+- Historically several members (Emil, Ryan, Tariq) tried SLAM tasks but little landed.
+
+## Dependencies
+- **Input:** fused cone detections from **Perception Integration** (LiDAR + camera).
+- **Output:** pose + map → **Path & racing line**.
+
+## Open questions
+- Status of the graph-SLAM rewrite — branch, completeness, and what's needed to merge it.
+- Loop closure / drift handling, and how localisation is validated against real logged runs.
