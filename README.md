@@ -25,7 +25,7 @@ so edits happen in one place:
 | Requirements | shown (open seats only) | **hidden** |
 | Commitment (hrs/week) | shown | **hidden** |
 | Responsibilities (title + summary + Owns/Delivers) | shown | shown |
-| Per-responsibility **Context** box (Background/Scope/Interfaces/…) | **not shown** | shown (collapsible under each responsibility) |
+| Per-responsibility **More info** box (Background/Scope/Interfaces/…) | **not shown** | shown (collapsible under each responsibility) |
 | Seat context | short pointers shown as one "Context" box | **"Seat context" dropdown** above responsibilities (loads the seat's `context.md`) |
 | Key interfaces | shown | shown |
 | Apply button | shown (open seats) | not shown |
@@ -170,20 +170,20 @@ Keep the sim everyone runs healthy — get people onto it and fix what breaks.  
 ## Delivers                                  <- right chip (gold)
 - A reliable sim the whole team can run
 
-## Background        <- what you inherit + where it lives today (heading is hidden — leads the Context box)
+## Background        <- what you inherit + where it lives today (heading is hidden — leads the More info box)
 ## Scope & aim       <- what to do; forward "where things live"; **what good looks like**
 ## Interfaces        <- the people + physical/system dependencies
 ## Open questions
 ```
 
 **How it renders.** The engine pulls the intro line (summary, under the title), `## Owns` / `## Delivers` (the same
-two coloured chips as everywhere else), and folds **every other section** into a collapsible **Context** box. So a
-responsibility reads as: *title → summary → Owns | Delivers → Context +*. Section names under Owns/Delivers are a
+two coloured chips as everywhere else), and folds **every other section** into a collapsible **More info** box. So a
+responsibility reads as: *title → summary → Owns | Delivers → More info +*. Section names under Owns/Delivers are a
 convention (Background / Scope & aim / Interfaces / Open questions) — any headings work; they all land in Context.
-The **`## Background` heading itself is hidden** so the Context box flows straight from its header into that content;
+The **`## Background` heading itself is hidden** so the More info box flows straight from its header into that content;
 keep it in the file as the section marker (it's what separates the context from Delivers).
 `context.md` shows as a "Seat context" dropdown. Files are fetched and cached when a seat is opened; the per-
-responsibility Context box appears in **Team view** only.
+responsibility More info box appears in **Team view** only.
 
 **Legacy form (still supported).** A seat with **no** responsibility files falls back to a `## Responsibilities`
 section in `seat.md` (with `owns:`/`delivers:`/`context:`/`doc:` sub-bullets), rendered as Owns/Delivers chips.
@@ -231,7 +231,7 @@ attached (Team view).
 - **`seat.md` is thin:** the engine reads its front-matter + three sections (purpose, Key interfaces, Requirements).
   Any other heading — notably `## Notes` — is ignored, so it's the place for hidden working notes.
 - **Responsibilities are their own files** in each seat's folder, discovered from the tree and ordered by their
-  front-matter `order` (title from `title`). Each renders as summary → Owns/Delivers chips → a Team-view Context box
+  front-matter `order` (title from `title`). Each renders as summary → Owns/Delivers chips → a Team-view More info box
   (Background/Scope/Interfaces/…). `context.md` is the seat-level dropdown. See **Context model**. Legacy seats with
   no responsibility files fall back to a `## Responsibilities` section on the card.
 

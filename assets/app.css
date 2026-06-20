@@ -123,7 +123,7 @@ details.ctx .ilist{ margin-top:10px; }
 .ilist{ margin:0; padding-left:18px; } .ilist li{ margin:5px 0; font-size:15px; color:#374151; }
 
 details.ctx.ctxdoc{ margin:10px 0 4px; border-left:3px solid var(--line); padding-left:12px; }
-details.ctx.ctxdoc>summary{ border-bottom:0; padding-bottom:2px; color:var(--brand); font-size:12px; }
+details.ctx.ctxdoc>summary{ border-bottom:1px solid var(--line); padding-bottom:7px; color:var(--brand); font-size:12px; }
 details.seatctx{ margin:18px 0 8px; }
 details.seatctx>summary{ color:var(--red-d); }
 .ctxbody{ padding:8px 2px 6px; }

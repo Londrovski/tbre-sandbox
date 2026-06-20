@@ -184,7 +184,7 @@ var TBRE=(function(){
   function respDocBlock(s,r){
     var html=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
       +'<div class="resp-body">'+grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers)+'</div>';
-    if(MODE==='team' && r.rest){ html+='<details class="ctx ctxdoc"><summary>Context</summary><div class="ctxbody">'+mdToHtml(r.rest)+'</div></details>'; }
+    if(MODE==='team' && r.rest){ html+='<details class="ctx ctxdoc"><summary>More info</summary><div class="ctxbody">'+mdToHtml(r.rest)+'</div></details>'; }
     return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'+html+'</details>';
   }
   // Fetch a seat's responsibility files, order by their front-matter order, and fill the slot.
@@ -204,7 +204,7 @@ var TBRE=(function(){
     if(MODE==='team'){
       var dd=docPath ? ' data-doc="'+esc(docPath)+'"' : '';
       var ph=docPath ? '<p class="rtbd">Loading…</p>' : '<p class="rtbd">No context doc linked yet — add a doc: line to this responsibility in the card.</p>';
-      cd='<details class="ctx ctxdoc"'+dd+'><summary>Context</summary><div class="ctxbody">'+ph+'</div></details>';
+      cd='<details class="ctx ctxdoc"'+dd+'><summary>More info</summary><div class="ctxbody">'+ph+'</div></details>';
     }
     return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
   }
