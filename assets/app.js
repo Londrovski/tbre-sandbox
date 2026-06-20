@@ -159,13 +159,26 @@ var TBRE=(function(){
   }
 
   function docPathOf(s,r){ return r.doc ? (r.doc.indexOf('/')>=0 ? r.doc : s.folder+'/'+r.doc) : null; }
+  // Split a self-contained responsibility doc into: summary (intro), Owns, Delivers, and the rest (-> Context box).
+  function parseRespDoc(md){
+    var lines=stripFM(md).split(NL), desc=[], owns=[], delivers=[], rest=[], cur='_intro';
+    lines.forEach(function(raw){
+      var line=raw.replace(/ +$/,'');
+      if(line.slice(0,2)==='##'){ cur=line.replace(/^#+/,'').trim().toLowerCase(); if(cur!=='owns'&&cur!=='delivers') rest.push(line); return; }
+      if(cur==='_intro'){ if(line!=='') desc.push(line); }
+      else if(cur==='owns'){ if(line.slice(0,2)==='- ') owns.push(line.slice(2)); }
+      else if(cur==='delivers'){ if(line.slice(0,2)==='- ') delivers.push(line.slice(2)); }
+      else rest.push(line);
+    });
+    return { desc:desc.join(' ').trim(), owns:owns, delivers:delivers, rest:rest.join(NL).trim() };
+  }
   function respBlock(s,r){
     var docPath=docPathOf(s,r);
     var hasInline=r.owns.length || r.delivers.length;
-    // Self-contained responsibility doc (Owns/Delivers/context all inside it) — render its body inline.
+    // Self-contained responsibility doc: parse it into summary + Owns/Delivers chips + Context, filled once fetched.
     if(docPath && !hasInline){
       return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary>'
-        +'<div class="resp-body"><div class="resp-doc" data-doc="'+esc(docPath)+'"><p class="rtbd">Loading…</p></div></div></details>';
+        +'<div class="resp-mount" data-doc="'+esc(docPath)+'"><div class="resp-body"><p class="rtbd">Loading…</p></div></div></details>';
     }
     // Legacy: owns/delivers inline on the card. Team view also offers the doc as a lazy Context dropdown.
     var inner=grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers);
@@ -178,12 +191,19 @@ var TBRE=(function(){
     return '<details class="resp" open style="--c:'+colorOf(s)+'"><summary>'+esc(r.title)+'</summary><div class="resp-body">'+inner+'</div>'+cd+'</details>';
   }
   function loadRespDocs(p){
-    var nodes=p.querySelectorAll('.resp-doc[data-doc]');
+    var nodes=p.querySelectorAll('.resp-mount[data-doc]');
     Array.prototype.forEach.call(nodes,function(d){
       if(d.getAttribute('data-loaded')) return;
       d.setAttribute('data-loaded','1');
       var path=d.getAttribute('data-doc');
-      fetchCtx(path).then(function(txt){ d.innerHTML = txt ? mdToHtml(stripFM(txt)) : '<p class="rtbd">No context doc yet ('+esc(path)+').</p>'; });
+      fetchCtx(path).then(function(txt){
+        if(!txt){ d.innerHTML='<div class="resp-body"><p class="rtbd">No context doc yet ('+esc(path)+').</p></div>'; return; }
+        var r=parseRespDoc(txt);
+        var html=(r.desc?'<p class="resp-d">'+inline(esc(r.desc))+'</p>':'')
+          +'<div class="resp-body">'+grp('owns','Owns',r.owns)+grp('delivers','Delivers',r.delivers)+'</div>';
+        if(MODE==='team' && r.rest){ html+='<details class="ctx ctxdoc"><summary>Context</summary><div class="ctxbody">'+mdToHtml(r.rest)+'</div></details>'; }
+        d.innerHTML=html;
+      });
     });
   }
 

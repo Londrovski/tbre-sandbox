@@ -106,10 +106,8 @@ details.resp>summary::-webkit-details-marker{ display:none; }
 details.resp>summary::before{ content:'+'; color:var(--brand); font-weight:800; font-size:18px; width:14px; }
 details.resp[open]>summary::before{ content:'–'; }
 .resp-body{ padding:0 16px 14px 16px; display:flex; flex-wrap:wrap; gap:4px 22px; }
-.resp-doc{ flex:1 0 100%; }
-.resp-doc .sect{ font-size:12px; margin:14px 0 6px; } .resp-doc .sect:first-child{ margin-top:4px; }
-.resp-doc .ilist li{ font-size:14px; } .resp-doc .ctx-note{ margin:6px 0 2px; }
-.resp-d{ font-size:15px; color:#374151; margin:4px 0 12px; }
+.resp-mount{ display:contents; }
+.resp-d{ font-size:15px; color:#374151; margin:2px 0 10px; padding:0 16px; }
 .rg{ flex:1; min-width:150px; margin:4px 0 0; }
 .rl{ display:block; font-size:12px; letter-spacing:.05em; text-transform:uppercase; color:var(--muted); font-weight:700; margin-bottom:6px; }
 .rg.owns .rl{ color:var(--brand); } .rg.delivers .rl{ color:#b07d00; }

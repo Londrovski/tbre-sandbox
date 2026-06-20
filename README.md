@@ -24,8 +24,8 @@ so edits happen in one place:
 | Purpose / intro | shown | shown |
 | Requirements | shown (open seats only) | **hidden** |
 | Commitment (hrs/week) | shown | **hidden** |
-| Responsibilities | shown (Owns/Delivers) | shown (Owns/Delivers) |
-| Responsibility doc (Owns/Delivers/context) | rendered inline in each responsibility block | rendered inline in each responsibility block |
+| Responsibilities (title + summary + Owns/Delivers) | shown | shown |
+| Per-responsibility **Context** box (Background/Scope/Interfaces/…) | **not shown** | shown (collapsible under each responsibility) |
 | Seat context | short pointers shown as one "Context" box | **"Seat context" dropdown** above responsibilities (loads the seat's `context.md`) |
 | Key interfaces | shown | shown |
 | Apply button | shown (open seats) | not shown |
@@ -123,14 +123,14 @@ Everything for a seat lives **inside its own folder**, next to `seat.md`, so a s
 The key idea: **each responsibility is its own file** — the single unit you edit — holding that responsibility's
 **Owns**, **Delivers**, and all of its context as plain markdown. `seat.md` is just a thin index.
 
-- **`<seat-folder>/<name>.md`** — one **self-contained responsibility doc**. Contains `## Owns`, `## Delivers`, and
-  the deep context, all in one place.
+- **`<seat-folder>/<name>.md`** — one **self-contained responsibility doc**. The single unit you edit.
 - **`<seat-folder>/context.md`** — seat-level context (the "Seat context" dropdown in Team view). Found by
   convention; no field needed.
 
 **The split.** `seat.md`'s `## Responsibilities` is just a **title + a `doc:` pointer** per responsibility — nothing
-else. So you almost never touch `seat.md` (only to reorder responsibilities or change the owner); the content lives
-in the docs:
+else. So you almost never touch `seat.md` (only to reorder responsibilities or change the owner); everything about a
+responsibility lives in its doc, which the engine parses into a fixed shape:
+
 ```markdown
 # in seat.md  (thin index)
 ## Responsibilities
@@ -138,19 +138,26 @@ in the docs:
   - doc: own-sim.md
 
 # in own-sim.md  (the unit you edit)
-## Owns
-- The simulator (tbresim)
-## Delivers
-- A reliable sim the whole team can run
-## What you inherit / Where it lives / Open questions ...
-```
-The `doc:` value is a **bare filename** resolved inside the seat's folder; if it contains a `/` it is treated as a
-repo-root path instead (e.g. a doc shared across seats).
+One-line summary of what's going on.        <- shows under the title
 
-**Where it shows.** The responsibility doc's body renders **inline inside the responsibility block** in **both**
-views — the block summary is the title from `seat.md`, and you expand/collapse the whole thing as one unit.
-`context.md` shows as a "Seat context" dropdown in Team view. Files are fetched lazily and cached; a missing doc
-shows a "No context doc yet" note.
+## Owns                                      <- left chip (blue)
+- The simulator (tbresim)
+## Delivers                                  <- right chip (gold)
+- A reliable sim the whole team can run
+
+## Background        <- what you inherit + where it lives today
+## Scope & aim       <- what to do; forward "where things live"; **what good looks like**
+## Interfaces        <- the people + physical/system dependencies
+## Open questions
+```
+**How it renders.** The engine pulls the intro line (summary, under the title), `## Owns` / `## Delivers` (the same
+two coloured chips as everywhere else), and folds **every other section** into a collapsible **Context** box. So a
+responsibility reads as: *title → summary → Owns | Delivers → Context +*. Section names under Owns/Delivers are a
+convention (Background / Scope & aim / Interfaces / Open questions) — any headings work; they all land in Context.
+
+The `doc:` value is a **bare filename** resolved inside the seat's folder; if it contains a `/` it is treated as a
+repo-root path instead (e.g. a doc shared across seats). `context.md` shows as a "Seat context" dropdown in Team
+view. Files are fetched lazily and cached; the Context box appears in **Team view** only.
 
 **Legacy form (still supported).** A responsibility may instead carry `owns:`/`delivers:`/`context:` sub-bullets
 directly on the card — most seats still do. Those render as **Owns/Delivers chips**, and in Team view any `doc:`
