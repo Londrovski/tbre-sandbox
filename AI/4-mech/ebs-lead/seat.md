@@ -2,10 +2,7 @@
 id: ebs-lead
 seat: EBS Lead
 domain: Technology – Mechanical
-owner: Sara Alkhalili
-tag: sa3257
-course: Mech with Auto · 4th Year
-photo: AI/photos/sa3257.JPG
+owner: TBD
 reports_to: mech-lead
 hrs: 2-3
 order: 3

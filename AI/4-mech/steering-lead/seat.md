@@ -2,10 +2,10 @@
 id: steering-lead
 seat: Steering Lead
 domain: Technology – Mechanical
-owner: Brian Cheung
-tag: tyc91
+owner: Sara Alkhalili
+tag: sa3257
 course: Mech with Auto · 4th Year
-photo: AI/photos/tyc91.JPG
+photo: AI/photos/sa3257.JPG
 reports_to: mech-lead
 hrs: 2-3
 order: 2
