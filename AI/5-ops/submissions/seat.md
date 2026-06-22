@@ -1,6 +1,6 @@
 ---
 id: submissions
-seat: Submissions Lead
+seat: Submissions Manager
 domain: Operations
 owner: TBD
 reports_to: operations-manager
@@ -8,14 +8,14 @@ hrs: 2
 order: 5
 ---
 
-# Submissions Lead
+# Submissions Manager
 
 Owns the Formula Student autonomous submissions and rules compliance — the entries, design concept spec, and test plans that get the AI side competition-ready.
 
 <!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
-- Operations Manager / Team Lead
+- Management Lead / Team Lead
 - EBS Lead (safety case)
 - IMechE / FSUK / FSG
 - All leads (technical inputs)

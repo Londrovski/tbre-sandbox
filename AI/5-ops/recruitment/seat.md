@@ -1,6 +1,6 @@
 ---
 id: recruitment
-seat: Recruitment Lead
+seat: Recruitment Manager
 domain: Operations
 owner: TBD
 reports_to: operations-manager
@@ -8,14 +8,14 @@ hrs: 2-3
 order: 1
 ---
 
-# Recruitment Lead
+# Recruitment Manager
 
 Owns bringing new people in — the pitch, the application flow, and the visible push at the start of the year.
 
 <!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
-- Operations Manager / Team Lead
+- Management Lead / Team Lead
 - Software / Elec / Mech Leads (open seats to fill)
 - Website (open-seat listings)
 

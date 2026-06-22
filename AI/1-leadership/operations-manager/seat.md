@@ -1,6 +1,6 @@
 ---
 id: operations-manager
-seat: Operations Manager
+seat: Management Lead
 domain: Operations
 owner: James Morris
 tag: jm3339
@@ -11,7 +11,7 @@ hrs: 3
 order: 4
 ---
 
-# Operations Manager
+# Management Lead
 
 Keeps the team running — testing, onboarding, finance and the systems that hold it all together.
 
@@ -19,7 +19,7 @@ Keeps the team running — testing, onboarding, finance and the systems that hol
 
 ## Key interfaces
 - Team Lead
-- Testing / Onboarding / Finance / Competition Docs Leads
+- Recruitment / Onboarding / Finance / Testing & Safety / Submissions Managers
 
 ## Requirements
 - Organised; likes making things run smoothly

@@ -1,6 +1,6 @@
 ---
 id: onboarding-lead
-seat: Onboarding Lead
+seat: Onboarding Manager
 domain: Operations
 owner: TBD
 reports_to: operations-manager
@@ -8,14 +8,14 @@ hrs: 2-3
 order: 2
 ---
 
-# Onboarding Lead
+# Onboarding Manager
 
 Owns onboarding and the team's systems — getting new members set up fast and teaching the universal skills everyone needs.
 
 <!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
-- Operations Manager / Team Lead
+- Management Lead / Team Lead
 - Sub-team leads (who onboard members into their own section)
 - New members
 
