@@ -13,18 +13,22 @@ order: 2
 
 # Steering Lead
 
-Owns autonomous steering actuation — a steering-angle sensor and shaft-mounted motor working alongside manual control — including the steering quick-release.
+Owns the autonomous steering actuator: designing and delivering the mechanism that lets the AI steer the car while staying tool-lessly removable for manual driving — then coordinating it with the wider team and getting it built, tested and onto the car.
 
 <!-- Responsibilities are their own files in this folder; each carries its own title + order. -->
 
 ## Key interfaces
-- Mech Lead
-- Pathfinding Lead
-- Vehicle Dynamics team
+- Chassis team (mounting & GA space)
+- Vehicle Dynamics (steering overlap & torque)
+- VCU Lead (closed-loop control & wiring)
+- Loom Lead (wiring & layout)
+- Pathfinding Lead (steering command)
+- Finance Lead (ordering & budget)
 
 ## Requirements
-- CAD; some electrical / wiring
-- Interested in actuation & control
+- CAD and mechanism / actuator design
+- Happy coordinating across mech, electrical and ops
+- Methodical about regulations and safety-critical design
 - Penultimate / final year ideal
 
 ## Notes
