@@ -9,8 +9,8 @@ var TBRE=(function(){
 
   var DCOL={ "Leadership":"var(--d-lead)","Technology – Software":"var(--d-soft)",
     "Technology – Electrical":"var(--d-elec)","Technology – Mechanical":"var(--d-mech)",
-    "Operations":"var(--d-ops)","Outside AI (interface)":"var(--d-out)" };
-  var DORD={ "Leadership":0,"Technology – Software":1,"Technology – Electrical":2,"Technology – Mechanical":3,"Operations":4,"Outside AI (interface)":5 };
+    "Operations":"var(--d-ops)","Management":"var(--d-ops)","Outside AI (interface)":"var(--d-out)" };
+  var DORD={ "Leadership":0,"Technology – Software":1,"Technology – Electrical":2,"Technology – Mechanical":3,"Operations":4,"Management":4,"Outside AI (interface)":5 };
   // Blocks floated below the tree, in render order. A card joins one via its front-matter group:.
   var OUTSIDE=[
     {key:"spare", label:"Outside the AI team"},

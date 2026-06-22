@@ -1,7 +1,7 @@
 ---
 id: submissions
 seat: Submissions Manager
-domain: Operations
+domain: Management
 owner: TBD
 reports_to: operations-manager
 hrs: 2

@@ -1,7 +1,7 @@
 ---
 id: operations-manager
 seat: Management Lead
-domain: Operations
+domain: Management
 owner: James Morris
 tag: jm3339
 course: Mech Eng · 4th Year

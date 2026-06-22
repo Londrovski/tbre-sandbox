@@ -1,7 +1,7 @@
 ---
 id: finance-lead
 seat: Finance Manager
-domain: Operations
+domain: Management
 owner: TBD
 reports_to: operations-manager
 hrs: 2
